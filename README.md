@@ -2,10 +2,13 @@
 
 Have you ever encounter following errors?
 
-> Error: object ‘foo’ is not exported by 'namespace:bar'
-
-> `foo()` was deprecated in bar 1.0.0.
-> i Please use `baz()` instead.
+```
+Error: object ‘foo’ is not exported by 'namespace:bar'
+```
+```
+`foo()` was deprecated in bar 1.0.0.<br>
+i Please use `baz()` instead.
+```
 
 This package is a tool for package developers to check your package using various versions of dependencies. It will help you detect new breaking changes of dependencies as well as the minimal version supported.
 
