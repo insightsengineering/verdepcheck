@@ -2,17 +2,18 @@
 
 Have you ever encounter following errors?
 
-```
+```r
 Error: object ‘foo’ is not exported by 'namespace:bar'
 ```
-```
+
+```r
 `foo()` was deprecated in bar 1.0.0.<br>
 i Please use `baz()` instead.
 ```
 
 This package is a tool for package developers to check your package using various versions of dependencies. It will help you detect new breaking changes of dependencies as well as the minimal version supported.
 
-# Overview
+## Overview
 
 Typical workflow includes the following:
 
@@ -35,7 +36,7 @@ The main functions are:
 
 It is heavily based on `pkgdown` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
 
-# Install
+## Install
 
 It is recommended that you [create and use a GitHub PAT](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to install the latest version of this package. Once you have the PAT, run the following:
 
@@ -45,7 +46,7 @@ if (!require("remotes")) install.packages("remotes")
 remotes::install_github("insightsengineering/verdepcheck@*release")
 ```
 
-# Usage
+## Usage
 
 The main goal of package authors is to use it within GitHub Action or any other CI tool.
 

@@ -73,7 +73,7 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   new_remotes <- vapply(
     d$get_remotes(),
     function(x) {
-      if (is(x_parsed <- pkgdepends::parse_pkg_ref(x), "remote_ref_github")) {
+      if (inherits(x_parsed <- pkgdepends::parse_pkg_ref(x), "remote_ref_github")) {
         release_ref <- remotes::github_remote(sprintf("%s/%s@*release", x_parsed$username, x_parsed$repo))$ref
         sprintf("%s/%s@%s", x_parsed$username, x_parsed$repo, release_ref)
       } else {
@@ -103,6 +103,7 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
 #' @export
 #' @importFrom desc desc
 #' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal pkg_dep_types parse_pkg_ref
+#' @importFrom utils installed.packages
 #' @examples
 #' x <- new_min_deps_installation_proposal(".")
 #' x$solve()
@@ -125,7 +126,7 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   x$stop_for_solution_error()
   deps <- x$get_solution()$data$deps[[1]]
 
-  deps <- subset(deps, !(package %in% c("R", rownames(installed.packages(priority = "base")))))
+  deps <- subset(deps, !(package %in% c("R", rownames(utils::installed.packages(priority = "base")))))
 
   deps$ref_parsed <- lapply(deps$ref, pkgdepends::parse_pkg_ref)
 
@@ -142,7 +143,7 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   deps$ref_minver <- lapply(
     deps$ref_minver,
     function(x) {
-      if (is(x, "remote_ref_standard") || is(x, "remote_ref_cran")) {
+      if (inherits(x, "remote_ref_standard") || inherits(x, "remote_ref_cran")) {
         new_ref <- sprintf("cran/%s", gsub("cran::|standard::", "", x$ref))
         pkgdepends::parse_pkg_ref(new_ref)
       } else {

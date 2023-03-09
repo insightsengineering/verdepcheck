@@ -11,7 +11,7 @@
 #' For the rest, it would return `remote_ref` argument.
 #'
 #' @export
-find_minver_remote_ref <- function(remote_ref, package = remote_ref$package, op = "", op_ver = "") {
+find_minver_remote_ref <- function(remote_ref, op = "", op_ver = "") {
   UseMethod("find_minver_remote_ref", remote_ref)
 }
 
@@ -19,7 +19,7 @@ find_minver_remote_ref <- function(remote_ref, package = remote_ref$package, op 
 #' @export
 #' @examples
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
-find_minver_remote_ref.remote_ref <- function(remote_ref, package = remote_ref$package, op = "", op_ver = "") {
+find_minver_remote_ref.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
 
@@ -32,7 +32,7 @@ find_minver_remote_ref.remote_ref <- function(remote_ref, package = remote_ref$p
 #' @importFrom pkgdepends parse_pkg_ref
 #' @examples
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran::dplyr"))
-find_minver_remote_ref.remote_ref_cran <- function(remote_ref, package = remote_ref$package, op = "", op_ver = "") {
+find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$atleast == "" && remote_ref$version != "") {
     return(remote_ref)
   }
@@ -52,7 +52,7 @@ find_minver_remote_ref.remote_ref_cran <- function(remote_ref, package = remote_
 #' @export
 #' @examples
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("dplyr"))
-find_minver_remote_ref.remote_ref_standard <- function(remote_ref, package = remote_ref$package, op = "", op_ver = "") {
+find_minver_remote_ref.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
   find_minver_remote_ref.remote_ref_cran(remote_ref, package, op, op_ver)
 }
 
@@ -99,7 +99,7 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
 get_gh_tags <- function(org, repo) {
   url_str <- sprintf("/repos/%s/%s/git/refs/tags", org, repo)
   resp <- try(gh::gh(url_str, .limit = Inf), silent = TRUE)
-  if (is(resp, "try-error")) {
+  if (inherits(resp, "try-error")) {
     return(character(0))
   }
   gsub("^refs/tags/", "", vapply(resp, `[[`, character(1), "ref"))
@@ -109,7 +109,7 @@ get_gh_tags <- function(org, repo) {
 get_ver_from_gh <- function(org, repo, ref = "HEAD") {
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
   resp <- try(gh::gh(url_str, .accept = "application/vnd.github.v3.raw+json"), silent = TRUE)
-  if (is(resp, "try-error")) {
+  if (inherits(resp, "try-error")) {
     return(NA)
   }
   desc::desc(text = resp$message)$get_version()

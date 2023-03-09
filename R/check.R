@@ -28,7 +28,7 @@ install_ip <- function(ip) {
 #'
 #' @param ip (`pkg_installation_plan`) object to extract `libpath` from
 #' @param path (`string`) path to the package sources
-#' @param check_args value passed as `args` argument into [`rcmdcheck::rcmdcheck()`]
+#' @param check_args (`string`) value passed as `args` argument into [`rcmdcheck::rcmdcheck()`]
 #' @inheritDotParams rcmdcheck::rcmdcheck -args
 #'
 #' @inherit rcmdcheck::rcmdcheck return
