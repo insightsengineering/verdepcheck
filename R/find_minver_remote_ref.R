@@ -53,7 +53,7 @@ find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver =
 #' @examples
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("dplyr"))
 find_minver_remote_ref.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
-  find_minver_remote_ref.remote_ref_cran(remote_ref, package, op, op_ver)
+  find_minver_remote_ref.remote_ref_cran(remote_ref, op, op_ver)
 }
 
 #' Identify minimal version of GitHub type of remote.
