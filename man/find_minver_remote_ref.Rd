@@ -8,33 +8,13 @@
 \alias{find_minver_remote_ref.remote_ref_github}
 \title{Identify minimal version.}
 \usage{
-find_minver_remote_ref(
-  remote_ref,
-  package = remote_ref$package,
-  op = "",
-  op_ver = ""
-)
+find_minver_remote_ref(remote_ref, op = "", op_ver = "")
 
-\method{find_minver_remote_ref}{remote_ref}(
-  remote_ref,
-  package = remote_ref$package,
-  op = "",
-  op_ver = ""
-)
+\method{find_minver_remote_ref}{remote_ref}(remote_ref, op = "", op_ver = "")
 
-\method{find_minver_remote_ref}{remote_ref_cran}(
-  remote_ref,
-  package = remote_ref$package,
-  op = "",
-  op_ver = ""
-)
+\method{find_minver_remote_ref}{remote_ref_cran}(remote_ref, op = "", op_ver = "")
 
-\method{find_minver_remote_ref}{remote_ref_standard}(
-  remote_ref,
-  package = remote_ref$package,
-  op = "",
-  op_ver = ""
-)
+\method{find_minver_remote_ref}{remote_ref_standard}(remote_ref, op = "", op_ver = "")
 
 \method{find_minver_remote_ref}{remote_ref_github}(remote_ref, op = "", op_ver = "")
 }

@@ -21,7 +21,8 @@ Imports:
     utils
 Suggests:
     knitr,
-    testthat (>= 3.0.0)
+    testthat (>= 3.0.0),
+    withr
 Remotes:
     r-lib/desc@*release,
     r-lib/gh@*release,

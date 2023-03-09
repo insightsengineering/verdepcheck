@@ -11,7 +11,7 @@ check_ip(ip, path, build_args = character(), check_args = character(), ...)
 
 \item{path}{(\code{string}) path to the package sources}
 
-\item{check_args}{value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+\item{check_args}{(\code{string}) value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 
 \item{...}{
   Arguments passed on to \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck}}
