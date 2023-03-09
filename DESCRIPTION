@@ -1,0 +1,38 @@
+Type: Package
+Package: verdepcheck
+Title: Check package using various versions of dependencies.
+Version: 0.0.0.9000
+Date: 2023-02-14
+Authors@R:
+    person("Pawel Rucki", , , "pawel.rucki@roche.com", role = c("aut", "cre"))
+Description: Derieve package dependencies from DESCRIPTION file using various strategies and run `R CMD CHECK` to validate package compatibility.
+License: Apache License 2.0 | file LICENSE
+URL: https://github.com/insightsengineering/verdepcheck/
+BugReports: https://github.com/insightsengineering/verdepcheck/issues
+Depends:
+    R (>= 3.6)
+Imports:
+    desc,
+    gh,
+    pkgcache,
+    pkgdepends,
+    rcmdcheck,
+    remotes
+Suggests:
+    knitr,
+    testthat (>= 3.0.0)
+Remotes:
+    r-lib/desc@*release,
+    r-lib/gh@*release,
+    r-lib/pkgcache@*release,
+    r-lib/pkgdepends@*release,
+    r-lib/rcmdcheck@*release,
+    r-lib/remotes@*release
+VignetteBuilder:
+    knitr
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.2.3
+Config/testthat/edition: 3
