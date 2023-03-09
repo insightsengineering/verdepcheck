@@ -5,7 +5,7 @@ Version: 0.0.0.9000
 Date: 2023-02-14
 Authors@R:
     person("Pawel Rucki", , , "pawel.rucki@roche.com", role = c("aut", "cre"))
-Description: Derieve package dependencies from DESCRIPTION file using various strategies and run `R CMD CHECK` to validate package compatibility.
+Description: Derive package dependencies from DESCRIPTION file using various strategies and run "R CMD CHECK" to validate package compatibility.
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/insightsengineering/verdepcheck/
 BugReports: https://github.com/insightsengineering/verdepcheck/issues

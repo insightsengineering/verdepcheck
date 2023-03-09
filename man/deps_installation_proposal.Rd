@@ -4,10 +4,7 @@
 \alias{new_max_deps_installation_proposal}
 \alias{new_release_deps_installation_proposal}
 \alias{new_min_deps_installation_proposal}
-\title{Create installation proposal using various dependency strategies
-#'
-These functionalities would read local package \code{DESCRIPTION} file, retrireve dependencies and
-create an installation proposal using various strategies for package versions as described below.}
+\title{Create installation proposal using various dependency strategies}
 \usage{
 new_max_deps_installation_proposal(path, config = list())
 
@@ -18,17 +15,16 @@ new_min_deps_installation_proposal(path, config = list())
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
 
-\item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details. If it does not include
-\code{library} then temporary dir is used which simulates clean environment without using any pre-installed packages.
+\item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
+If it does not include \code{library} then temporary directory is used which simulates clean environment
+without using any pre-installed packages.
 If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
 }
 \value{
 \code{pkg_installation_plan} object
 }
 \description{
-Create installation proposal using various dependency strategies
-#'
-These functionalities would read local package \code{DESCRIPTION} file, retrireve dependencies and
+These functionalities would read local package \code{DESCRIPTION} file, derive dependencies and
 create an installation proposal using various strategies for package versions as described below.
 }
 \note{
@@ -39,7 +35,7 @@ Some functions are supported only for package remotes from GitHub.
 Currently implemented strategies:
 \itemize{
 \item \code{max} - use the greatest version of dependencies.
-\item \code{release} - read \code{Remotes} field and for each GitHub type of the package source replace any futher
+\item \code{release} - read \code{Remotes} field and for each GitHub type of the package source replace any further
 reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) with a tag associated with the latest release.
 Please note that \verb{@*release} endpoint in \code{Remotes} is not supported by \code{pkgdepends}.
 \item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available

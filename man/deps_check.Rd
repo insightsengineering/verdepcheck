@@ -33,8 +33,9 @@ min_deps_check(
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
 
-\item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details. If it does not include
-\code{library} then temporary dir is used which simulates clean environment without using any pre-installed packages.
+\item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
+If it does not include \code{library} then temporary directory is used which simulates clean environment
+without using any pre-installed packages.
 If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
 
 \item{check_args}{value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
@@ -57,7 +58,7 @@ Some functions are supported only for package remotes from GitHub.
 Currently implemented strategies:
 \itemize{
 \item \code{max} - use the greatest version of dependencies.
-\item \code{release} - read \code{Remotes} field and for each GitHub type of the package source replace any futher
+\item \code{release} - read \code{Remotes} field and for each GitHub type of the package source replace any further
 reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) with a tag associated with the latest release.
 Please note that \verb{@*release} endpoint in \code{Remotes} is not supported by \code{pkgdepends}.
 \item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available

@@ -17,10 +17,10 @@ This package is a tool for package developers to check your package using variou
 Typical workflow includes the following:
 
 * read local package dependencies from the `DESCRIPTION` file
-* derieve dependencies version according to the strategy used
+* derive dependencies version according to the strategy used
 * resolve and identify potential conflicts of dependencies
 * download and install to the temporary directory
-* execute `R CMD CHECK` using directory from the previous step as a libpath
+* execute `R CMD CHECK` using directory from the previous step as a library path
 
 Supported strategies are:
 
@@ -37,7 +37,7 @@ It is heavily based on `pkgdown` for dependency resolution and `rcmdcheck` for e
 
 # Install
 
-It is recommended that you [create and use a Github PAT](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to install the latest version of this package. Once you have the PAT, run the following:
+It is recommended that you [create and use a GitHub PAT](https://docs.github.com/en/github/authenticating-to-github/keeping-your-account-and-data-secure/creating-a-personal-access-token) to install the latest version of this package. Once you have the PAT, run the following:
 
 ```r
 Sys.setenv(GITHUB_PAT = "your_access_token_here")
@@ -47,7 +47,7 @@ remotes::install_github("insightsengineering/verdepcheck@*release")
 
 # Usage
 
-The main goal of package authors is to use it within GitHubAction or any other CI tool.
+The main goal of package authors is to use it within GitHub Action or any other CI tool.
 
 ```r
 x <- max_deps_check("(path to your package)")
