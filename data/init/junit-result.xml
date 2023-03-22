@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-03-09T19:14:04Z" hostname="c36d990beef4" tests="8" skipped="0" failures="0" errors="8" time="1.062">
-    <testcase time="0.12" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:9')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+  <testsuite name="deps_installation_proposal" timestamp="2023-03-22T19:43:44Z" hostname="4cc86893f7de" tests="8" skipped="0" failures="0" errors="8" time="0.726">
+    <testcase time="0.087" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:9:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_max_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:9:2
@@ -17,14 +17,14 @@ Backtrace:
  10. pkgcache:::cmc_init(...)
  12. pkgcache:::get_user_cache_dir()</error>
     </testcase>
-    <testcase time="0.339" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
-      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:21')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
+    <testcase time="0.277" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
+      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:21:3')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
     auth_token = auth_token)`: Cannot find repo r-lib/pkgdepends.
 HTTP error 401.
   Bad credentials
 
-  Rate limit remaining: 59/60
-  Rate limit reset at: 2023-03-09 20:14:04 UTC
+  Rate limit remaining: 58/60
+  Rate limit reset at: 2023-03-22 20:08:37 UTC
 
   
 Backtrace:
@@ -35,8 +35,8 @@ Backtrace:
  4. remotes::github_remote(...)
  6. remotes:::github_resolve_ref.github_release(...)</error>
     </testcase>
-    <testcase time="0.0919999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:33')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+    <testcase time="0.0610000000000002" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:33:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_min_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:33:2
@@ -51,8 +51,8 @@ Backtrace:
  10. pkgcache:::cmc_init(...)
  12. pkgcache:::get_user_cache_dir()</error>
     </testcase>
-    <testcase time="0.095" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:53')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+    <testcase time="0.0579999999999998" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:53:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_max_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:53:2
@@ -67,14 +67,14 @@ Backtrace:
  10. pkgcache:::cmc_init(...)
  12. pkgcache:::get_user_cache_dir()</error>
     </testcase>
-    <testcase time="0.202" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:79')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
+    <testcase time="0.106" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:79:3')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
     auth_token = auth_token)`: Cannot find repo r-lib/pkgdepends.
 HTTP error 401.
   Bad credentials
 
-  Rate limit remaining: 58/60
-  Rate limit reset at: 2023-03-09 20:14:04 UTC
+  Rate limit remaining: 57/60
+  Rate limit reset at: 2023-03-22 20:08:37 UTC
 
   
 Backtrace:
@@ -85,8 +85,8 @@ Backtrace:
  4. remotes::github_remote(...)
  6. remotes:::github_resolve_ref.github_release(...)</error>
     </testcase>
-    <testcase time="0.069" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:105')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+    <testcase time="0.0449999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:105:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_min_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:105:2
@@ -101,8 +101,8 @@ Backtrace:
  10. pkgcache:::cmc_init(...)
  12. pkgcache:::get_user_cache_dir()</error>
     </testcase>
-    <testcase time="0.0679999999999998" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:131')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+    <testcase time="0.0470000000000002" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:131:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_min_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:131:2
@@ -117,8 +117,8 @@ Backtrace:
  10. pkgcache:::cmc_init(...)
  12. pkgcache:::get_user_cache_dir()</error>
     </testcase>
-    <testcase time="0.077" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
-      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:156')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
+    <testcase time="0.0449999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+      <error type="error" message="Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README ('test-deps_installation_proposal.R:156:3')">Error in `get_user_cache_dir()`: R_USER_CACHE_DIR env var not set during package check, see https://github.com/r-lib/pkgcache#README
 Backtrace:
   1. verdepcheck::new_min_deps_installation_proposal(temp_path)
        at test-deps_installation_proposal.R:156:2
