@@ -24,8 +24,6 @@ find_minver_remote_ref(remote_ref, op = "", op_ver = "")
 \item{op}{(\code{character(1)}) optional, version condition comparison operator (e.g. \code{">"}, \code{">="})}
 
 \item{op_ver}{(\code{character(1)}) optional, version number against which \code{op} argument is applied}
-
-\item{pacakge}{(\code{character(1)}) optional, name of the package}
 }
 \value{
 (\code{remote_ref}) object with reference to the package of minimal version.

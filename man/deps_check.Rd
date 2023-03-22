@@ -38,7 +38,11 @@ If it does not include \code{library} then temporary directory is used which sim
 without using any pre-installed packages.
 If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
 
+\item{build_args}{(\code{string}) value passed as \code{build_args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+
 \item{check_args}{(\code{string}) value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+
+\item{...}{other arguments passed to \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 }
 \value{
 a named \code{list} with two elements:

@@ -46,15 +46,21 @@ Any modification is done for \emph{direct} dependencies. Indirect ones are insta
 }
 
 \examples{
+\dontrun{
 x <- new_max_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
+}
+\dontrun{
 x <- new_release_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
+}
+\dontrun{
 x <- new_min_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
+}
 }
 \seealso{
 \code{\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}}

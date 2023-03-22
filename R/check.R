@@ -28,8 +28,9 @@ install_ip <- function(ip) {
 #'
 #' @param ip (`pkg_installation_plan`) object to extract `libpath` from
 #' @param path (`string`) path to the package sources
+#' @param build_args (`string`) value passed as `build_args` argument into [`rcmdcheck::rcmdcheck()`]
 #' @param check_args (`string`) value passed as `args` argument into [`rcmdcheck::rcmdcheck()`]
-#' @inheritDotParams rcmdcheck::rcmdcheck -args
+#' @param ... other arguments passed to [`rcmdcheck::rcmdcheck()`]
 #'
 #' @inherit rcmdcheck::rcmdcheck return
 #'
@@ -38,12 +39,11 @@ install_ip <- function(ip) {
 #' @importFrom rcmdcheck rcmdcheck
 #'
 #' @keywords internal
-check_ip <- function(
-    ip,
-    path,
-    build_args = character(),
-    check_args = character(),
-    ...) {
+check_ip <- function(ip,
+                     path,
+                     build_args = character(),
+                     check_args = character(),
+                     ...) {
   libpath <- ip$get_config()$get("library")
   check_res <- rcmdcheck::rcmdcheck(
     path,
@@ -71,12 +71,11 @@ check_ip <- function(
 #' @rdname deps_check
 #'
 #' @export
-max_deps_check <- function(
-    path,
-    config = list(),
-    build_args = character(),
-    check_args = character(),
-    ...) {
+max_deps_check <- function(path,
+                           config = list(),
+                           build_args = character(),
+                           check_args = character(),
+                           ...) {
   ip <- new_max_deps_installation_proposal(path, config)
   ip <- install_ip(ip)
   check_res <- check_ip(ip, path, build_args, check_args, ...)
@@ -86,12 +85,11 @@ max_deps_check <- function(
 
 #' @rdname deps_check
 #' @export
-release_deps_check <- function(
-    path,
-    config = list(),
-    check_args = character(),
-    build_args = character(),
-    ...) {
+release_deps_check <- function(path,
+                               config = list(),
+                               check_args = character(),
+                               build_args = character(),
+                               ...) {
   ip <- new_release_deps_installation_proposal(path, config)
   ip <- install_ip(ip)
   check_res <- check_ip(ip, path, build_args, check_args, ...)
@@ -101,12 +99,11 @@ release_deps_check <- function(
 
 #' @rdname deps_check
 #' @export
-min_deps_check <- function(
-    path,
-    config = list(),
-    check_args = character(),
-    build_args = character(),
-    ...) {
+min_deps_check <- function(path,
+                           config = list(),
+                           check_args = character(),
+                           build_args = character(),
+                           ...) {
   ip <- new_min_deps_installation_proposal(path, config)
   ip <- install_ip(ip)
   check_res <- check_ip(ip, path, build_args, check_args, ...)

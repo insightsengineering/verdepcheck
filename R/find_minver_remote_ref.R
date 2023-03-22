@@ -1,7 +1,6 @@
 #' Identify minimal version.
 #'
 #' @param remote_ref (`remote_ref`) object created with [`pkgdepends::parse_pkg_ref()`]
-#' @param pacakge (`character(1)`) optional, name of the package
 #' @param op (`character(1)`) optional, version condition comparison operator (e.g. `">"`, `">="`)
 #' @param op_ver (`character(1)`) optional, version number against which `op` argument is applied
 #'

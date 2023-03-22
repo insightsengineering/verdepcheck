@@ -11,40 +11,11 @@ check_ip(ip, path, build_args = character(), check_args = character(), ...)
 
 \item{path}{(\code{string}) path to the package sources}
 
+\item{build_args}{(\code{string}) value passed as \code{build_args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+
 \item{check_args}{(\code{string}) value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 
-\item{...}{
-  Arguments passed on to \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck}}
-  \describe{
-    \item{\code{quiet}}{Whether to print check output during checking.}
-    \item{\code{build_args}}{Character vector of arguments to pass to \verb{R CMD build}.
-Pass each argument as a single element of this character vector (do not use
-spaces to delimit arguments like you would in the shell). For example,
-\code{build_args = c("--force", "--keep-empty-dirs")} is a correct usage and
-\code{build_args = "--force --keep-empty-dirs"} is incorrect.}
-    \item{\code{check_dir}}{Path to a directory where the check is performed.
-If this is not \code{NULL}, then the a temporary directory is used, that
-is cleaned up when the returned object is garbage collected.}
-    \item{\code{libpath}}{The library path to set for the check.
-The default uses the current library path.}
-    \item{\code{repos}}{The \code{repos} option to set for the check.
-This is needed for cyclic dependency checks if you use the
-\code{--as-cran} argument. The default uses the current value.}
-    \item{\code{timeout}}{Timeout for the check, in seconds, or as a
-\link[base:difftime]{base::difftime} object. If it is not finished before this, it will be
-killed. \code{Inf} means no timeout. If the check is timed out,
-that is added as an extra error to the result object.}
-    \item{\code{error_on}}{Whether to throw an error on \verb{R CMD check} failures.
-Note that the check is always completed (unless a timeout happens),
-and the error is only thrown after completion. If \code{"never"}, then
-no errors are thrown. If \code{"error"}, then only \code{ERROR} failures
-generate errors. If \code{"warning"}, then \code{WARNING} failures generate
-errors as well. If \code{"note"}, then any check failure generated an
-error. Its default can be modified with the \code{RCMDCHECK_ERROR_ON}
-environment variable. If that is not set, then \code{"never"} is used.}
-    \item{\code{env}}{A named character vector, extra environment variables to
-set in the check process.}
-  }}
+\item{...}{other arguments passed to \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 }
 \value{
 An S3 object (list) with fields \code{errors},

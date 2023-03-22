@@ -17,22 +17,22 @@ This package is a tool for package developers to check your package using variou
 
 Typical workflow includes the following:
 
-* read local package dependencies from the `DESCRIPTION` file
-* derive dependencies version according to the strategy used
-* resolve and identify potential conflicts of dependencies
-* download and install to the temporary directory
-* execute `R CMD CHECK` using directory from the previous step as a library path
+- read local package dependencies from the `DESCRIPTION` file
+- derive dependencies version according to the strategy used
+- resolve and identify potential conflicts of dependencies
+- download and install to the temporary directory
+- execute `R CMD CHECK` using directory from the previous step as a library path
 
 Supported strategies are:
 
-* `max` - use the greatest (development) versions of dependencies
-* `release` - use the latest release - using `@*release` reference of the `remotes` package
-* `min` - use the minimal version of dependencies
+- `max` - use the greatest (development) versions of dependencies
+- `release` - use the latest release - using `@*release` reference of the `remotes` package
+- `min` - use the minimal version of dependencies
 
 The main functions are:
 
-* `new_<strategy>_deps_installation_proposal` for creating `installation_proposal` objects
-* `<strategy>_deps_check` that creates and executes `installation_proposal` and then run `"R CMD CHECK"`
+- `new_<strategy>_deps_installation_proposal` for creating `installation_proposal` objects
+- `<strategy>_deps_check` that creates and executes `installation_proposal` and then run `"R CMD CHECK"`
 
 It is heavily based on `pkgdepends` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
 
