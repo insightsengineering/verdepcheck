@@ -42,9 +42,15 @@ For the rest, it would return \code{remote_ref} argument.
 }
 \examples{
 find_minver_remote_ref(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran::dplyr"))
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 find_minver_remote_ref(pkgdepends::parse_pkg_ref("dplyr"))
+\dontshow{\}) # examplesIf}
+\dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran/dplyr"))
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{gh::gh()} for other configuration possibilities

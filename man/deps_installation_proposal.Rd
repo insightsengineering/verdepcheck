@@ -46,21 +46,21 @@ Any modification is done for \emph{direct} dependencies. Indirect ones are insta
 }
 
 \examples{
-\dontrun{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- new_max_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
-}
-\dontrun{
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- new_release_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
-}
-\dontrun{
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- new_min_deps_installation_proposal(".")
 x$solve()
 x$get_solution()
-}
+\dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}}

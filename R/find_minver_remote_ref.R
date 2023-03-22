@@ -29,7 +29,7 @@ find_minver_remote_ref.remote_ref <- function(remote_ref, op = "", op_ver = "") 
 #' @export
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
-#' @examples
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran::dplyr"))
 find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$atleast == "" && remote_ref$version != "") {
@@ -49,7 +49,7 @@ find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver =
 
 #' @rdname find_minver_remote_ref
 #' @export
-#' @examples
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("dplyr"))
 find_minver_remote_ref.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
   find_minver_remote_ref.remote_ref_cran(remote_ref, op, op_ver)
@@ -63,7 +63,7 @@ find_minver_remote_ref.remote_ref_standard <- function(remote_ref, op = "", op_v
 #'
 #' @seealso `gh::gh()` for other configuration possibilities
 #'
-#' @examples
+#' @examplesIf gh::gh_token() != ""
 #' find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran/dplyr"))
 find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {

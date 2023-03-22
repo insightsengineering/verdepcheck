@@ -31,12 +31,10 @@
 #' @export
 #' @importFrom pkgdepends new_pkg_installation_proposal
 #'
-#' @examples
-#' \dontrun{
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_max_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-#' }
 new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
@@ -57,12 +55,10 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
 #' @importFrom desc desc
 #' @importFrom pkgdepends new_pkg_installation_proposal parse_pkg_ref
 #' @importFrom remotes github_remote
-#' @examples
-#' \dontrun{
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_release_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-#' }
 new_release_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
@@ -105,12 +101,10 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
 #' @importFrom desc desc
 #' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal pkg_dep_types parse_pkg_ref
 #' @importFrom utils installed.packages
-#' @examples
-#' \dontrun{
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_min_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-#' }
 new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
