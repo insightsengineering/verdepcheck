@@ -41,7 +41,6 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
   if (!("library" %in% names(config))) {
     config$library <- tempfile()
-    on.exit(unlink(config$library), add = TRUE, after = FALSE)
   }
 
   pkgdepends::new_pkg_installation_proposal(
@@ -66,7 +65,6 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
   if (!("library" %in% names(config))) {
     config$library <- tempfile()
-    on.exit(unlink(config$library), add = TRUE, after = FALSE)
   }
 
   d <- desc::desc(path)
@@ -90,7 +88,6 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   }
 
   temp_desc <- tempfile()
-  on.exit(unlink(temp_desc), add = TRUE, after = FALSE)
   d$write(temp_desc)
 
   pkgdepends::new_pkg_installation_proposal(
@@ -114,7 +111,6 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
   if (!("library" %in% names(config))) {
     config$library <- tempfile()
-    on.exit(unlink(config$library), add = TRUE, after = FALSE)
   }
 
   x <- pkgdepends::new_pkg_deps(
