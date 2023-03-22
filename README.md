@@ -7,7 +7,7 @@ Error: object ‘foo’ is not exported by 'namespace:bar'
 ```
 
 ```r
-`foo()` was deprecated in bar 1.0.0.<br>
+`foo()` was deprecated in bar 1.0.0.
 i Please use `baz()` instead.
 ```
 
@@ -34,7 +34,7 @@ The main functions are:
 * `new_<strategy>_deps_installation_proposal` for creating `installation_proposal` objects
 * `<strategy>_deps_check` that creates and executes `installation_proposal` and then run `"R CMD CHECK"`
 
-It is heavily based on `pkgdown` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
+It is heavily based on `pkgdepends` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
 
 ## Install
 
@@ -53,10 +53,14 @@ The main goal of package authors is to use it within GitHub Action or any other 
 ```r
 x <- max_deps_check("(path to your package)")
 
+# print results for debugging
 x$ip$show_solution()
 x$ip$draw()
+
+# create artifact
 x$ip$create_lockfile("/path/to/pkg.lock")
 
-x$check$status
+# print R CMD CHECK results
 x$check$session_info
+x$check$status
 ```

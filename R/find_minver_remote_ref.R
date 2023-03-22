@@ -37,8 +37,8 @@ find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver =
     return(remote_ref)
   }
 
-  x_pkg_cache <- pkgcache::meta_cache_list(package)
-  x_pkg_cache_archive <- pkgcache::cran_archive_list(package = package)
+  x_pkg_cache <- pkgcache::meta_cache_list(remote_ref$package)
+  x_pkg_cache_archive <- pkgcache::cran_archive_list(package = remote_ref$package)
   pv <- package_version(unique(c(x_pkg_cache$version, x_pkg_cache_archive$version)))
   pv <- filter_valid_version(pv, op, op_ver)
   pv <- filter_valid_version(pv, op, op_ver)
@@ -78,19 +78,20 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
   }
 
   if (op == "") {
-    min_tag <- tags[1]
+    ref_suffix <- sprintf("@%s", tags[1])
   } else {
+    ref_suffix <- ""
     # it's needed to start from the end (i.e. latest tags) as there are many unexpected things in the history
     # e.g. r-lib/styler decreased package version in the past
     for (tag in rev(tags)) {
       tag_ver <- get_ver_from_gh(remote_ref$username, remote_ref$repo, tag)
       op_res <- do.call(op, list(tag_ver, package_version(op_ver)))
       if (isFALSE(op_res)) break
-      min_tag <- tag
+      ref_suffix <- sprintf("@%s", tag)
     }
   }
 
-  new_ref <- sprintf("%s/%s@%s", remote_ref$username, remote_ref$repo, min_tag) # @TODO
+  new_ref <- sprintf("%s/%s%s", remote_ref$username, remote_ref$repo, ref_suffix) # @TODO
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
@@ -113,4 +114,13 @@ get_ver_from_gh <- function(org, repo, ref = "HEAD") {
     return(NA)
   }
   desc::desc(text = resp$message)$get_version()
+}
+
+filter_valid_version <- function(x, op, op_ver) {
+  res <- x
+  res <- Filter(Negate(is.na), res)
+  if (op != "" && op_ver != "") {
+    res <- Filter(function(x) do.call(op, list(x, package_version(op_ver))), res)
+  }
+  return(res)
 }
