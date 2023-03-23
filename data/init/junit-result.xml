@@ -1,63 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-03-22T20:19:48Z" hostname="86c9ff984d3d" tests="24" skipped="0" failures="0" errors="2" time="20">
-    <testcase time="0.1" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works"/>
-    <testcase time="5.73" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works"/>
-    <testcase time="0.0129999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works"/>
-    <testcase time="0.309" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
-      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:21:3')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
-    auth_token = auth_token)`: Cannot find repo r-lib/pkgdepends.
-HTTP error 401.
-  Bad credentials
-
-  Rate limit remaining: 59/60
-  Rate limit reset at: 2023-03-22 21:19:54 UTC
-
-  
-Backtrace:
- 1. verdepcheck::new_release_deps_installation_proposal(temp_path)
-      at test-deps_installation_proposal.R:21:2
- 2. base::vapply(...)
- 3. verdepcheck (local) FUN(X[[i]], ...)
- 4. remotes::github_remote(...)
- 6. remotes:::github_resolve_ref.github_release(...)</error>
+  <testsuite name="deps_installation_proposal" timestamp="2023-03-23T14:48:33Z" hostname="a018d526b306" tests="8" skipped="8" failures="0" errors="0" time="0.182">
+    <testcase time="0.023" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:9:3')"/>
     </testcase>
-    <testcase time="1.485" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works"/>
-    <testcase time="0.942" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works"/>
-    <testcase time="0.00599999999999845" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works"/>
-    <testcase time="0.0390000000000015" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="1.181" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.00700000000000145" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.158999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.112" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <error type="error" message="Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host,  ('test-deps_installation_proposal.R:79:3')">Error in `github_resolve_ref.github_release(meta$ref %||% ref, meta, host = host, 
-    auth_token = auth_token)`: Cannot find repo r-lib/pkgdepends.
-HTTP error 401.
-  Bad credentials
-
-  Rate limit remaining: 58/60
-  Rate limit reset at: 2023-03-22 21:19:54 UTC
-
-  
-Backtrace:
- 1. verdepcheck::new_release_deps_installation_proposal(temp_path)
-      at test-deps_installation_proposal.R:79:2
- 2. base::vapply(...)
- 3. verdepcheck (local) FUN(X[[i]], ...)
- 4. remotes::github_remote(...)
- 6. remotes:::github_resolve_ref.github_release(...)</error>
+    <testcase time="0.0589999999999999" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:24:3')"/>
     </testcase>
-    <testcase time="1.428" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.952999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.00500000000000078" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="0.00399999999999956" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference"/>
-    <testcase time="2.283" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference"/>
-    <testcase time="0.982000000000001" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference"/>
-    <testcase time="0.00499999999999901" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference"/>
-    <testcase time="0.00400000000000134" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference"/>
-    <testcase time="3.179" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference"/>
-    <testcase time="1.065" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference"/>
-    <testcase time="0.00500000000000256" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference"/>
-    <testcase time="0.00399999999999778" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference"/>
+    <testcase time="0.031" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:39:3')"/>
+    </testcase>
+    <testcase time="0.016" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:55:3')"/>
+    </testcase>
+    <testcase time="0.013" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:84:3')"/>
+    </testcase>
+    <testcase time="0.012" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:113:3')"/>
+    </testcase>
+    <testcase time="0.012" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:142:3')"/>
+    </testcase>
+    <testcase time="0.0159999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:171:3')"/>
+    </testcase>
   </testsuite>
 </testsuites>
