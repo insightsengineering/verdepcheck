@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-03-23T17:16:21Z" hostname="54128ae01f6f" tests="8" skipped="8" failures="0" errors="0" time="0.334">
-    <testcase time="0.0539999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:8:3')"/>
+  <testsuite name="deps_installation_proposal" timestamp="2023-03-23T17:22:25Z" hostname="2adb026fa2a3" tests="8" skipped="8" failures="0" errors="0" time="0.263">
+    <testcase time="0.035" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:9:3')"/>
     </testcase>
-    <testcase time="0.0990000000000001" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:35:3')"/>
+    <testcase time="0.0659999999999999" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:36:3')"/>
     </testcase>
-    <testcase time="0.0409999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_standard_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:62:3')"/>
+    <testcase time="0.041" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_standard_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:63:3')"/>
     </testcase>
-    <testcase time="0.034" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:95:3')"/>
+    <testcase time="0.03" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:96:3')"/>
     </testcase>
-    <testcase time="0.025" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:117:3')"/>
+    <testcase time="0.021" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:118:3')"/>
     </testcase>
-    <testcase time="0.029" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:143:3')"/>
+    <testcase time="0.022" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:144:3')"/>
     </testcase>
-    <testcase time="0.0239999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:168:3')"/>
+    <testcase time="0.0249999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:169:3')"/>
     </testcase>
-    <testcase time="0.028" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
-      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:197:3')"/>
+    <testcase time="0.023" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+      <skipped message="Reason: Not run with empty GH token ('test-deps_installation_proposal.R:198:3')"/>
     </testcase>
   </testsuite>
 </testsuites>
