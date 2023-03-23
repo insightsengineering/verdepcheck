@@ -22,6 +22,7 @@ Imports:
 Suggests:
     knitr,
     testthat (>= 3.0.0),
+    pingr,
     withr
 Remotes:
     r-lib/desc@*release,
