@@ -1,29 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-03-23T15:04:25Z" hostname="c6365ba3d3fd" tests="8" skipped="8" failures="0" errors="0" time="0.156">
-    <testcase time="0.019" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:9:3')"/>
+  <testsuite name="deps_installation_proposal" timestamp="2023-03-23T15:17:59Z" hostname="53a486ad5ccc" tests="8" skipped="8" failures="0" errors="0" time="0.329">
+    <testcase time="0.054" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_works">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:9:3')"/>
     </testcase>
-    <testcase time="0.0509999999999999" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:24:3')"/>
+    <testcase time="0.101" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_works">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:24:3')"/>
     </testcase>
-    <testcase time="0.027" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:39:3')"/>
+    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_works">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:39:3')"/>
     </testcase>
-    <testcase time="0.013" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:55:3')"/>
+    <testcase time="0.026" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:55:3')"/>
     </testcase>
-    <testcase time="0.011" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:84:3')"/>
+    <testcase time="0.025" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:84:3')"/>
     </testcase>
-    <testcase time="0.011" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:113:3')"/>
+    <testcase time="0.0299999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:113:3')"/>
     </testcase>
-    <testcase time="0.011" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:142:3')"/>
+    <testcase time="0.025" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:142:3')"/>
     </testcase>
-    <testcase time="0.0129999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
-      <skipped message="Reason: On CRAN ('test-deps_installation_proposal.R:171:3')"/>
+    <testcase time="0.026" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+      <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:171:3')"/>
     </testcase>
   </testsuite>
 </testsuites>
