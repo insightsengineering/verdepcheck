@@ -38,8 +38,8 @@
 new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
-  if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
-  if (!("library" %in% names(config))) {
+  if ("dependencies" %nin% names(config)) config$dependencies <- TRUE
+  if ("library" %nin% names(config)) {
     config$library <- tempfile()
   }
 
@@ -62,8 +62,8 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
 new_release_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
-  if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
-  if (!("library" %in% names(config))) {
+  if ("dependencies" %nin% names(config)) config$dependencies <- TRUE
+  if ("library" %nin% names(config)) {
     config$library <- tempfile()
   }
 
@@ -108,8 +108,8 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
 new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   path <- normalizePath(path)
 
-  if (!("dependencies" %in% names(config))) config$dependencies <- TRUE
-  if (!("library" %in% names(config))) {
+  if ("dependencies" %nin% names(config)) config$dependencies <- TRUE
+  if ("library" %nin% names(config)) {
     config$library <- tempfile()
   }
 
@@ -122,7 +122,8 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   x$stop_for_solution_error()
   deps <- x$get_solution()$data$deps[[1]]
 
-  deps <- subset(deps, !(package %in% c("R", rownames(utils::installed.packages(priority = "base")))))
+
+  deps <- subset(deps, package %nin% c("R", rownames(utils::installed.packages(priority = "base"))))
 
   deps$ref_parsed <- lapply(deps$ref, pkgdepends::parse_pkg_ref)
 

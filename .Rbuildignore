@@ -13,7 +13,6 @@ README.*
 ^staged_dependencies\.yaml$
 coverage.*
 ^\.pre-commit-config\.yaml$
-^\.markdownlint\.yaml$
 ^codemeta\.json$
 init.sh
 workflows.md
