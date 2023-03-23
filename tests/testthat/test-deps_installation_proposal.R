@@ -6,6 +6,9 @@ d$write(temp_path)
 on.exit(unlink(temp_path), add = TRUE, after = FALSE)
 
 test_that("new_max_deps_installation_proposal works", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   x <- new_max_deps_installation_proposal(temp_path)
   on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
 
@@ -18,6 +21,9 @@ test_that("new_max_deps_installation_proposal works", {
 })
 
 test_that("new_release_deps_installation_proposal works", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   x <- new_release_deps_installation_proposal(temp_path)
   on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
 
@@ -30,6 +36,9 @@ test_that("new_release_deps_installation_proposal works", {
 })
 
 test_that("new_min_deps_installation_proposal works", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   x <- new_min_deps_installation_proposal(temp_path)
   on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
 
@@ -43,6 +52,9 @@ test_that("new_min_deps_installation_proposal works", {
 
 
 test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   temp_path <- tempfile()
   d <- desc::desc("!new")
   d$set_dep("pkgdepends", "Import")
@@ -69,6 +81,9 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
 })
 
 test_that("new_release_deps_installation_proposal correctly handles <org>/<repo> reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   temp_path <- tempfile()
   d <- desc::desc("!new")
   d$set_dep("pkgdepends", "Import")
@@ -95,6 +110,9 @@ test_that("new_release_deps_installation_proposal correctly handles <org>/<repo>
 })
 
 test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   temp_path <- tempfile()
   d <- desc::desc("!new")
   d$set_dep("pkgdepends", "Import")
@@ -121,6 +139,9 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
 })
 
 test_that("new_min_deps_installation_proposal correctly handles \">=\" dependency for <org>/<repo> reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   temp_path <- tempfile()
   d <- desc::desc("!new")
   d$set_dep("pkgdepends", "Import", ">= 0.2.0")
@@ -147,6 +168,9 @@ test_that("new_min_deps_installation_proposal correctly handles \">=\" dependenc
 })
 
 test_that("new_min_deps_installation_proposal correctly handles \">=\" dependency for standard reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
   temp_path <- tempfile()
   d <- desc::desc("!new")
   d$set_dep("pkgdepends", "Import", ">= 0.2.0")
