@@ -97,12 +97,22 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
 
 #' @importFrom gh gh
 get_gh_tags <- function(org, repo) {
-  url_str <- sprintf("/repos/%s/%s/git/refs/tags", org, repo)
-  resp <- try(gh::gh(url_str, .limit = Inf), silent = TRUE)
+  gql_query <- sprintf("{
+    repository(owner: \"%s\", name: \"%s\") {
+      refs(refPrefix: \"refs/tags/\", last: 100, orderBy: {field: TAG_COMMIT_DATE, direction: ASC}) {
+        edges {
+          node {
+            name
+          }
+        }
+      }
+    }
+  }", org, repo)
+  resp <- try(gh::gh_gql(gql_query), silent = TRUE)
   if (inherits(resp, "try-error")) {
     return(character(0))
   }
-  gsub("^refs/tags/", "", vapply(resp, `[[`, character(1), "ref"))
+  vapply(resp$data$repository$refs$edges, function(x) x$node$name, character(1))
 }
 #' @importFrom desc desc
 #' @importFrom gh gh

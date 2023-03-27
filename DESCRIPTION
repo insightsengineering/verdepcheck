@@ -14,16 +14,16 @@ Depends:
 Imports:
     desc,
     gh,
-    pkgcache,
+    pkgcache (>= 1.2.0),
     pkgdepends,
     rcmdcheck,
-    remotes,
+    remotes (>= 2.2.0),
     utils
 Suggests:
-    knitr,
+    knitr (>= 1.34),
     testthat (>= 3.0.0),
     pingr,
-    withr
+    withr (>= 2.4.3)
 Remotes:
     r-lib/desc@*release,
     r-lib/gh@*release,

@@ -25,6 +25,7 @@ test_that("new_max_deps_installation_proposal correctly handles standard referen
   pkg_ver_act <- package_version(x_solution_pkg$version)
   pkg_ver_target <- package_version(
     available.packages(
+      repos = pkgcache::default_cran_mirror(),
       filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
     )[["Version"]]
   )
@@ -52,6 +53,7 @@ test_that("new_release_deps_installation_proposal correctly handles standard ref
   pkg_ver_act <- package_version(x_solution_pkg$version)
   pkg_ver_target <- package_version(
     available.packages(
+      repos = pkgcache::default_cran_mirror(),
       filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
     )[["Version"]]
   )
@@ -133,6 +135,7 @@ test_that("new_release_deps_installation_proposal correctly handles <org>/<repo>
   pkg_ver_act <- package_version(x_solution_pkg$version)
   pkg_ver_target <- package_version(
     available.packages(
+      repos = pkgcache::default_cran_mirror(),
       filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
     )[["Version"]]
   )

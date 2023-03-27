@@ -1,5 +1,4 @@
 skip_if_offline <- function() {
-  return(invisible(TRUE)) # test
   res <- tryCatch(
     pingr::ping("https://api.github.com", count = 1L),
     error = function(e) NA
@@ -9,9 +8,10 @@ skip_if_offline <- function() {
 }
 
 skip_if_empty_gh_token <- function() {
-  if (gh::gh_token() != "") {
-    return(invisible(TRUE))
-  }
+  res <- tryCatch(
+    gh::gh_token() != "",
+    error = function(e) FALSE
+  )
 
-  skip("Not run with empty GH token")
+  if (isFALSE(res)) skip("Not run with empty GH token")
 }

@@ -54,6 +54,23 @@ check_ip <- function(ip,
   )
 }
 
+#' Executes installation plan and [`rcmdcheck::rcmdcheck()`]
+#'
+#' @inheritParams install_ip
+#' @inheritParams check_ip
+#'
+#' @return a named `list` with two elements:
+#' * `"ip"` - installation plan object
+#' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
+#'
+#' @keywords internal
+deps_check_internal <- function(ip, path, check_args, build_args, ...) {
+  ip <- install_ip(ip)
+  check_res <- check_ip(ip, path, build_args, check_args, ...)
+
+  return(invisible(list(ip = ip, check = check_res)))
+}
+
 #' Execute `R CMD CHECK` on a local package with all dependencies pre-installed using various strategies.
 #'
 #' @inheritSection new_max_deps_installation_proposal strategies
@@ -62,9 +79,7 @@ check_ip <- function(ip,
 #' @inheritParams new_max_deps_installation_proposal
 #' @inheritParams check_ip
 #'
-#' @return a named `list` with two elements:
-#' * `"ip"` - installation plan object
-#' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
+#' @inherit deps_check_internal return
 #'
 #' @seealso deps_installation_proposal
 #'
@@ -77,10 +92,7 @@ max_deps_check <- function(path,
                            check_args = character(),
                            ...) {
   ip <- new_max_deps_installation_proposal(path, config)
-  ip <- install_ip(ip)
-  check_res <- check_ip(ip, path, build_args, check_args, ...)
-
-  return(invisible(list(ip = ip, check = check_res)))
+  deps_check_internal(ip, path, check_args, build_args, ...)
 }
 
 #' @rdname deps_check
@@ -91,10 +103,7 @@ release_deps_check <- function(path,
                                build_args = character(),
                                ...) {
   ip <- new_release_deps_installation_proposal(path, config)
-  ip <- install_ip(ip)
-  check_res <- check_ip(ip, path, build_args, check_args, ...)
-
-  return(invisible(list(ip = ip, check = check_res)))
+  deps_check_internal(ip, path, check_args, build_args, ...)
 }
 
 #' @rdname deps_check
@@ -105,8 +114,5 @@ min_deps_check <- function(path,
                            build_args = character(),
                            ...) {
   ip <- new_min_deps_installation_proposal(path, config)
-  ip <- install_ip(ip)
-  check_res <- check_ip(ip, path, build_args, check_args, ...)
-
-  return(invisible(list(ip = ip, check = check_res)))
+  deps_check_internal(ip, path, check_args, build_args, ...)
 }
