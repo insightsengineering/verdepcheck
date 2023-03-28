@@ -12,6 +12,8 @@
 #'
 #' @keywords internal
 install_ip <- function(ip) {
+  on.exit(return(invisible(ip)), add = TRUE)
+
   ip$solve()
   ip$stop_for_solution_error()
 
@@ -45,7 +47,8 @@ check_ip <- function(ip,
                      check_args = character(),
                      ...) {
   libpath <- ip$get_config()$get("library")
-  check_res <- rcmdcheck::rcmdcheck(
+
+  rcmdcheck::rcmdcheck(
     path,
     libpath = libpath,
     args = check_args,
