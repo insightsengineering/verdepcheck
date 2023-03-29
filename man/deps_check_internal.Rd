@@ -4,16 +4,16 @@
 \alias{deps_check_internal}
 \title{Executes installation plan and \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 \usage{
-deps_check_internal(ip, path, check_args, build_args, ...)
+deps_check_internal(ip, path, build_args, check_args, ...)
 }
 \arguments{
 \item{ip}{(\code{pkg_installation_plan}) object to execute}
 
 \item{path}{(\code{string}) path to the package sources}
 
-\item{check_args}{(\code{string}) value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
-
 \item{build_args}{(\code{string}) value passed as \code{build_args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+
+\item{check_args}{(\code{string}) value passed as \code{args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 
 \item{...}{other arguments passed to \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 }

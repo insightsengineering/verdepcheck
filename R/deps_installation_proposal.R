@@ -125,7 +125,6 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   x$stop_for_solution_error()
   deps <- x$get_solution()$data$deps[[1]]
 
-
   deps <- deps[deps$package %nin% c("R", rownames(utils::installed.packages(priority = "base"))), ]
 
   deps$ref_parsed <- lapply(deps$ref, pkgdepends::parse_pkg_ref)

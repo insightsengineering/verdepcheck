@@ -67,7 +67,7 @@ check_ip <- function(ip,
 #' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
 #'
 #' @keywords internal
-deps_check_internal <- function(ip, path, check_args, build_args, ...) {
+deps_check_internal <- function(ip, path, build_args, check_args, ...) {
   ip <- install_ip(ip)
   check_res <- check_ip(ip, path, build_args, check_args, ...)
 
