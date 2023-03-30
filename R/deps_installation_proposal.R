@@ -137,22 +137,6 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
     SIMPLIFY = FALSE
   )
 
-  # @TODO: wait for https://github.com/r-lib/pak/issues/122
-  # as a suggested workaround - use GH mirror of CRAN
-  # @TODO: even though aforementioned ticket has been completed, this functionality is not yet completed:
-  # https://github.com/r-lib/pkgdepends/issues/309
-  deps$ref_minver <- lapply(
-    deps$ref_minver,
-    function(x) {
-      if (inherits(x, "remote_ref_standard") || inherits(x, "remote_ref_cran")) {
-        new_ref <- sprintf("cran/%s", gsub("cran::|standard::", "", x$ref))
-        pkgdepends::parse_pkg_ref(new_ref)
-      } else {
-        x
-      }
-    }
-  )
-
   refs <- vapply(deps$ref_minver, `[[`, character(1), "ref")
 
   d <- desc::desc(path)
