@@ -118,7 +118,7 @@ get_gh_tags <- function(org, repo) {
 }
 #' @importFrom desc desc
 #' @importFrom gh gh
-get_desc_from_gh <- function(org, repo, ref = "HEAD", package) {
+get_desc_from_gh <- function(org, repo, ref = "HEAD") {
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
   resp <- try(gh::gh(url_str, .accept = "application/vnd.github.v3.raw+json"), silent = TRUE)
   if (inherits(resp, "try-error")) {
