@@ -84,7 +84,7 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
     # e.g. r-lib/styler decreased package version in the past
     for (tag in rev(tags)) {
       tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
-      if (tag_desc$get_field("Package") != remote_ref$package) next
+      if (is.na(tag_desc) || tag_desc$get_field("Package") != remote_ref$package) next
       tag_ver <- tag_desc$get_version()
       op_res <- do.call(op, list(tag_ver, package_version(op_ver)))
       if (isFALSE(op_res)) break
