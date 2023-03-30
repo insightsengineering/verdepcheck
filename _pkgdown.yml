@@ -1,0 +1,31 @@
+---
+url: https://insightsengineering.github.io/verdepcheck
+
+template:
+  package: nesttemplate
+
+navbar:
+  right:
+    - icon: fa-github
+      href: https://github.com/insightsengineering/verdepcheck
+
+articles:
+  - title: Articles
+    navbar: ~
+    contents:
+
+reference:
+  - title: Dependency Check
+    desc: Execute everything in one function call
+    contents:
+      - ends_with("_deps_check")
+
+  - title: Installation Plan
+    desc: Create installation plan object
+    contents:
+      - ends_with("_deps_installation_proposal")
+
+  - title: Minimal version
+    desc: Determine minimal version
+    contents:
+      - find_minver_remote_ref
