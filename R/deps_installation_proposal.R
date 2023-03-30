@@ -139,8 +139,6 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
 
   # @TODO: wait for https://github.com/r-lib/pak/issues/122
   # as a suggested workaround - use GH mirror of CRAN
-  # @TODO: even though aforementioned ticket has been completed, this functionality is not yet completed:
-  # https://github.com/r-lib/pkgdepends/issues/309
   deps$ref_minver <- lapply(
     deps$ref_minver,
     function(x) {

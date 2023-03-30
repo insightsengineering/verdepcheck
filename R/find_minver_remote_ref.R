@@ -83,7 +83,9 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
     # it's needed to start from the end (i.e. latest tags) as there are many unexpected things in the history
     # e.g. r-lib/styler decreased package version in the past
     for (tag in rev(tags)) {
-      tag_ver <- get_ver_from_gh(remote_ref$username, remote_ref$repo, tag)
+      tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
+      if (tag_desc$get_field("Package") != remote_ref$package) next
+      tag_ver <- tag_desc$get_version()
       op_res <- do.call(op, list(tag_ver, package_version(op_ver)))
       if (isFALSE(op_res)) break
       ref_suffix <- sprintf("@%s", tag)
@@ -116,13 +118,13 @@ get_gh_tags <- function(org, repo) {
 }
 #' @importFrom desc desc
 #' @importFrom gh gh
-get_ver_from_gh <- function(org, repo, ref = "HEAD") {
+get_desc_from_gh <- function(org, repo, ref = "HEAD") {
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
   resp <- try(gh::gh(url_str, .accept = "application/vnd.github.v3.raw+json"), silent = TRUE)
   if (inherits(resp, "try-error")) {
     return(NA)
   }
-  desc::desc(text = resp$message)$get_version()
+  desc::desc(text = resp$message)
 }
 
 filter_valid_version <- function(x, op, op_ver) {
