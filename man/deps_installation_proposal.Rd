@@ -66,5 +66,5 @@ x$get_solution()
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}}
+\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}
 }

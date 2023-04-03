@@ -6,7 +6,7 @@
 #'
 #' @returns (`remote_ref`) object with reference to the package of minimal version.
 #'
-#' @seealso [`get_min_ver_incl_cran()`]
+#' @seealso [get_min_ver_incl_cran()]
 #'
 #' @export
 get_min_ver_incl_cran <- function(remote_ref, op = "", op_ver = "") {
@@ -55,10 +55,9 @@ check_if_on_cran <- function(remote_ref) {
 
 #' Get minimal version.
 #'
-#' @inheritParams get_min_ver_incl_cran
-#' @inherit get_min_ver_incl_cran return
+#' @inherit get_min_ver_incl_cran
 #'
-#' @seealso [`get_min_ver_incl_cran()`]
+#' @seealso [get_min_ver_incl_cran()]
 #'
 #' @export
 get_min_ver <- function(remote_ref, op = "", op_ver = "") {

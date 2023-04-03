@@ -36,7 +36,7 @@ install_ip <- function(ip) {
 #'
 #' @inherit rcmdcheck::rcmdcheck return
 #'
-#' @seealso `rcmdcheck::rcmdcheck()` for other configuration possibilities
+#' @seealso [rcmdcheck::rcmdcheck()] for other configuration possibilities
 #'
 #' @importFrom rcmdcheck rcmdcheck
 #'

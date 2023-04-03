@@ -29,7 +29,7 @@
 #'
 #' @returns `pkg_installation_plan` object
 #'
-#' @seealso [`pkgdepends::pkg_installation_proposal`]
+#' @seealso [pkgdepends::pkg_installation_proposal]
 #'
 #' @export
 #' @importFrom pkgdepends new_pkg_installation_proposal
