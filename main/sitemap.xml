@@ -40,7 +40,10 @@
     <loc>https://insightsengineering.github.io/verdepcheck/main/reference/deps_installation_proposal.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/find_minver_remote_ref.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_min_ver.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_min_ver_incl_cran.html</loc>
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/main/reference/index.html</loc>
