@@ -1,5 +1,7 @@
 behaviour
 CMD
+cran
 deps
 pre
+ver
 verdepcheck

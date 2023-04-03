@@ -29,12 +29,14 @@ Supported strategies are:
 - `release` - use the latest release - using `@*release` reference of the `remotes` package
 - `min` - use the minimal version of dependencies
 
+Please note that this is applicable only for direct dependencies of your package. Indirect dependencies are being installed using default installation process.
+
 The main functions are:
 
 - `new_<strategy>_deps_installation_proposal` for creating `installation_proposal` objects
 - `<strategy>_deps_check` that creates and executes `installation_proposal` and then run `"R CMD CHECK"`
 
-It is heavily based on `pkgdepends` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
+This package is heavily based on `pkgdepends` for dependency resolution and `rcmdcheck` for executing `"R CMD CHECK"`.
 
 ## Install
 

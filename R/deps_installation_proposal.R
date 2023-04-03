@@ -13,7 +13,7 @@
 #' This mimics the behaviour of `@*release` endpoint of `remotes` package but it does not use it because it
 #' is not yet supported by `pkgdepends`.
 #' * `min` - use the lowest version of dependencies. If no version is specified then the minimal available
-#' version is assumed. See [find_minver_remote_ref] for details how the minimal version is determined.
+#' version is assumed. See [get_min_ver] for details how the minimal version is determined.
 #'
 #' Any modification is done for _direct_ dependencies. Indirect ones are installed as usual.
 #'
@@ -130,7 +130,7 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   deps$ref_parsed <- lapply(deps$ref, pkgdepends::parse_pkg_ref)
 
   deps$ref_minver <- mapply( # @TODO: add cli progress bar
-    find_minver_remote_ref,
+    get_min_ver_incl_cran,
     remote_ref = deps$ref_parsed,
     op = deps$op,
     op_ver = deps$version,
@@ -143,7 +143,7 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
     deps$ref_minver,
     function(x) {
       if (inherits(x, "remote_ref_standard") || inherits(x, "remote_ref_cran")) {
-        new_ref <- sprintf("cran/%s", gsub("cran::|standard::", "", x$ref))
+        new_ref <- sprintf("cran/%s", gsub(".*::", "", x$ref))
         pkgdepends::parse_pkg_ref(new_ref)
       } else {
         x

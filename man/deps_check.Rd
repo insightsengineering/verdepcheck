@@ -69,12 +69,12 @@ reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) with a tag
 This mimics the behaviour of \verb{@*release} endpoint of \code{remotes} package but it does not use it because it
 is not yet supported by \code{pkgdepends}.
 \item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available
-version is assumed. See \link{find_minver_remote_ref} for details how the minimal version is determined.
+version is assumed. See \link{get_min_ver} for details how the minimal version is determined.
 }
 
 Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
 }
 
 \seealso{
-deps_installation_proposal
+\code{\link{deps_installation_proposal}}
 }

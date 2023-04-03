@@ -111,7 +111,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   expect_equal(nrow(x_solution_pkg), 1)
 
   pkg_ver_act <- package_version(x_solution_pkg$version)
-  pkg_ver_target <- package_version(as.character(get_ver_from_gh("r-lib", "pkgdepends")))
+  pkg_ver_target <- package_version(as.character(get_desc_from_gh("r-lib", "pkgdepends")$get_version()))
   expect_equal(pkg_ver_act, pkg_ver_target)
 })
 

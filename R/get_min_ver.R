@@ -1,4 +1,4 @@
-#' Identify minimal version.
+#' Get minimal version including also check in CRAN repository.
 #'
 #' @param remote_ref (`remote_ref`) object created with [`pkgdepends::parse_pkg_ref()`]
 #' @param op (`character(1)`) optional, version condition comparison operator (e.g. `">"`, `">="`)
@@ -6,32 +6,83 @@
 #'
 #' @returns (`remote_ref`) object with reference to the package of minimal version.
 #'
-#' @note only `cran`, `standard` (treated as `cran`) and `github` remote type are supported.
-#' For the rest, it would return `remote_ref` argument.
+#' @seealso [`get_min_ver_incl_cran()`]
 #'
 #' @export
-find_minver_remote_ref <- function(remote_ref, op = "", op_ver = "") {
-  UseMethod("find_minver_remote_ref", remote_ref)
+get_min_ver_incl_cran <- function(remote_ref, op = "", op_ver = "") {
+  UseMethod("get_min_ver_incl_cran", remote_ref)
 }
 
-#' @rdname find_minver_remote_ref
+#' @rdname get_min_ver_incl_cran
 #' @export
 #' @examples
-#' find_minver_remote_ref(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
-find_minver_remote_ref.remote_ref <- function(remote_ref, op = "", op_ver = "") {
+#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran::dplyr"))
+get_min_ver_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
+  get_min_ver(remote_ref, op, op_ver)
+}
+
+#' @rdname get_min_ver_incl_cran
+#' @importFrom pkgdepends parse_pkg_ref
+#' @export
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
+  if (check_if_on_cran(remote_ref)) {
+    gh_res <- get_min_ver(remote_ref, op, op_ver)
+    gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
+    gh_ver <- gh_desc$get_version()
+
+    cran_remote_ref <- pkgdepends::parse_pkg_ref(sprintf("cran::%s", remote_ref$package))
+    cran_res <- get_min_ver(cran_remote_ref, op, op_ver)
+    cran_ver <- cran_res$version
+
+    if (package_version(cran_ver) < package_version(gh_ver)) {
+      return(cran_res)
+    } else {
+      return(gh_res)
+    }
+  } else {
+    get_min_ver(remote_ref, op, op_ver)
+  }
+}
+
+#' @importFrom pkgcache meta_cache_list
+check_if_on_cran <- function(remote_ref) {
+  nrow(pkgcache::meta_cache_list(remote_ref$package)) > 0
+}
+
+#' Get minimal version.
+#'
+#' @inheritParams get_min_ver_incl_cran
+#' @inherit get_min_ver_incl_cran return
+#'
+#' @seealso [`get_min_ver_incl_cran()`]
+#'
+#' @export
+get_min_ver <- function(remote_ref, op = "", op_ver = "") {
+  UseMethod("get_min_ver", remote_ref)
+}
+
+#' @rdname get_min_ver
+#' @export
+#' @examples
+#' get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+get_min_ver.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
 
-#' Identify minimal version for CRAN-type of remote. This would use [`pkgcache::cran_archive_list()`]
+#' * for CRAN-type of remote - this would use [`pkgcache::cran_archive_list()`]
 #' to obtain historical data.
 #'
-#' @rdname find_minver_remote_ref
+#' @rdname get_min_ver
 #' @export
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran::dplyr"))
-find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
+#' get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
+get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$atleast == "" && remote_ref$version != "") {
     return(remote_ref)
   }
@@ -40,32 +91,30 @@ find_minver_remote_ref.remote_ref_cran <- function(remote_ref, op = "", op_ver =
   x_pkg_cache_archive <- pkgcache::cran_archive_list(package = remote_ref$package)
   pv <- package_version(unique(c(x_pkg_cache$version, x_pkg_cache_archive$version)))
   pv <- filter_valid_version(pv, op, op_ver)
-  pv <- filter_valid_version(pv, op, op_ver)
   min_ver <- min(pv)
 
   new_ref <- sprintf("%s@%s", remote_ref$ref, min_ver) # @TODO deparse, add ver, parse again
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
-#' @rdname find_minver_remote_ref
+#' @rdname get_min_ver
 #' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' find_minver_remote_ref(pkgdepends::parse_pkg_ref("dplyr"))
-find_minver_remote_ref.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
-  find_minver_remote_ref.remote_ref_cran(remote_ref, op, op_ver)
+#' get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
+get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
+  get_min_ver.remote_ref_cran(remote_ref, op, op_ver)
 }
 
-#' Identify minimal version of GitHub type of remote.
+#' * for GitHub type of remote - this would use [`gh::gh_gql()`] to get list of all tags
+#' and then [`gh::gh()`] to download `DESCRIPTION` file and then read package version.
 #'
-#' @rdname find_minver_remote_ref
+#' @rdname get_min_ver
 #' @export
 #' @importFrom pkgdepends parse_pkg_ref
 #'
-#' @seealso `gh::gh()` for other configuration possibilities
-#'
 #' @examplesIf gh::gh_token() != ""
-#' find_minver_remote_ref(pkgdepends::parse_pkg_ref("cran/dplyr"))
-find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
+#' get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
+get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {
     return(remote_ref)
   }
@@ -84,7 +133,7 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
     # e.g. r-lib/styler decreased package version in the past
     for (tag in rev(tags)) {
       tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
-      if (is.na(tag_desc) || tag_desc$get_field("Package") != remote_ref$package) next
+      if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
       tag_ver <- tag_desc$get_version()
       op_res <- do.call(op, list(tag_ver, package_version(op_ver)))
       if (isFALSE(op_res)) break
@@ -97,7 +146,7 @@ find_minver_remote_ref.remote_ref_github <- function(remote_ref, op = "", op_ver
 }
 
 
-#' @importFrom gh gh
+#' @importFrom gh gh_gql
 get_gh_tags <- function(org, repo) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
@@ -118,7 +167,8 @@ get_gh_tags <- function(org, repo) {
 }
 #' @importFrom desc desc
 #' @importFrom gh gh
-get_desc_from_gh <- function(org, repo, ref = "HEAD") {
+get_desc_from_gh <- function(org, repo, ref = "") {
+  if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
   resp <- try(gh::gh(url_str, .accept = "application/vnd.github.v3.raw+json"), silent = TRUE)
   if (inherits(resp, "try-error")) {
