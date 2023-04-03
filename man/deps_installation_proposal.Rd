@@ -2,6 +2,7 @@
 % Please edit documentation in R/deps_installation_proposal.R
 \name{new_max_deps_installation_proposal}
 \alias{new_max_deps_installation_proposal}
+\alias{deps_installation_proposal}
 \alias{new_release_deps_installation_proposal}
 \alias{new_min_deps_installation_proposal}
 \title{Create installation proposal using various dependency strategies}
@@ -42,7 +43,7 @@ reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) with a tag
 This mimics the behaviour of \verb{@*release} endpoint of \code{remotes} package but it does not use it because it
 is not yet supported by \code{pkgdepends}.
 \item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available
-version is assumed. See \link{find_minver_remote_ref} for details how the minimal version is determined.
+version is assumed. See \link{get_min_ver} for details how the minimal version is determined.
 }
 
 Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
@@ -66,5 +67,5 @@ x$get_solution()
 \dontshow{\}) # examplesIf}
 }
 \seealso{
-\code{\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}}
+\link[pkgdepends:pkg_installation_proposal]{pkgdepends::pkg_installation_proposal}
 }

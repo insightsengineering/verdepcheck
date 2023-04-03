@@ -28,4 +28,5 @@ reference:
   - title: Minimal version
     desc: Determine minimal version
     contents:
-      - find_minver_remote_ref
+      - get_min_ver
+      - get_min_ver_incl_cran

@@ -26,6 +26,6 @@ vectors containing the output for the failed check.
 Executes \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} on a local package using \code{libpath} from the installation plan.
 }
 \seealso{
-\code{rcmdcheck::rcmdcheck()} for other configuration possibilities
+\code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} for other configuration possibilities
 }
 \keyword{internal}

@@ -36,7 +36,7 @@ install_ip <- function(ip) {
 #'
 #' @inherit rcmdcheck::rcmdcheck return
 #'
-#' @seealso `rcmdcheck::rcmdcheck()` for other configuration possibilities
+#' @seealso [rcmdcheck::rcmdcheck()] for other configuration possibilities
 #'
 #' @importFrom rcmdcheck rcmdcheck
 #'
@@ -84,7 +84,7 @@ deps_check_internal <- function(ip, path, build_args, check_args, ...) {
 #'
 #' @inherit deps_check_internal return
 #'
-#' @seealso deps_installation_proposal
+#' @seealso [deps_installation_proposal]
 #'
 #' @rdname deps_check
 #'
