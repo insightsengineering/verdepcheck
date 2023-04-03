@@ -2,6 +2,7 @@
 % Please edit documentation in R/deps_installation_proposal.R
 \name{new_max_deps_installation_proposal}
 \alias{new_max_deps_installation_proposal}
+\alias{deps_installation_proposal}
 \alias{new_release_deps_installation_proposal}
 \alias{new_min_deps_installation_proposal}
 \title{Create installation proposal using various dependency strategies}

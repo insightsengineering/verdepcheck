@@ -76,5 +76,5 @@ Any modification is done for \emph{direct} dependencies. Indirect ones are insta
 }
 
 \seealso{
-\code{\link{deps_installation_proposal}}
+\link{deps_installation_proposal}
 }

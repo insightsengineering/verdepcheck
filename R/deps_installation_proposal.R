@@ -4,6 +4,7 @@
 #' create an installation proposal using various strategies for package versions as described below.
 #'
 #' @rdname deps_installation_proposal
+#' @aliases deps_installation_proposal
 #'
 #' @section strategies:
 #' Currently implemented strategies:
