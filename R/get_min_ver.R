@@ -88,11 +88,12 @@ get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
 
   x_pkg_cache <- pkgcache::meta_cache_list(remote_ref$package)
   x_pkg_cache_archive <- pkgcache::cran_archive_list(package = remote_ref$package)
-  pv <- package_version(unique(c(x_pkg_cache$version, x_pkg_cache_archive$version)))
+  pv <- unique(c(x_pkg_cache_archive$version, x_pkg_cache$version))
+  pv <- setNames(package_version(pv), pv)
   pv <- filter_valid_version(pv, op, op_ver)
-  min_ver <- min(pv)
+  min_ver <- Filter(function(x) x == min(pv), pv)
 
-  new_ref <- sprintf("%s@%s", remote_ref$ref, min_ver) # @TODO deparse, add ver, parse again
+  new_ref <- sprintf("%s@%s", remote_ref$ref, names(min_ver)) # @TODO deparse, add ver, parse again
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
@@ -124,13 +125,18 @@ get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     return(remote_ref)
   }
 
+  ref_suffix <- ""
   if (op == "") {
-    ref_suffix <- sprintf("@%s", tags[1])
+    # loop from the earliest tag and check if a valid description file
+    for (tag in tags) {
+      tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
+      if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
+      ref_suffix <- sprintf("@%s", tag)
+      break
+    }
   } else {
-    ref_suffix <- ""
-    # it's needed to start from the end (i.e. latest tags) as there are many unexpected things in the history
-    # e.g. r-lib/styler decreased package version in the past
-    for (tag in rev(tags)) {
+    # loop from the earliest tag, check if valid description file and check against version prespecified
+    for (tag in tags) {
       tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
       if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
       tag_ver <- tag_desc$get_version()
