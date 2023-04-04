@@ -125,6 +125,7 @@ get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     return(remote_ref)
   }
 
+  ref_suffix <- ""
   if (op == "") {
     # loop from the earliest tag and check if a valid description file
     for (tag in tags) {
@@ -135,7 +136,6 @@ get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     }
   } else {
     # loop from the earliest tag, check if valid description file and check against version prespecified
-    ref_suffix <- ""
     for (tag in tags) {
       tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
       if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
