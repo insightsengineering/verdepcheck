@@ -47,8 +47,12 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
     config$library <- tempfile()
   }
 
+  d <- desc::desc(path)
+  temp_desc <- tempfile()
+  d$write(temp_desc)
+
   pkgdepends::new_pkg_installation_proposal(
-    refs = paste0("deps::", path),
+    refs = paste0("deps::", temp_desc),
     config = config,
     policy = "upgrade"
   )
