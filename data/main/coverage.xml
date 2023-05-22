@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="182" branches-covered="0" branches-valid="0" complexity="0" version="3.6.1" timestamp="2023-04-05 10:50:01">
-  <sources/>
+<!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
+<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="182" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-05-22 08:57:10">
+  <sources>
+    <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
+  </sources>
   <packages>
     <package name="verdepcheck" line-rate="0" branch-rate="0" complexity="0">
       <classes>
         <class name="check.R" filename="R/check.R" line-rate="0" branch-rate="0" complexity="0">
           <methods>
-            <method name="install_ip" signature="" line-rate="0" branch-rate="0">
+            <method name="install_ip" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="15" hits="0" branch="false"/>
                 <line number="17" hits="0" branch="false"/>
@@ -18,7 +21,7 @@
                 <line number="26" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="check_ip" signature="" line-rate="0" branch-rate="0">
+            <method name="check_ip" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="49" hits="0" branch="false"/>
                 <line number="51" hits="0" branch="false"/>
@@ -30,26 +33,26 @@
                 <line number="57" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="deps_check_internal" signature="" line-rate="0" branch-rate="0">
+            <method name="deps_check_internal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="71" hits="0" branch="false"/>
                 <line number="72" hits="0" branch="false"/>
                 <line number="74" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="max_deps_check" signature="" line-rate="0" branch-rate="0">
+            <method name="max_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="97" hits="0" branch="false"/>
                 <line number="98" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="release_deps_check" signature="" line-rate="0" branch-rate="0">
+            <method name="release_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="108" hits="0" branch="false"/>
                 <line number="109" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="min_deps_check" signature="" line-rate="0" branch-rate="0">
+            <method name="min_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="119" hits="0" branch="false"/>
                 <line number="120" hits="0" branch="false"/>
@@ -86,7 +89,7 @@
         </class>
         <class name="deps_installation_proposal.R" filename="R/deps_installation_proposal.R" line-rate="0" branch-rate="0" complexity="0">
           <methods>
-            <method name="new_max_deps_installation_proposal" signature="" line-rate="0" branch-rate="0">
+            <method name="new_max_deps_installation_proposal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="43" hits="0" branch="false"/>
                 <line number="45" hits="0" branch="false"/>
@@ -102,7 +105,7 @@
                 <line number="58" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="new_release_deps_installation_proposal" signature="" line-rate="0" branch-rate="0">
+            <method name="new_release_deps_installation_proposal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="71" hits="0" branch="false"/>
                 <line number="73" hits="0" branch="false"/>
@@ -133,7 +136,7 @@
                 <line number="104" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="new_min_deps_installation_proposal" signature="" line-rate="0" branch-rate="0">
+            <method name="new_min_deps_installation_proposal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="117" hits="0" branch="false"/>
                 <line number="119" hits="0" branch="false"/>
@@ -268,17 +271,17 @@
         </class>
         <class name="get_min_ver.R" filename="R/get_min_ver.R" line-rate="0" branch-rate="0" complexity="0">
           <methods>
-            <method name="get_min_ver_incl_cran" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver_incl_cran" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="13" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver_incl_cran.remote_ref" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver_incl_cran.remote_ref" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="23" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver_incl_cran.remote_ref_github" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver_incl_cran.remote_ref_github" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="32" hits="0" branch="false"/>
                 <line number="33" hits="0" branch="false"/>
@@ -293,22 +296,22 @@
                 <line number="47" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="check_if_on_cran" signature="" line-rate="0" branch-rate="0">
+            <method name="check_if_on_cran" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="53" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="64" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver.remote_ref" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver.remote_ref" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="72" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver.remote_ref_cran" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver.remote_ref_cran" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="85" hits="0" branch="false"/>
                 <line number="86" hits="0" branch="false"/>
@@ -322,12 +325,12 @@
                 <line number="97" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver.remote_ref_standard" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver.remote_ref_standard" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="105" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_min_ver.remote_ref_github" signature="" line-rate="0" branch-rate="0">
+            <method name="get_min_ver.remote_ref_github" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="118" hits="0" branch="false"/>
                 <line number="119" hits="0" branch="false"/>
@@ -353,7 +356,7 @@
                 <line number="152" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_gh_tags" signature="" line-rate="0" branch-rate="0">
+            <method name="get_gh_tags" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="158" hits="0" branch="false"/>
                 <line number="159" hits="0" branch="false"/>
@@ -372,7 +375,7 @@
                 <line number="173" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="get_desc_from_gh" signature="" line-rate="0" branch-rate="0">
+            <method name="get_desc_from_gh" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="178" hits="0" branch="false"/>
                 <line number="179" hits="0" branch="false"/>
@@ -382,7 +385,7 @@
                 <line number="184" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="filter_valid_version" signature="" line-rate="0" branch-rate="0">
+            <method name="filter_valid_version" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="188" hits="0" branch="false"/>
                 <line number="189" hits="0" branch="false"/>
