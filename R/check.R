@@ -12,16 +12,16 @@
 #'
 #' @keywords internal
 install_ip <- function(ip) {
-  on.exit(return(invisible(ip)), add = TRUE)
+  try({
+    ip$solve()
+    ip$stop_for_solution_error()
 
-  ip$solve()
-  ip$stop_for_solution_error()
+    ip$download()
+    ip$stop_for_download_error()
 
-  ip$download()
-  ip$stop_for_download_error()
-
-  ip$install_sysreqs()
-  ip$install()
+    ip$install_sysreqs()
+    ip$install()
+  })
 
   return(invisible(ip))
 }
@@ -48,13 +48,21 @@ check_ip <- function(ip,
                      ...) {
   libpath <- ip$get_config()$get("library")
 
-  rcmdcheck::rcmdcheck(
-    path,
-    libpath = libpath,
-    args = check_args,
-    build_args = build_args,
-    ...
+  res <- tryCatch(
+    rcmdcheck::rcmdcheck(
+      path,
+      libpath = libpath,
+      args = check_args,
+      build_args = build_args,
+      error_on = "never",
+      ...
+    ),
+    error = function(e) {
+      NULL
+    }
   )
+
+  return(res)
 }
 
 #' Executes installation plan and [`rcmdcheck::rcmdcheck()`]
