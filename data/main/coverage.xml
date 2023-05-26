@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="182" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-05-22 08:57:10">
+<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="190" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-05-26 12:49:23">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
@@ -12,10 +12,11 @@
             <method name="install_ip" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="15" hits="0" branch="false"/>
+                <line number="16" hits="0" branch="false"/>
                 <line number="17" hits="0" branch="false"/>
-                <line number="18" hits="0" branch="false"/>
+                <line number="19" hits="0" branch="false"/>
                 <line number="20" hits="0" branch="false"/>
-                <line number="21" hits="0" branch="false"/>
+                <line number="22" hits="0" branch="false"/>
                 <line number="23" hits="0" branch="false"/>
                 <line number="24" hits="0" branch="false"/>
                 <line number="26" hits="0" branch="false"/>
@@ -31,40 +32,48 @@
                 <line number="55" hits="0" branch="false"/>
                 <line number="56" hits="0" branch="false"/>
                 <line number="57" hits="0" branch="false"/>
+                <line number="58" hits="0" branch="false"/>
+                <line number="59" hits="0" branch="false"/>
+                <line number="60" hits="0" branch="false"/>
+                <line number="61" hits="0" branch="false"/>
+                <line number="62" hits="0" branch="false"/>
+                <line number="63" hits="0" branch="false"/>
+                <line number="65" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="deps_check_internal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="71" hits="0" branch="false"/>
-                <line number="72" hits="0" branch="false"/>
-                <line number="74" hits="0" branch="false"/>
+                <line number="79" hits="0" branch="false"/>
+                <line number="80" hits="0" branch="false"/>
+                <line number="82" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="max_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="97" hits="0" branch="false"/>
-                <line number="98" hits="0" branch="false"/>
+                <line number="105" hits="0" branch="false"/>
+                <line number="106" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="release_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="108" hits="0" branch="false"/>
-                <line number="109" hits="0" branch="false"/>
+                <line number="116" hits="0" branch="false"/>
+                <line number="117" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="min_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="119" hits="0" branch="false"/>
-                <line number="120" hits="0" branch="false"/>
+                <line number="127" hits="0" branch="false"/>
+                <line number="128" hits="0" branch="false"/>
               </lines>
             </method>
           </methods>
           <lines>
             <line number="15" hits="0" branch="false"/>
+            <line number="16" hits="0" branch="false"/>
             <line number="17" hits="0" branch="false"/>
-            <line number="18" hits="0" branch="false"/>
+            <line number="19" hits="0" branch="false"/>
             <line number="20" hits="0" branch="false"/>
-            <line number="21" hits="0" branch="false"/>
+            <line number="22" hits="0" branch="false"/>
             <line number="23" hits="0" branch="false"/>
             <line number="24" hits="0" branch="false"/>
             <line number="26" hits="0" branch="false"/>
@@ -76,15 +85,22 @@
             <line number="55" hits="0" branch="false"/>
             <line number="56" hits="0" branch="false"/>
             <line number="57" hits="0" branch="false"/>
-            <line number="71" hits="0" branch="false"/>
-            <line number="72" hits="0" branch="false"/>
-            <line number="74" hits="0" branch="false"/>
-            <line number="97" hits="0" branch="false"/>
-            <line number="98" hits="0" branch="false"/>
-            <line number="108" hits="0" branch="false"/>
-            <line number="109" hits="0" branch="false"/>
-            <line number="119" hits="0" branch="false"/>
-            <line number="120" hits="0" branch="false"/>
+            <line number="58" hits="0" branch="false"/>
+            <line number="59" hits="0" branch="false"/>
+            <line number="60" hits="0" branch="false"/>
+            <line number="61" hits="0" branch="false"/>
+            <line number="62" hits="0" branch="false"/>
+            <line number="63" hits="0" branch="false"/>
+            <line number="65" hits="0" branch="false"/>
+            <line number="79" hits="0" branch="false"/>
+            <line number="80" hits="0" branch="false"/>
+            <line number="82" hits="0" branch="false"/>
+            <line number="105" hits="0" branch="false"/>
+            <line number="106" hits="0" branch="false"/>
+            <line number="116" hits="0" branch="false"/>
+            <line number="117" hits="0" branch="false"/>
+            <line number="127" hits="0" branch="false"/>
+            <line number="128" hits="0" branch="false"/>
           </lines>
         </class>
         <class name="deps_installation_proposal.R" filename="R/deps_installation_proposal.R" line-rate="0" branch-rate="0" complexity="0">
