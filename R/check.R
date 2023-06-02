@@ -32,14 +32,19 @@ solve_ignore_remotes_release <- function(ip) {
   UseMethod("solve_ignore_remotes_release", ip)
 }
 
-#' @exportS3Method solve_ignore_remotes_release pkg_installation_proposal
-solve_ignore_remotes_release.pkg_installation_proposal <- function(ip) {
+#' @exportS3Method solve_ignore_remotes_release pkg_deps
+solve_ignore_remotes_release.pkg_deps <- function(ip) {
   ip$solve()
   return(invisible(ip))
 }
 
-#' @exportS3Method solve_ignore_remotes_release verdepcheck_min_deps
-solve_ignore_remotes_release.verdepcheck_min_deps <- function(ip) {
+#' @exportS3Method solve_ignore_remotes_release pkg_installation_proposal
+solve_ignore_remotes_release.pkg_installation_proposal <- function(ip) {
+  solve_ignore_remotes_release.pkg_deps(ip)
+}
+
+#' @exportS3Method solve_ignore_remotes_release min_deps_installation_proposal
+solve_ignore_remotes_release.min_deps_installation_proposal <- function(ip) {
   # ugly hack! - overwrite resolution result before calling solve
   # replace "@*release" GH refs to the "@<ref for min ver>" for all direct dependent pkgs to avoid conflicts
   # use case:
