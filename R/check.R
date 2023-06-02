@@ -66,7 +66,7 @@ solve_ignore_remotes_release.min_deps_installation_proposal <- function(ip) {
     function(x) {
       c(
         package = x$package[1],
-        old_ref = grep("\\@\\*release", x$ref, value = TRUE),
+        old_ref = grep("\\@\\*release", x$ref, value = TRUE)[1],
         new_ref = grep("\\@\\*release", x$ref, value = TRUE, invert = TRUE)[1]
       )
     }
