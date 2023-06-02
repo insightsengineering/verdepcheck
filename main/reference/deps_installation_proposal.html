@@ -26,12 +26,6 @@ create an installation proposal using various strategies for package versions as
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://insightsengineering.github.io/verdepcheck/main">main</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -96,11 +90,12 @@ remotes from GitHub.</p>
     <h2 id="strategies">strategies<a class="anchor" aria-label="anchor" href="#strategies"></a></h2>
     
 
-<p>Currently implemented strategies:</p><ul><li><p><code>max</code> - use the greatest version of dependencies pulled from GitHub.</p></li>
-<li><p><code>release</code> - read <code>Remotes</code> field and for each GitHub type of the package source, overwrite any further
-reference (i.e. <code>@&lt;commitish&gt;</code> <code>#&lt;pr&gt;</code> or <code>@*release</code>) with a tag associated with the latest release.
-This mimics the behaviour of <code>@*release</code> endpoint of <code>remotes</code> package but it does not use it because it
-is not yet supported by <code>pkgdepends</code>.</p></li>
+<p>Currently implemented strategies:</p><ul><li><p><code>max</code> - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
+(i.e. <code>@&lt;commitish&gt;</code> <code>#&lt;pr&gt;</code> or <code>@*release</code>) to use default branch (most likely: "main").</p></li>
+<li><p><code>release</code> - read <code>"Remotes"</code> field and for each GitHub type of the package source: overwrite source with
+CRAN reference (if available) or overwrite any further reference (i.e. <code>@&lt;commitish&gt;</code> <code>#&lt;pr&gt;</code> or <code>@*release</code>)
+with a tag associated with the latest release. This mimics the behaviour of <code>@*release</code> endpoint of <code>remotes</code>
+package but it does not use it because it is not yet supported by <code>pkgdepends</code>.</p></li>
 <li><p><code>min</code> - use the lowest version of dependencies. If no version is specified then the minimal available
 version is assumed. See <a href="get_min_ver.html">get_min_ver</a> for details how the minimal version is determined.</p></li>
 </ul><p>Any modification is done for <em>direct</em> dependencies. Indirect ones are installed as usual.</p>
