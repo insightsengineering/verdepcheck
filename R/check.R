@@ -55,13 +55,11 @@ solve_ignore_remotes_release.min_deps_installation_proposal <- function(ip) {
 
   ip$resolve()
 
-  resolution <- ip$get_resolution()
+  conflicting_pkgs <- resolution <- ip$get_resolution()
 
-  conflicting_pkgs <- resolution[resolution$type == "github", ]
-  conflicting_pkgs <- split(conflicting_pkgs, as.factor(conflicting_pkgs$package))
-  conflicting_pkgs <- Filter(function(x) nrow(x) > 1, conflicting_pkgs)
-  conflicting_pkgs <- Filter(function(x) length(unique(x$ref)) > 1, conflicting_pkgs)
+  conflicting_pkgs <- split(resolution, as.factor(conflicting_pkgs$package))
   conflicting_pkgs <- Filter(function(x) any(grepl("\\@\\*release", x$ref)), conflicting_pkgs)
+  conflicting_pkgs <- Filter(function(x) length(unique(x$ref)) > 1, conflicting_pkgs)
 
   conflicting_pkgs_refs <- lapply(
     conflicting_pkgs,
@@ -69,7 +67,7 @@ solve_ignore_remotes_release.min_deps_installation_proposal <- function(ip) {
       c(
         package = x$package[1],
         old_ref = grep("\\@\\*release", x$ref, value = TRUE),
-        new_ref = grep("\\@\\*release", x$ref, value = TRUE, invert = TRUE)
+        new_ref = grep("\\@\\*release", x$ref, value = TRUE, invert = TRUE)[1]
       )
     }
   )
