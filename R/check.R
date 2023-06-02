@@ -13,7 +13,7 @@
 #' @keywords internal
 install_ip <- function(ip) {
   try({
-    ip$solve()
+    solve_ignore_remotes_release(ip)
     ip$stop_for_solution_error()
 
     ip$download()
@@ -22,6 +22,71 @@ install_ip <- function(ip) {
     ip$install_sysreqs()
     ip$install()
   })
+
+  return(invisible(ip))
+}
+
+#' Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
+#' @keywords internal
+solve_ignore_remotes_release <- function(ip) {
+  UseMethod("solve_ignore_remotes_release", ip)
+}
+
+#' @exportS3Method solve_ignore_remotes_release pkg_installation_proposal
+solve_ignore_remotes_release.pkg_installation_proposal <- function(ip) {
+  ip$solve()
+  return(invisible(ip))
+}
+
+#' @exportS3Method solve_ignore_remotes_release verdepcheck_min_deps
+solve_ignore_remotes_release.verdepcheck_min_deps <- function(ip) {
+  # ugly hack! - overwrite resolution result before calling solve
+  # replace "@*release" GH refs to the "@<ref for min ver>" for all direct dependent pkgs to avoid conflicts
+  # use case:
+  # foo -imports-> bar (>= 1.2.3) & baz (>= 1.2.3) (and has bar@*release and baz@*release in its Remotes)
+  # bar -imports-> baz (and has baz@*release in its Remotes)
+  # when doing min_deps we identify min version of baz to be 1.2.3
+  # there is a conflict between baz@1.2.3 and baz@*release
+
+  ip$resolve()
+
+  resolution <- ip$get_resolution()
+
+  conflicting_pkgs <- resolution[resolution$type == "github", ]
+  conflicting_pkgs <- split(conflicting_pkgs, as.factor(conflicting_pkgs$package))
+  conflicting_pkgs <- Filter(function(x) nrow(x) > 1, conflicting_pkgs)
+  conflicting_pkgs <- Filter(function(x) length(unique(x$ref)) > 1, conflicting_pkgs)
+  conflicting_pkgs <- Filter(function(x) any(grepl("\\@\\*release", x$ref)), conflicting_pkgs)
+
+  conflicting_pkgs_refs <- lapply(
+    conflicting_pkgs,
+    function(x) {
+      c(
+        package = x$package[1],
+        old_ref = grep("\\@\\*release", x$ref, value = TRUE),
+        new_ref = grep("\\@\\*release", x$ref, value = TRUE, invert = TRUE)
+      )
+    }
+  )
+  conflicting_pkgs_refs <- data.frame(do.call(rbind, conflicting_pkgs_refs), row.names = NULL)
+
+  replace_using_df <- function(x, df) {
+    for (i in seq_len(nrow(df))) {
+      x <- replace(x, x == df[i, 1], df[i, 2])
+    }
+    x
+  }
+  for (i in seq_len(nrow(resolution))) {
+    i_deps <- resolution[i, "deps"][[1]]
+    if (any(i_deps$package %in% conflicting_pkgs_refs$package)) {
+      i_deps$ref <- replace_using_df(i_deps$ref, conflicting_pkgs_refs[, c("old_ref", "new_ref")])
+    }
+    resolution[i, "deps"] <- list(list(i_deps))
+  }
+
+  ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- resolution
+
+  ip$solve()
 
   return(invisible(ip))
 }

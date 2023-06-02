@@ -26,14 +26,15 @@ get_min_ver_incl_cran(remote_ref, op = "", op_ver = "")
 Get minimal version including also check in CRAN repository.
 }
 \examples{
-get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran::dplyr"))
+verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_min_ver_incl_cran]{get_min_ver_incl_cran()}}
 }
+\keyword{internal}
