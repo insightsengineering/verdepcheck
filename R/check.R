@@ -53,7 +53,7 @@ solve_ignore_remotes_release.verdepcheck_min_deps <- function(ip) {
   resolution <- ip$get_resolution()
 
   conflicting_pkgs <- resolution[resolution$type == "github", ]
-  conflicting_pkgs <- split(conflicting_pkgs, as.factor(.$package))
+  conflicting_pkgs <- split(conflicting_pkgs, as.factor(conflicting_pkgs$package))
   conflicting_pkgs <- Filter(function(x) nrow(x) > 1, conflicting_pkgs)
   conflicting_pkgs <- Filter(function(x) length(unique(x$ref)) > 1, conflicting_pkgs)
   conflicting_pkgs <- Filter(function(x) any(grepl("\\@\\*release", x$ref)), conflicting_pkgs)

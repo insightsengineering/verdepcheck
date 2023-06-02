@@ -16,9 +16,9 @@ get_min_ver_incl_cran <- function(remote_ref, op = "", op_ver = "") {
 #' @rdname get_min_ver_incl_cran
 #' @exportS3Method get_min_ver_incl_cran remote_ref
 #' @examples
-#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
+#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
 get_min_ver_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   get_min_ver(remote_ref, op, op_ver)
 }
@@ -27,7 +27,7 @@ get_min_ver_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @importFrom pkgdepends parse_pkg_ref
 #' @exportS3Method get_min_ver_incl_cran remote_ref_github
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (check_if_on_cran(remote_ref)) {
     gh_res <- get_min_ver(remote_ref, op, op_ver)
