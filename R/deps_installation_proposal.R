@@ -65,7 +65,7 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   d <- desc_cond_set_remotes(d, new_remotes)
 
   res <- desc_to_ip(d, config)
-  class(res) <- c("verdepcheck_max_deps", class(res))
+  class(res) <- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))
   res
 }
 
@@ -106,7 +106,7 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   d <- desc_cond_set_remotes(d, new_remotes)
 
   res <- desc_to_ip(d, config)
-  class(res) <- c("verdepcheck_release_deps", class(res))
+  class(res) <- c("release_deps_installation_proposal", "deps_installation_proposal", class(res))
   res
 }
 
@@ -154,7 +154,7 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   d <- desc_cond_set_remotes(d, refs)
 
   res <- desc_to_ip(d, config)
-  class(res) <- c("verdepcheck_min_deps", class(res))
+  class(res) <- c("min_deps_installation_proposal", "deps_installation_proposal", class(res))
   res
 }
 
