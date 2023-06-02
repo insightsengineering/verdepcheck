@@ -6,26 +6,26 @@
 #'
 #' @returns (`remote_ref`) object with reference to the package of minimal version.
 #'
-#' @seealso [get_min_ver_incl_cran()]
+#' @keywords internal
 #'
-#' @export
+#' @seealso [get_min_ver_incl_cran()]
 get_min_ver_incl_cran <- function(remote_ref, op = "", op_ver = "") {
   UseMethod("get_min_ver_incl_cran", remote_ref)
 }
 
 #' @rdname get_min_ver_incl_cran
-#' @export
+#' @exportS3Method get_min_ver_incl_cran remote_ref
 #' @examples
 #' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran::dplyr"))
+#' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
 get_min_ver_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   get_min_ver(remote_ref, op, op_ver)
 }
 
 #' @rdname get_min_ver_incl_cran
 #' @importFrom pkgdepends parse_pkg_ref
-#' @export
+#' @exportS3Method get_min_ver_incl_cran remote_ref_github
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
@@ -34,7 +34,7 @@ get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
     gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
     gh_ver <- gh_desc$get_version()
 
-    cran_remote_ref <- pkgdepends::parse_pkg_ref(sprintf("cran::%s", remote_ref$package))
+    cran_remote_ref <- pkgdepends::parse_pkg_ref(remote_ref$package)
     cran_res <- get_min_ver(cran_remote_ref, op, op_ver)
     cran_ver <- cran_res$version
 
@@ -48,7 +48,9 @@ get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
   }
 }
 
+#' Check if package is available on CRAN.
 #' @importFrom pkgcache meta_cache_list
+#' @keywords internal
 check_if_on_cran <- function(remote_ref) {
   nrow(pkgcache::meta_cache_list(remote_ref$package)) > 0
 }
@@ -56,27 +58,26 @@ check_if_on_cran <- function(remote_ref) {
 #' Get minimal version.
 #'
 #' @inherit get_min_ver_incl_cran
+#' @keywords internal
 #'
 #' @seealso [get_min_ver_incl_cran()]
-#'
-#' @export
 get_min_ver <- function(remote_ref, op = "", op_ver = "") {
   UseMethod("get_min_ver", remote_ref)
 }
 
 #' @rdname get_min_ver
-#' @export
+#' @exportS3Method get_min_ver remote_ref
 #' @examples
 #' get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_min_ver.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
 
-#' * for CRAN-type of remote - this would use [`pkgcache::cran_archive_list()`]
+#' * for standard and CRAN-type of remote - this would use [`pkgcache::cran_archive_list()`]
 #' to obtain historical data.
 #'
 #' @rdname get_min_ver
-#' @export
+#' @exportS3Method get_min_ver remote_ref_cran
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
@@ -98,7 +99,7 @@ get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
 }
 
 #' @rdname get_min_ver
-#' @export
+#' @exportS3Method get_min_ver remote_ref_standard
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
 get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
@@ -109,7 +110,7 @@ get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
 #' and then [`gh::gh()`] to download `DESCRIPTION` file and then read package version.
 #'
 #' @rdname get_min_ver
-#' @export
+#' @exportS3Method get_min_ver remote_ref_github
 #' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf gh::gh_token() != ""
@@ -154,6 +155,7 @@ get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
 
 
 #' @importFrom gh gh_gql
+#' @keywords internal
 get_gh_tags <- function(org, repo) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
@@ -174,6 +176,7 @@ get_gh_tags <- function(org, repo) {
 }
 #' @importFrom desc desc
 #' @importFrom gh gh
+#' @keywords internal
 get_desc_from_gh <- function(org, repo, ref = "") {
   if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
@@ -184,6 +187,7 @@ get_desc_from_gh <- function(org, repo, ref = "") {
   desc::desc(text = resp$message)
 }
 
+#' @keywords internal
 filter_valid_version <- function(x, op, op_ver) {
   res <- x
   res <- Filter(Negate(is.na), res)
