@@ -68,7 +68,7 @@ get_min_ver <- function(remote_ref, op = "", op_ver = "") {
 #' @rdname get_min_ver
 #' @exportS3Method get_min_ver remote_ref
 #' @examples
-#' get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_min_ver.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
@@ -80,8 +80,9 @@ get_min_ver.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @exportS3Method get_min_ver remote_ref_cran
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
+#' @importFrom stats setNames
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
+#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
 get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$atleast == "" && remote_ref$version != "") {
     return(remote_ref)
@@ -90,7 +91,7 @@ get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   x_pkg_cache <- pkgcache::meta_cache_list(remote_ref$package)
   x_pkg_cache_archive <- pkgcache::cran_archive_list(package = remote_ref$package)
   pv <- unique(c(x_pkg_cache_archive$version, x_pkg_cache$version))
-  pv <- setNames(package_version(pv), pv)
+  pv <- stats::setNames(package_version(pv), pv)
   pv <- filter_valid_version(pv, op, op_ver)
   min_ver <- Filter(function(x) x == min(pv), pv)
 
@@ -101,7 +102,7 @@ get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
 #' @rdname get_min_ver
 #' @exportS3Method get_min_ver remote_ref_standard
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
+#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
 get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
   get_min_ver.remote_ref_cran(remote_ref, op, op_ver)
 }
@@ -114,7 +115,7 @@ get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
 #' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf gh::gh_token() != ""
-#' get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
+#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {
     return(remote_ref)

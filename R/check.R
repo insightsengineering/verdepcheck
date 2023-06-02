@@ -52,11 +52,12 @@ solve_ignore_remotes_release.verdepcheck_min_deps <- function(ip) {
 
   resolution <- ip$get_resolution()
 
-  conflicting_pkgs <- resolution[resolution$type == "github", ] %>%
-    split(., as.factor(.$package)) %>%
-    Filter(function(x) nrow(x) > 1, .) %>%
-    Filter(function(x) length(unique(x$ref)) > 1, .) %>%
-    Filter(function(x) any(grepl("\\@\\*release", x$ref)), .)
+  conflicting_pkgs <- resolution[resolution$type == "github", ]
+  conflicting_pkgs <- split(conflicting_pkgs, as.factor(.$package))
+  conflicting_pkgs <- Filter(function(x) nrow(x) > 1, conflicting_pkgs)
+  conflicting_pkgs <- Filter(function(x) length(unique(x$ref)) > 1, conflicting_pkgs)
+  conflicting_pkgs <- Filter(function(x) any(grepl("\\@\\*release", x$ref)), conflicting_pkgs)
+
   conflicting_pkgs_refs <- lapply(
     conflicting_pkgs,
     function(x) {
@@ -66,9 +67,8 @@ solve_ignore_remotes_release.verdepcheck_min_deps <- function(ip) {
         new_ref = grep("\\@\\*release", x$ref, value = TRUE, invert = TRUE)
       )
     }
-  ) %>%
-    do.call(rbind, .) %>%
-    data.frame(., row.names = NULL)
+  )
+  conflicting_pkgs_refs <- data.frame(do.call(rbind, conflicting_pkgs_refs), row.names = NULL)
 
   replace_using_df <- function(x, df) {
     for (i in seq_len(nrow(df))) {

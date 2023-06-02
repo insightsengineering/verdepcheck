@@ -18,6 +18,7 @@ Imports:
     pkgdepends (>= 0.5.0),
     rcmdcheck,
     remotes (>= 2.2.0),
+    stats,
     utils
 Suggests:
     knitr (>= 1.42),

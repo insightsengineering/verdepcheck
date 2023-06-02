@@ -42,15 +42,15 @@ and then \code{\link[gh:gh]{gh::gh()}} to download \code{DESCRIPTION} file and t
 }
 }
 \examples{
-get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{
