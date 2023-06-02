@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="226" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-06-02 15:12:54">
+<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="226" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-06-02 16:10:12">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
@@ -38,7 +38,7 @@
                 <line number="43" hits="0" branch="false"/>
               </lines>
             </method>
-            <method name="solve_ignore_remotes_release.min_deps_installation_proposal" signature="" line-rate="0" branch-rate="0" complexity="0">
+            <method name="solve_ignore_remotes_release.deps_installation_proposal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="56" hits="0" branch="false"/>
                 <line number="58" hits="0" branch="false"/>
