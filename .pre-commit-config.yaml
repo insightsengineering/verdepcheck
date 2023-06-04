@@ -9,13 +9,15 @@ repos:
         args: [--style_pkg=styler, --style_fun=tidyverse_style]
       - id: roxygenize
         additional_dependencies:
-          - desc
-          - gh
-          - pkgcache
-          - pkgdepends
-          - rcmdcheck
-          - remotes
+          - r-lib/cli@*release
+          - r-lib/desc@*release
+          - r-lib/gh@*release
+          - r-lib/pkgcache@*release
+          - r-lib/pkgdepends@*release
+          - r-lib/rcmdcheck@*release
+          - r-lib/remotes@*release
           - utils
+          - r-lib/zip@*release
       # codemeta must be above use-tidy-description when both are used
       # -   id: codemeta-description-updated
       - id: use-tidy-description

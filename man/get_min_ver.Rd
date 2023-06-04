@@ -32,7 +32,7 @@ get_min_ver(remote_ref, op = "", op_ver = "")
 Get minimal version.
 
 \itemize{
-\item for CRAN-type of remote - this would use \code{\link[pkgcache:cran_archive_list]{pkgcache::cran_archive_list()}}
+\item for standard and CRAN-type of remote - this would use \code{\link[pkgcache:cran_archive_list]{pkgcache::cran_archive_list()}}
 to obtain historical data.
 }
 
@@ -42,17 +42,18 @@ and then \code{\link[gh:gh]{gh::gh()}} to download \code{DESCRIPTION} file and t
 }
 }
 \examples{
-get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
+verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{
 \code{\link[=get_min_ver_incl_cran]{get_min_ver_incl_cran()}}
 }
+\keyword{internal}

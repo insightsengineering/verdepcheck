@@ -8,11 +8,12 @@
 #'
 #' @section strategies:
 #' Currently implemented strategies:
-#' * `max` - use the greatest version of dependencies pulled from GitHub.
-#' * `release` - read `Remotes` field and for each GitHub type of the package source, overwrite any further
-#' reference (i.e. `@<commitish>` `#<pr>` or `@*release`) with a tag associated with the latest release.
-#' This mimics the behaviour of `@*release` endpoint of `remotes` package but it does not use it because it
-#' is not yet supported by `pkgdepends`.
+#' * `max` - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
+#' (i.e. `@<commitish>` `#<pr>` or `@*release`) to use default branch (most likely: "main").
+#' * `release` - read `"Remotes"` field and for each GitHub type of the package source: overwrite source with
+#' CRAN reference (if available) or overwrite any further reference (i.e. `@<commitish>` `#<pr>` or `@*release`)
+#' with a tag associated with the latest release. This mimics the behaviour of `@*release` endpoint of `remotes`
+#' package but it does not use it because it is not yet supported by `pkgdepends`.
 #' * `min` - use the lowest version of dependencies. If no version is specified then the minimal available
 #' version is assumed. See [get_min_ver] for details how the minimal version is determined.
 #'
@@ -33,7 +34,7 @@
 #' @seealso [pkgdepends::pkg_installation_proposal]
 #'
 #' @export
-#' @importFrom pkgdepends new_pkg_installation_proposal
+#' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_max_deps_installation_proposal(".")
@@ -48,20 +49,30 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   }
 
   d <- desc::desc(path)
-  temp_desc <- tempfile()
-  d$write(temp_desc)
-
-  pkgdepends::new_pkg_installation_proposal(
-    refs = paste0("deps::", temp_desc),
-    config = config,
-    policy = "upgrade"
+  new_remotes <- vapply(
+    d$get_remotes(),
+    function(x) {
+      x_parsed <- pkgdepends::parse_pkg_ref(x)
+      if (inherits(x_parsed, "remote_ref_github")) {
+        sprintf("%s/%s", x_parsed$username, x_parsed$repo)
+      } else {
+        x
+      }
+    },
+    character(1),
+    USE.NAMES = FALSE
   )
+  d <- desc_cond_set_remotes(d, new_remotes)
+
+  res <- desc_to_ip(d, config)
+  class(res) <- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
 }
 
 #' @rdname deps_installation_proposal
 #' @export
 #' @importFrom desc desc
-#' @importFrom pkgdepends new_pkg_installation_proposal parse_pkg_ref
+#' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom remotes github_remote
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_release_deps_installation_proposal(".")
@@ -79,7 +90,10 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   new_remotes <- vapply(
     d$get_remotes(),
     function(x) {
-      if (inherits(x_parsed <- pkgdepends::parse_pkg_ref(x), "remote_ref_github")) {
+      x_parsed <- pkgdepends::parse_pkg_ref(x)
+      if (check_if_on_cran(x_parsed)) {
+        x_parsed$package
+      } else if (inherits(x_parsed, "remote_ref_github")) {
         release_ref <- remotes::github_remote(sprintf("%s/%s@*release", x_parsed$username, x_parsed$repo))$ref
         sprintf("%s/%s@%s", x_parsed$username, x_parsed$repo, release_ref)
       } else {
@@ -89,25 +103,17 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
     character(1),
     USE.NAMES = FALSE
   )
-  if (length(new_remotes)) {
-    d$set_remotes(new_remotes)
-  } else {
-    d$clear_remotes()
-  }
+  d <- desc_cond_set_remotes(d, new_remotes)
 
-  temp_desc <- tempfile()
-  d$write(temp_desc)
-
-  pkgdepends::new_pkg_installation_proposal(
-    refs = paste0("deps::", temp_desc),
-    config = config
-  )
+  res <- desc_to_ip(d, config)
+  class(res) <- c("release_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
 }
 
 #' @rdname deps_installation_proposal
 #' @export
 #' @importFrom desc desc
-#' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal pkg_dep_types parse_pkg_ref
+#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
 #' @importFrom utils installed.packages
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_min_deps_installation_proposal(".")
@@ -142,31 +148,33 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
     SIMPLIFY = FALSE
   )
 
-  # @TODO: wait for https://github.com/r-lib/pak/issues/122
-  # as a suggested workaround - use GH mirror of CRAN
-  deps$ref_minver <- lapply(
-    deps$ref_minver,
-    function(x) {
-      if (inherits(x, "remote_ref_standard") || inherits(x, "remote_ref_cran")) {
-        new_ref <- sprintf("cran/%s", gsub(".*::", "", x$ref))
-        pkgdepends::parse_pkg_ref(new_ref)
-      } else {
-        x
-      }
-    }
-  )
-
   refs <- vapply(deps$ref_minver, `[[`, character(1), "ref")
 
   d <- desc::desc(path)
-  if (length(refs)) {
-    d$set_remotes(refs)
-  } else {
-    d$clear_remotes()
-  }
+  d <- desc_cond_set_remotes(d, refs)
 
+  res <- desc_to_ip(d, config)
+  class(res) <- c("min_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
+}
+
+#' Set `"Remotes"` section into the `desc` object if not empty else clear `"Remotes"` section.
+#' @keywords internal
+desc_cond_set_remotes <- function(desc, remotes) {
+  if (length(remotes)) {
+    desc$set_remotes(remotes)
+  } else {
+    desc$clear_remotes()
+  }
+  return(invisible(desc))
+}
+
+#' Create `installation_plan` object from `desc` object
+#' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal
+#' @keywords internal
+desc_to_ip <- function(desc, config) {
   temp_desc <- tempfile()
-  d$write(temp_desc)
+  desc$write(temp_desc)
 
   pkgdepends::new_pkg_installation_proposal(
     refs = paste0("deps::", temp_desc),

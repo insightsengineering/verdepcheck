@@ -37,11 +37,12 @@ remotes from GitHub.
 
 Currently implemented strategies:
 \itemize{
-\item \code{max} - use the greatest version of dependencies pulled from GitHub.
-\item \code{release} - read \code{Remotes} field and for each GitHub type of the package source, overwrite any further
-reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) with a tag associated with the latest release.
-This mimics the behaviour of \verb{@*release} endpoint of \code{remotes} package but it does not use it because it
-is not yet supported by \code{pkgdepends}.
+\item \code{max} - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
+(i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) to use default branch (most likely: "main").
+\item \code{release} - read \code{"Remotes"} field and for each GitHub type of the package source: overwrite source with
+CRAN reference (if available) or overwrite any further reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release})
+with a tag associated with the latest release. This mimics the behaviour of \verb{@*release} endpoint of \code{remotes}
+package but it does not use it because it is not yet supported by \code{pkgdepends}.
 \item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available
 version is assumed. See \link{get_min_ver} for details how the minimal version is determined.
 }
