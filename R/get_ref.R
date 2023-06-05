@@ -233,6 +233,20 @@ get_ref_release <- function(remote_ref) {
       )
   ) {
     pkgdepends::parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))
+  } else if (
+    inherits(remote_ref, "remote_ref_github") &&
+      identical(remote_ref$release, "*release")
+  ) {
+    # temporary fix for https://github.com/r-lib/pkgdepends/issues/275#issuecomment-1461787363
+    # @TODO: remove it if fixed
+    pkgdepends::parse_pkg_ref(
+      sprintf(
+        "%s/%s@%s",
+        remote_ref$username,
+        remote_ref$repo,
+        remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))$ref
+      )
+    )
   } else {
     remote_ref
   }
