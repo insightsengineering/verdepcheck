@@ -33,11 +33,9 @@ solve_ip <- function(ip) {
   tryCatch(
     ip$stop_for_solution_error(),
     error = function(e) {
-      cat("Solve using alternative method ignoring `@*release` refs.")
-      ip_copy <- ip$clone(deep = TRUE)
+      cat("Solve using alternative method ignoring `@*release` for conflicting refs.\n")
       solve_ignore_remotes_release(ip)
-      ip_copy$stop_for_solution_error()
-      ip <- ip_copy
+      ip$stop_for_solution_error()
     }
   )
 }
