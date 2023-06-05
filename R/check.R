@@ -13,7 +13,7 @@
 #' @keywords internal
 install_ip <- function(ip) {
   try({
-    solve_ignore_remotes_release(ip)
+    solve_ip(ip)
     ip$stop_for_solution_error()
 
     ip$download()
@@ -26,25 +26,25 @@ install_ip <- function(ip) {
   return(invisible(ip))
 }
 
+#' Try to solve using standard method. If error - use [solve_ignore_remotes_release].
+#' @keywords internal
+solve_ip <- function(ip) {
+  ip$solve()
+  tryCatch(
+    ip$stop_for_solution_error(),
+    error = function(e) {
+      cat("Solve using alternative method ignoring `@*release` refs.")
+      ip_copy <- ip$clone(deep = TRUE)
+      solve_ignore_remotes_release(ip)
+      ip_copy$stop_for_solution_error()
+      ip <- ip_copy
+    }
+  )
+}
+
 #' Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
 #' @keywords internal
 solve_ignore_remotes_release <- function(ip) {
-  UseMethod("solve_ignore_remotes_release", ip)
-}
-
-#' @exportS3Method solve_ignore_remotes_release pkg_deps
-solve_ignore_remotes_release.pkg_deps <- function(ip) {
-  ip$solve()
-  return(invisible(ip))
-}
-
-#' @exportS3Method solve_ignore_remotes_release pkg_installation_proposal
-solve_ignore_remotes_release.pkg_installation_proposal <- function(ip) {
-  solve_ignore_remotes_release.pkg_deps(ip)
-}
-
-#' @exportS3Method solve_ignore_remotes_release deps_installation_proposal
-solve_ignore_remotes_release.deps_installation_proposal <- function(ip) {
   # ugly hack! - overwrite resolution result before calling solve
   # replace "@*release" GH refs to the "@<ref for min ver>" for all direct dependent pkgs to avoid conflicts
   # use case:

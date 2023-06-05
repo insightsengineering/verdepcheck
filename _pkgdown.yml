@@ -25,8 +25,7 @@ reference:
     contents:
       - ends_with("_deps_installation_proposal")
 
-  - title: Minimal version
-    desc: Determine minimal version
+  - title: Find package reference
+    desc: Determine package reference for appropriate version
     contents:
-      - get_min_ver
-      - get_min_ver_incl_cran
+      - starts_with("get_ref_")

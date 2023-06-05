@@ -1,41 +1,41 @@
-#' Get minimal version including also check in CRAN repository.
+#' Get reference to the minimal version of the package including also check in CRAN repository.
 #'
 #' @param remote_ref (`remote_ref`) object created with [`pkgdepends::parse_pkg_ref()`]
 #' @param op (`character(1)`) optional, version condition comparison operator (e.g. `">"`, `">="`)
 #' @param op_ver (`character(1)`) optional, version number against which `op` argument is applied
 #'
-#' @returns (`remote_ref`) object with reference to the package of minimal version.
+#' @returns (`remote_ref`) object with the package reference
 #'
 #' @keywords internal
 #'
-#' @seealso [get_min_ver_incl_cran()]
-get_min_ver_incl_cran <- function(remote_ref, op = "", op_ver = "") {
-  UseMethod("get_min_ver_incl_cran", remote_ref)
+#' @seealso [get_ref_min_incl_cran()]
+get_ref_min_incl_cran <- function(remote_ref, op = "", op_ver = "") {
+  UseMethod("get_ref_min_incl_cran", remote_ref)
 }
 
-#' @rdname get_min_ver_incl_cran
-#' @exportS3Method get_min_ver_incl_cran remote_ref
+#' @rdname get_ref_min_incl_cran
+#' @exportS3Method get_ref_min_incl_cran remote_ref
 #' @examples
-#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
-get_min_ver_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
-  get_min_ver(remote_ref, op, op_ver)
+#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
+get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
+  get_ref_min(remote_ref, op, op_ver)
 }
 
-#' @rdname get_min_ver_incl_cran
+#' @rdname get_ref_min_incl_cran
 #' @importFrom pkgdepends parse_pkg_ref
-#' @exportS3Method get_min_ver_incl_cran remote_ref_github
+#' @exportS3Method get_ref_min_incl_cran remote_ref_github
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_min_ver_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
-get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
+#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (check_if_on_cran(remote_ref)) {
-    gh_res <- get_min_ver(remote_ref, op, op_ver)
+    gh_res <- get_ref_min(remote_ref, op, op_ver)
     gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
     gh_ver <- gh_desc$get_version()
 
     cran_remote_ref <- pkgdepends::parse_pkg_ref(remote_ref$package)
-    cran_res <- get_min_ver(cran_remote_ref, op, op_ver)
+    cran_res <- get_ref_min(cran_remote_ref, op, op_ver)
     cran_ver <- cran_res$version
 
     if (package_version(cran_ver) < package_version(gh_ver)) {
@@ -44,7 +44,7 @@ get_min_ver_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
       return(gh_res)
     }
   } else {
-    get_min_ver(remote_ref, op, op_ver)
+    get_ref_min(remote_ref, op, op_ver)
   }
 }
 
@@ -55,35 +55,35 @@ check_if_on_cran <- function(remote_ref) {
   nrow(pkgcache::meta_cache_list(remote_ref$package)) > 0
 }
 
-#' Get minimal version.
+#' Get reference to the minimal version of the package.
 #'
-#' @inherit get_min_ver_incl_cran
+#' @inherit get_ref_min_incl_cran
 #' @keywords internal
 #'
-#' @seealso [get_min_ver_incl_cran()]
-get_min_ver <- function(remote_ref, op = "", op_ver = "") {
-  UseMethod("get_min_ver", remote_ref)
+#' @seealso [get_ref_min_incl_cran()]
+get_ref_min <- function(remote_ref, op = "", op_ver = "") {
+  UseMethod("get_ref_min", remote_ref)
 }
 
-#' @rdname get_min_ver
-#' @exportS3Method get_min_ver remote_ref
+#' @rdname get_ref_min
+#' @exportS3Method get_ref_min remote_ref
 #' @examples
-#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
-get_min_ver.remote_ref <- function(remote_ref, op = "", op_ver = "") {
+#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+get_ref_min.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
 
 #' * for standard and CRAN-type of remote - this would use [`pkgcache::cran_archive_list()`]
 #' to obtain historical data.
 #'
-#' @rdname get_min_ver
-#' @exportS3Method get_min_ver remote_ref_cran
+#' @rdname get_ref_min
+#' @exportS3Method get_ref_min remote_ref_cran
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom stats setNames
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran::dplyr"))
-get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
+#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("cran::dplyr"))
+get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$atleast == "" && remote_ref$version != "") {
     return(remote_ref)
   }
@@ -99,24 +99,24 @@ get_min_ver.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
-#' @rdname get_min_ver
-#' @exportS3Method get_min_ver remote_ref_standard
+#' @rdname get_ref_min
+#' @exportS3Method get_ref_min remote_ref_standard
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("dplyr"))
-get_min_ver.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
-  get_min_ver.remote_ref_cran(remote_ref, op, op_ver)
+#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("dplyr"))
+get_ref_min.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
+  get_ref_min.remote_ref_cran(remote_ref, op, op_ver)
 }
 
 #' * for GitHub type of remote - this would use [`gh::gh_gql()`] to get list of all tags
 #' and then [`gh::gh()`] to download `DESCRIPTION` file and then read package version.
 #'
-#' @rdname get_min_ver
-#' @exportS3Method get_min_ver remote_ref_github
+#' @rdname get_ref_min
+#' @exportS3Method get_ref_min remote_ref_github
 #' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf gh::gh_token() != ""
-#' verdepcheck:::get_min_ver(pkgdepends::parse_pkg_ref("cran/dplyr"))
-get_min_ver.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
+#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
+get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {
     return(remote_ref)
   }
@@ -196,4 +196,44 @@ filter_valid_version <- function(x, op, op_ver) {
     res <- Filter(function(x) do.call(op, list(x, package_version(op_ver))), res)
   }
   return(res)
+}
+
+#' Get reference to the maximal version of the package.
+#'
+#' @inheritParams get_ref_min
+#' @inherit get_ref_min return
+#'
+#' @importFrom pkgdepends parse_pkg_ref
+#' @export
+get_ref_max <- function(remote_ref) {
+  if (inherits(remote_ref, "remote_ref_github")) {
+    pkgdepends::parse_pkg_ref(sprintf("%s/%s", remote_ref$username, remote_ref$repo))
+  } else {
+    x
+  }
+}
+
+#' Get reference to the release version of the package.
+#'
+#' @inheritParams get_ref_min
+#' @inherit get_ref_min return
+#'
+#' @importFrom pkgdepends parse_pkg_ref
+#' @importFrom remotes github_remote
+#' @export
+get_ref_release <- function(remote_ref) {
+  if (check_if_on_cran(remote_ref)) {
+    pkgdepends::parse_pkg_ref(remote_ref$package)
+  } else if (
+    inherits(remote_ref, "remote_ref_github") &&
+      !identical(remote_ref$release, "*release") &&
+      inherits(
+        try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),
+        "try-error"
+      )
+  ) {
+    pkgdepends::parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))
+  } else {
+    remote_ref
+  }
 }
