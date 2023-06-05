@@ -49,10 +49,16 @@
     <loc>https://insightsengineering.github.io/verdepcheck/main/reference/desc_to_ip.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_min_ver.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_max.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_min_ver_incl_cran.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_min.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_min_incl_cran.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_release.html</loc>
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/main/reference/index.html</loc>
@@ -62,5 +68,8 @@
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/main/reference/solve_ignore_remotes_release.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/solve_ip.html</loc>
   </url>
 </urlset>
