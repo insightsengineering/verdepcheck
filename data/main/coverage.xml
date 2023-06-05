@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="237" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-06-05 13:24:50">
+<coverage line-rate="0" branch-rate="0" lines-covered="0" lines-valid="235" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-06-05 14:18:31">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
@@ -33,17 +33,17 @@
                 <line number="38" hits="0" branch="false"/>
                 <line number="39" hits="0" branch="false"/>
                 <line number="40" hits="0" branch="false"/>
-                <line number="41" hits="0" branch="false"/>
-                <line number="42" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="solve_ignore_remotes_release" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
+                <line number="54" hits="0" branch="false"/>
                 <line number="56" hits="0" branch="false"/>
                 <line number="58" hits="0" branch="false"/>
+                <line number="59" hits="0" branch="false"/>
                 <line number="60" hits="0" branch="false"/>
-                <line number="61" hits="0" branch="false"/>
                 <line number="62" hits="0" branch="false"/>
+                <line number="63" hits="0" branch="false"/>
                 <line number="64" hits="0" branch="false"/>
                 <line number="65" hits="0" branch="false"/>
                 <line number="66" hits="0" branch="false"/>
@@ -53,8 +53,8 @@
                 <line number="70" hits="0" branch="false"/>
                 <line number="71" hits="0" branch="false"/>
                 <line number="72" hits="0" branch="false"/>
-                <line number="73" hits="0" branch="false"/>
                 <line number="74" hits="0" branch="false"/>
+                <line number="75" hits="0" branch="false"/>
                 <line number="76" hits="0" branch="false"/>
                 <line number="77" hits="0" branch="false"/>
                 <line number="78" hits="0" branch="false"/>
@@ -63,17 +63,17 @@
                 <line number="81" hits="0" branch="false"/>
                 <line number="82" hits="0" branch="false"/>
                 <line number="83" hits="0" branch="false"/>
-                <line number="84" hits="0" branch="false"/>
                 <line number="85" hits="0" branch="false"/>
-                <line number="87" hits="0" branch="false"/>
+                <line number="88" hits="0" branch="false"/>
                 <line number="90" hits="0" branch="false"/>
                 <line number="92" hits="0" branch="false"/>
-                <line number="94" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="check_ip" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
+                <line number="115" hits="0" branch="false"/>
                 <line number="117" hits="0" branch="false"/>
+                <line number="118" hits="0" branch="false"/>
                 <line number="119" hits="0" branch="false"/>
                 <line number="120" hits="0" branch="false"/>
                 <line number="121" hits="0" branch="false"/>
@@ -85,34 +85,32 @@
                 <line number="127" hits="0" branch="false"/>
                 <line number="128" hits="0" branch="false"/>
                 <line number="129" hits="0" branch="false"/>
-                <line number="130" hits="0" branch="false"/>
                 <line number="131" hits="0" branch="false"/>
-                <line number="133" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="deps_check_internal" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="147" hits="0" branch="false"/>
+                <line number="145" hits="0" branch="false"/>
+                <line number="146" hits="0" branch="false"/>
                 <line number="148" hits="0" branch="false"/>
-                <line number="150" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="max_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="173" hits="0" branch="false"/>
-                <line number="174" hits="0" branch="false"/>
+                <line number="171" hits="0" branch="false"/>
+                <line number="172" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="release_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="184" hits="0" branch="false"/>
-                <line number="185" hits="0" branch="false"/>
+                <line number="182" hits="0" branch="false"/>
+                <line number="183" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="min_deps_check" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
-                <line number="195" hits="0" branch="false"/>
-                <line number="196" hits="0" branch="false"/>
+                <line number="193" hits="0" branch="false"/>
+                <line number="194" hits="0" branch="false"/>
               </lines>
             </method>
           </methods>
@@ -135,13 +133,13 @@
             <line number="38" hits="0" branch="false"/>
             <line number="39" hits="0" branch="false"/>
             <line number="40" hits="0" branch="false"/>
-            <line number="41" hits="0" branch="false"/>
-            <line number="42" hits="0" branch="false"/>
+            <line number="54" hits="0" branch="false"/>
             <line number="56" hits="0" branch="false"/>
             <line number="58" hits="0" branch="false"/>
+            <line number="59" hits="0" branch="false"/>
             <line number="60" hits="0" branch="false"/>
-            <line number="61" hits="0" branch="false"/>
             <line number="62" hits="0" branch="false"/>
+            <line number="63" hits="0" branch="false"/>
             <line number="64" hits="0" branch="false"/>
             <line number="65" hits="0" branch="false"/>
             <line number="66" hits="0" branch="false"/>
@@ -151,8 +149,8 @@
             <line number="70" hits="0" branch="false"/>
             <line number="71" hits="0" branch="false"/>
             <line number="72" hits="0" branch="false"/>
-            <line number="73" hits="0" branch="false"/>
             <line number="74" hits="0" branch="false"/>
+            <line number="75" hits="0" branch="false"/>
             <line number="76" hits="0" branch="false"/>
             <line number="77" hits="0" branch="false"/>
             <line number="78" hits="0" branch="false"/>
@@ -161,13 +159,13 @@
             <line number="81" hits="0" branch="false"/>
             <line number="82" hits="0" branch="false"/>
             <line number="83" hits="0" branch="false"/>
-            <line number="84" hits="0" branch="false"/>
             <line number="85" hits="0" branch="false"/>
-            <line number="87" hits="0" branch="false"/>
+            <line number="88" hits="0" branch="false"/>
             <line number="90" hits="0" branch="false"/>
             <line number="92" hits="0" branch="false"/>
-            <line number="94" hits="0" branch="false"/>
+            <line number="115" hits="0" branch="false"/>
             <line number="117" hits="0" branch="false"/>
+            <line number="118" hits="0" branch="false"/>
             <line number="119" hits="0" branch="false"/>
             <line number="120" hits="0" branch="false"/>
             <line number="121" hits="0" branch="false"/>
@@ -179,18 +177,16 @@
             <line number="127" hits="0" branch="false"/>
             <line number="128" hits="0" branch="false"/>
             <line number="129" hits="0" branch="false"/>
-            <line number="130" hits="0" branch="false"/>
             <line number="131" hits="0" branch="false"/>
-            <line number="133" hits="0" branch="false"/>
-            <line number="147" hits="0" branch="false"/>
+            <line number="145" hits="0" branch="false"/>
+            <line number="146" hits="0" branch="false"/>
             <line number="148" hits="0" branch="false"/>
-            <line number="150" hits="0" branch="false"/>
-            <line number="173" hits="0" branch="false"/>
-            <line number="174" hits="0" branch="false"/>
-            <line number="184" hits="0" branch="false"/>
-            <line number="185" hits="0" branch="false"/>
-            <line number="195" hits="0" branch="false"/>
-            <line number="196" hits="0" branch="false"/>
+            <line number="171" hits="0" branch="false"/>
+            <line number="172" hits="0" branch="false"/>
+            <line number="182" hits="0" branch="false"/>
+            <line number="183" hits="0" branch="false"/>
+            <line number="193" hits="0" branch="false"/>
+            <line number="194" hits="0" branch="false"/>
           </lines>
         </class>
         <class name="deps_installation_proposal.R" filename="R/deps_installation_proposal.R" line-rate="0" branch-rate="0" complexity="0">
