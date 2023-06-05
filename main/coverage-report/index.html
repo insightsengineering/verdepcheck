@@ -106,11 +106,1144 @@ table.table-condensed {
       </ul>
       <div class="tab-content" data-tabsetid="covr">
         <div class="tab-pane active" title="Files" data-value="Files" id="tab-covr-1">
-          <div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-680252bfa6242689806e" style="width:100%;height:500px;"></div>
-          <script type="application/json" data-for="htmlwidget-680252bfa6242689806e">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/deps_installation_proposal.R<\/a>"],[239,197,161],[83,62,60],[0,0,0],[83,62,60],["0","0","0"],["0.00%","0.00%","0.00%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
+          <div class="datatables html-widget html-fill-item-overflow-hidden html-fill-item" id="htmlwidget-198fc59e2c0584c3709a" style="width:100%;height:500px;"></div>
+          <script type="application/json" data-for="htmlwidget-198fc59e2c0584c3709a">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/deps_installation_proposal.R<\/a>"],[253,197,161],[91,62,60],[0,0,0],[91,62,60],["0","0","0"],["0.00%","0.00%","0.00%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
         </div>
         <div class="tab-pane" title="Source" data-value="Source" id="tab-covr-2">
           <div id="files">
+            <div id="R/deps_installation_proposal.R" class="hidden">
+              <table class="table-condensed">
+                <tbody>
+                  <tr class="never">
+                    <td class="num">1</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Create installation proposal using various dependency strategies</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">2</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">3</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' These functionalities would read local package `DESCRIPTION` file, derive dependencies and</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">4</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' create an installation proposal using various strategies for package versions as described below.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">5</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">6</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">7</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @aliases deps_installation_proposal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">8</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">9</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @section strategies:</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">10</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Currently implemented strategies:</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">11</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' * `max` - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">12</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' (i.e. `@&lt;commitish&gt;` `#&lt;pr&gt;` or `@*release`) to use default branch (most likely: "main").</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">13</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' * `release` - read `"Remotes"` field and for each GitHub type of the package source: overwrite source with</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">14</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' CRAN reference (if available) or overwrite any further reference (i.e. `@&lt;commitish&gt;` `#&lt;pr&gt;` or `@*release`)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">15</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' with a "@*release" (if it's achievable).</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">16</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' * `min` - use the lowest version of dependencies. If no version is specified then the minimal available</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">17</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' version is assumed. See [get_ref_min] for details how the minimal version is determined.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">18</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">19</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Any modification is done for _direct_ dependencies. Indirect ones are installed as usual.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">20</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">21</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @note In order to make full use of the package features, it's recommended to provide `"Remotes"` section</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">22</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' in the package `DESCRIPTION` file for all dependent packages. Some functions are supported only for package</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">23</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' remotes from GitHub.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">24</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">25</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param path (`string`) path to the package sources</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">26</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @param config (`list`) configuration options. See [`pkgdepends::pkg_config`] for details.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">27</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' If it does not include `library` then temporary directory is used which simulates clean environment</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">28</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' without using any pre-installed packages.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">29</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' If it does not include `dependencies` then `TRUE` value is used which means all hard dependencies plus `Suggests`.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">30</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">31</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @returns `pkg_installation_plan` object</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">32</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">33</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @seealso [pkgdepends::pkg_installation_proposal]</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">34</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">35</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @export</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">36</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom pkgdepends parse_pkg_ref</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">37</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#'</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">38</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">39</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x &lt;- new_max_deps_installation_proposal(".")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">40</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$solve()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">41</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$get_solution()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">42</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">new_max_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">43</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">44</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">45</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">46</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">47</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">48</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">49</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">50</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">51</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">52</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    d$get_remotes(),</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">53</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    function(x) get_ref_max(pkgdepends::parse_pkg_ref(x))</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">54</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">55</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">56</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">57</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">58</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">59</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  class(res) &lt;- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">60</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">61</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">62</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">63</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">64</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @export</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">65</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom desc desc</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">66</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom pkgdepends parse_pkg_ref</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">67</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">68</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x &lt;- new_release_deps_installation_proposal(".")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">69</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$solve()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">70</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$get_solution()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">71</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">new_release_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">72</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">73</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">74</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">75</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">76</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">77</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">78</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">79</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">80</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">81</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    d$get_remotes(),</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">82</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    function(x) get_ref_release(pkgdepends::parse_pkg_ref(x))</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">83</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">84</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">85</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">86</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">87</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">88</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  class(res) &lt;- c("release_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">89</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">90</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">91</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">92</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">93</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @export</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">94</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom desc desc</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">95</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">96</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom utils installed.packages</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">97</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">98</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x &lt;- new_min_deps_installation_proposal(".")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">99</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$solve()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">100</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' x$get_solution()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">101</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">new_min_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">102</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">103</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">104</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">105</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">106</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">107</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">108</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">109</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  x &lt;- pkgdepends::new_pkg_deps(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">110</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    refs = path,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">111</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    config = config,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">112</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    policy = "lazy"</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">113</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">114</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  x$solve()</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">115</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  x$stop_for_solution_error()</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">116</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  deps &lt;- x$get_solution()$data$deps[[1]]</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">117</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">118</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  deps &lt;- deps[deps$package %nin% c("R", rownames(utils::installed.packages(priority = "base"))), ]</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">119</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">120</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  deps$ref_parsed &lt;- lapply(deps$ref, pkgdepends::parse_pkg_ref)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">121</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">122</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_refs &lt;- mapply( # @TODO: add cli progress bar</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">123</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    get_ref_min_incl_cran,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">124</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    remote_ref = deps$ref_parsed,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">125</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    op = deps$op,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">126</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    op_ver = deps$version,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">127</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    SIMPLIFY = FALSE</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">128</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">129</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">130</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">131</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">132</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">133</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">134</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">135</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  class(res) &lt;- c("min_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">136</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  res</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">137</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">138</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">139</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Set `"Remotes"` section into the `desc` object if not empty else clear `"Remotes"` section.</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">140</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @keywords internal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">141</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">desc_cond_set_remotes &lt;- function(desc, remotes) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">142</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  if (length(remotes)) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">143</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    desc$set_remotes(remotes)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">144</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  } else {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">145</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    desc$clear_remotes()</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">146</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  }</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">147</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  return(invisible(desc))</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">148</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">149</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">150</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' Create `installation_plan` object from `desc` object</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">151</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">152</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">#' @keywords internal</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">153</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">desc_to_ip &lt;- function(desc, config) {</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">154</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  temp_desc &lt;- tempfile()</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">155</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  desc$write(temp_desc)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">156</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r"></pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">157</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  pkgdepends::new_pkg_installation_proposal(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">158</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    refs = paste0("deps::", temp_desc),</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">159</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">    config = config</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">160</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  )</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">161</td>
+                    <td class="coverage"></td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">}</pre>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
             <div id="R/check.R" class="hidden">
               <table class="table-condensed">
                 <tbody>
@@ -3148,1158 +4281,123 @@ table.table-condensed {
                     <td class="num">236</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  } else {</pre>
+                      <pre class="language-r">  } else if (</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">237</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    remote_ref</pre>
+                      <pre class="language-r">    inherits(remote_ref, "remote_ref_github") &amp;&amp;</pre>
                     </td>
                   </tr>
-                  <tr class="never">
+                  <tr class="missed">
                     <td class="num">238</td>
-                    <td class="coverage"></td>
+                    <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
+                      <pre class="language-r">      identical(remote_ref$release, "*release")</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">239</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-            <div id="R/deps_installation_proposal.R" class="hidden">
-              <table class="table-condensed">
-                <tbody>
-                  <tr class="never">
-                    <td class="num">1</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Create installation proposal using various dependency strategies</pre>
+                      <pre class="language-r">  ) {</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">2</td>
+                    <td class="num">240</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
+                      <pre class="language-r">    # temporary fix for https://github.com/r-lib/pkgdepends/issues/275#issuecomment-1461787363</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">3</td>
+                    <td class="num">241</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">#' These functionalities would read local package `DESCRIPTION` file, derive dependencies and</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">4</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' create an installation proposal using various strategies for package versions as described below.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">5</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">6</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">7</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @aliases deps_installation_proposal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">8</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">9</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @section strategies:</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">10</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Currently implemented strategies:</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">11</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' * `max` - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">12</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' (i.e. `@&lt;commitish&gt;` `#&lt;pr&gt;` or `@*release`) to use default branch (most likely: "main").</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">13</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' * `release` - read `"Remotes"` field and for each GitHub type of the package source: overwrite source with</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">14</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' CRAN reference (if available) or overwrite any further reference (i.e. `@&lt;commitish&gt;` `#&lt;pr&gt;` or `@*release`)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">15</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' with a "@*release" (if it's achievable).</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">16</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' * `min` - use the lowest version of dependencies. If no version is specified then the minimal available</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">17</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' version is assumed. See [get_ref_min] for details how the minimal version is determined.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">18</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">19</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Any modification is done for _direct_ dependencies. Indirect ones are installed as usual.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">20</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">21</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @note In order to make full use of the package features, it's recommended to provide `"Remotes"` section</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">22</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' in the package `DESCRIPTION` file for all dependent packages. Some functions are supported only for package</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">23</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' remotes from GitHub.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">24</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">25</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param path (`string`) path to the package sources</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">26</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @param config (`list`) configuration options. See [`pkgdepends::pkg_config`] for details.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">27</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' If it does not include `library` then temporary directory is used which simulates clean environment</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">28</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' without using any pre-installed packages.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">29</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' If it does not include `dependencies` then `TRUE` value is used which means all hard dependencies plus `Suggests`.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">30</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">31</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @returns `pkg_installation_plan` object</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">32</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">33</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @seealso [pkgdepends::pkg_installation_proposal]</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">34</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">35</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @export</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">36</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom pkgdepends parse_pkg_ref</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">37</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#'</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">38</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">39</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x &lt;- new_max_deps_installation_proposal(".")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">40</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$solve()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">41</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$get_solution()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">42</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">new_max_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
+                      <pre class="language-r">    # @TODO: remove it if fixed</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">43</td>
+                    <td class="num">242</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
+                      <pre class="language-r">    pkgdepends::parse_pkg_ref(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">243</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">      sprintf(</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">244</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        "%s/%s@%s",</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">245</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        remote_ref$username,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">246</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        remote_ref$repo,</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">247</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">        remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))$ref</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">44</td>
+                    <td class="num">248</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">45</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">46</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">47</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
+                      <pre class="language-r">      )</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">48</td>
+                    <td class="num">249</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
+                      <pre class="language-r">    )</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">49</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">50</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">51</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">52</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    d$get_remotes(),</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">53</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    function(x) get_ref_max(pkgdepends::parse_pkg_ref(x))</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">54</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">55</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">56</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">57</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">58</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">59</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  class(res) &lt;- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">60</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">61</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">62</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">63</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">64</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @export</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">65</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom desc desc</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">66</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom pkgdepends parse_pkg_ref</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">67</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">68</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x &lt;- new_release_deps_installation_proposal(".")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">69</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$solve()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">70</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$get_solution()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">71</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">new_release_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">72</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">73</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">74</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">75</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">76</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">77</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">78</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">79</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">80</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">81</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    d$get_remotes(),</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">82</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    function(x) get_ref_release(pkgdepends::parse_pkg_ref(x))</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">83</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">84</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">85</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">86</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">87</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">88</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  class(res) &lt;- c("release_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">89</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">90</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">91</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">92</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @rdname deps_installation_proposal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">93</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @export</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">94</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom desc desc</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">95</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">96</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom utils installed.packages</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">97</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">98</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x &lt;- new_min_deps_installation_proposal(".")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">99</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$solve()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">100</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' x$get_solution()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">101</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">new_min_deps_installation_proposal &lt;- function(path, config = list()) { # nolint</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">102</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  path &lt;- normalizePath(path)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">103</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">104</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("dependencies" %nin% names(config)) config$dependencies &lt;- TRUE</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">105</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if ("library" %nin% names(config)) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">106</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    config$library &lt;- tempfile()</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">107</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  }</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">108</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">109</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  x &lt;- pkgdepends::new_pkg_deps(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">110</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    refs = path,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">111</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    config = config,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">112</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    policy = "lazy"</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">113</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">114</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  x$solve()</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">115</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  x$stop_for_solution_error()</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">116</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  deps &lt;- x$get_solution()$data$deps[[1]]</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">117</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">118</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  deps &lt;- deps[deps$package %nin% c("R", rownames(utils::installed.packages(priority = "base"))), ]</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">119</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">120</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  deps$ref_parsed &lt;- lapply(deps$ref, pkgdepends::parse_pkg_ref)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">121</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">122</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- mapply( # @TODO: add cli progress bar</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">123</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    get_ref_min_incl_cran,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">124</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    remote_ref = deps$ref_parsed,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">125</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    op = deps$op,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">126</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    op_ver = deps$version,</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">127</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    SIMPLIFY = FALSE</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">128</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">129</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_remotes &lt;- vapply(new_refs, `[[`, character(1), "ref")</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">130</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">131</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc::desc(path)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">132</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_remotes(d, new_remotes)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">133</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">134</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res &lt;- desc_to_ip(d, config)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">135</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  class(res) &lt;- c("min_deps_installation_proposal", "deps_installation_proposal", class(res))</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">136</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  res</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">137</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">138</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">139</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Set `"Remotes"` section into the `desc` object if not empty else clear `"Remotes"` section.</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">140</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @keywords internal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">141</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">desc_cond_set_remotes &lt;- function(desc, remotes) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">142</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  if (length(remotes)) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">143</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    desc$set_remotes(remotes)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">144</td>
+                    <td class="num">250</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  } else {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">145</td>
+                    <td class="num">251</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    desc$clear_remotes()</pre>
+                      <pre class="language-r">    remote_ref</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">146</td>
+                    <td class="num">252</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  }</pre>
                     </td>
                   </tr>
-                  <tr class="missed">
-                    <td class="num">147</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  return(invisible(desc))</pre>
-                    </td>
-                  </tr>
                   <tr class="never">
-                    <td class="num">148</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">}</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">149</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">150</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' Create `installation_plan` object from `desc` object</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">151</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">152</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">#' @keywords internal</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">153</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">desc_to_ip &lt;- function(desc, config) {</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">154</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  temp_desc &lt;- tempfile()</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">155</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  desc$write(temp_desc)</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">156</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">157</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  pkgdepends::new_pkg_installation_proposal(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">158</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    refs = paste0("deps::", temp_desc),</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">159</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">    config = config</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">160</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">161</td>
+                    <td class="num">253</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">}</pre>
