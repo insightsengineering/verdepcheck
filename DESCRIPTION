@@ -25,17 +25,17 @@ Suggests:
     pingr,
     testthat (>= 3.0.0),
     withr (>= 2.4.3)
-Remotes:
-    r-lib/desc@*release,
-    r-lib/gh@*release,
-    r-lib/pkgcache@*release,
-    r-lib/pkgdepends@*release,
-    r-lib/rcmdcheck@*release,
-    r-lib/remotes@*release,
-    yihui/knitr@*release,
-    r-lib/pingr@*release,
-    r-lib/testthat@*release,
-    r-lib/withr@*release
+Config/Needs/verdepcheck:
+    r-lib/desc,
+    r-lib/gh,
+    r-lib/pkgcache,
+    r-lib/pkgdepends,
+    r-lib/rcmdcheck,
+    r-lib/remotes,
+    yihui/knitr,
+    r-lib/pingr,
+    r-lib/testthat,
+    r-lib/withr
 VignetteBuilder:
     knitr
 Encoding: UTF-8

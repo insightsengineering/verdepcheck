@@ -33,6 +33,7 @@ solve_ip <- function(ip) {
   tryCatch(
     ip$stop_for_solution_error(),
     error = function(e) {
+      if (!grepl("dependency conflict", e$message)) stop(e)
       cat("Solve using alternative method ignoring `@*release` for conflicting refs.\n")
       solve_ignore_remotes_release(ip)
       ip$stop_for_solution_error()

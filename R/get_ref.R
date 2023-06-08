@@ -38,13 +38,13 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
     cran_res <- get_ref_min(cran_remote_ref, op, op_ver)
     cran_ver <- cran_res$version
 
-    if (package_version(cran_ver) < package_version(gh_ver)) {
+    if (package_version(cran_ver) <= package_version(gh_ver)) {
       return(cran_res)
     } else {
       return(gh_res)
     }
   } else {
-    get_ref_min(remote_ref, op, op_ver)
+    return(get_ref_min(remote_ref, op, op_ver))
   }
 }
 
@@ -150,7 +150,7 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     }
   }
 
-  new_ref <- sprintf("%s/%s%s", remote_ref$username, remote_ref$repo, ref_suffix) # @TODO
+  new_ref <- sprintf("%s=%s/%s%s", remote_ref$package, remote_ref$username, remote_ref$repo, ref_suffix) # @TODO
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
@@ -206,11 +206,7 @@ filter_valid_version <- function(x, op, op_ver) {
 #' @importFrom pkgdepends parse_pkg_ref
 #' @export
 get_ref_max <- function(remote_ref) {
-  if (inherits(remote_ref, "remote_ref_github")) {
-    pkgdepends::parse_pkg_ref(sprintf("%s/%s", remote_ref$username, remote_ref$repo))
-  } else {
-    x
-  }
+  remote_ref
 }
 
 #' Get reference to the release version of the package.
@@ -219,35 +215,54 @@ get_ref_max <- function(remote_ref) {
 #' @inherit get_ref_min return
 #'
 #' @importFrom pkgdepends parse_pkg_ref
-#' @importFrom remotes github_remote
 #' @export
 get_ref_release <- function(remote_ref) {
   if (check_if_on_cran(remote_ref)) {
-    pkgdepends::parse_pkg_ref(remote_ref$package)
-  } else if (
-    inherits(remote_ref, "remote_ref_github") &&
-      !identical(remote_ref$release, "*release") &&
-      inherits(
-        try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),
-        "try-error"
-      )
-  ) {
-    pkgdepends::parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))
-  } else if (
-    inherits(remote_ref, "remote_ref_github") &&
-      identical(remote_ref$release, "*release")
-  ) {
+    return(pkgdepends::parse_pkg_ref(remote_ref$package))
+  }
+  if (inherits(remote_ref, "remote_ref_github")) {
+    if (!is.null(remote_ref$commitish) && remote_ref$commitish != "") {
+      return(remote_ref)
+    }
+    if (!is.null(remote_ref$pull) && remote_ref$pull != "") {
+      return(remote_ref)
+    }
+    if (!is.null(remote_ref$release) && remote_ref$release != "") {
+      return(cond_parse_pkg_ref_remote(remote_ref))
+    }
+    return(cond_parse_pkg_ref_remote(remote_ref))
+  }
+  return(remote_ref)
+}
+
+#' @importFrom pkgdepends parse_pkg_ref
+#' @importFrom remotes github_remote
+#' @keywords internal
+cond_parse_pkg_ref_remote <- function(remote_ref) {
+  has_release <- function(remote_ref) {
+    isFALSE(inherits(
+      try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),
+      "try-error"
+    ))
+  }
+  parse_pkg_ref_remote <- function(remote_ref) {
     # temporary fix for https://github.com/r-lib/pkgdepends/issues/275#issuecomment-1461787363
-    # @TODO: remove it if fixed
+    # @TODO: replace it with below one-liner if fixed
+    # parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo)) # nolint
     pkgdepends::parse_pkg_ref(
       sprintf(
-        "%s/%s@%s",
+        "%s=%s/%s@%s",
+        remote_ref$package,
         remote_ref$username,
         remote_ref$repo,
         remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))$ref
       )
     )
+  }
+
+  if (has_release(remote_ref)) {
+    parse_pkg_ref_remote(remote_ref)
   } else {
-    remote_ref
+    NULL
   }
 }
