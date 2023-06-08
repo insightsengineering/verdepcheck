@@ -25,28 +25,33 @@ If it does not include \code{dependencies} then \code{TRUE} value is used which 
 \code{pkg_installation_plan} object
 }
 \description{
-These functionalities would read local package \code{DESCRIPTION} file, derive dependencies and
-create an installation proposal using various strategies for package versions as described below.
-}
-\note{
-In order to make full use of the package features, it's recommended to provide \code{"Remotes"} section
-in the package \code{DESCRIPTION} file for all dependent packages. Some functions are supported only for package
-remotes from GitHub.
+These functionalities would read local package \code{DESCRIPTION} file, derive dependencies from
+\code{"Config/Needs/verdepcheck"} and create an installation proposal using various strategies for package versions
+as described below.
 }
 \section{strategies}{
 
 Currently implemented strategies:
 \itemize{
-\item \code{max} - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
-(i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) to use default branch (most likely: "main").
-\item \code{release} - read \code{"Remotes"} field and for each GitHub type of the package source: overwrite source with
-CRAN reference (if available) or overwrite any further reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release})
-with a "@*release" (if it's achievable).
-\item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available
+\item \code{max} - use the greatest version of dependent packages
+\item \code{release} - use released version of dependent packages - use CRAN if possible else if GitHub release
+is available then use it else fail.
+\item \code{min} - use the lowest version of dependent packages incorporating minimal version specification in
+\code{"Imports"} and \code{"Suggests"}. If no version is specified then the minimal available
 version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
 }
 
 Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
+}
+
+\section{configuration}{
+
+\code{verdepcheck} will look into \code{"Config/Needs/verdepcheck"} field of the \code{DESCRIPTION} file for dependent packages
+references. See \code{\link[pkgdepends:pkg_refs]{pkgdepends::pkg_refs}} for details.
+Some functions are supported only for package references from GitHub.
+If you specify additional details (i.e. tag, commit, PR or \verb{@*release}) then it wouldn't be changed. Therefore,
+in order to make full use of various strategies, it is recommended to specify general reference in form of
+\verb{[<package>=][github::]<username>/<repository>[/<subdir>]} - i.e. without \verb{[<detail>]} part.
 }
 
 \examples{

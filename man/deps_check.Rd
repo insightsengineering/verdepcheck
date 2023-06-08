@@ -54,21 +54,15 @@ a named \code{list} with two elements:
 \description{
 Execute \verb{R CMD CHECK} on a local package with all dependencies pre-installed using various strategies.
 }
-\note{
-In order to make full use of the package features, it's recommended to provide \code{"Remotes"} section
-in the package \code{DESCRIPTION} file for all dependent packages. Some functions are supported only for package
-remotes from GitHub.
-}
 \section{strategies}{
 
 Currently implemented strategies:
 \itemize{
-\item \code{max} - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
-(i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release}) to use default branch (most likely: "main").
-\item \code{release} - read \code{"Remotes"} field and for each GitHub type of the package source: overwrite source with
-CRAN reference (if available) or overwrite any further reference (i.e. \verb{@<commitish>} \verb{#<pr>} or \verb{@*release})
-with a "@*release" (if it's achievable).
-\item \code{min} - use the lowest version of dependencies. If no version is specified then the minimal available
+\item \code{max} - use the greatest version of dependent packages
+\item \code{release} - use released version of dependent packages - use CRAN if possible else if GitHub release
+is available then use it else fail.
+\item \code{min} - use the lowest version of dependent packages incorporating minimal version specification in
+\code{"Imports"} and \code{"Suggests"}. If no version is specified then the minimal available
 version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
 }
 

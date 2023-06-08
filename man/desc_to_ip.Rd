@@ -4,7 +4,7 @@
 \alias{desc_to_ip}
 \title{Create \code{installation_plan} object from \code{desc} object}
 \usage{
-desc_to_ip(desc, config)
+desc_to_ip(d, config)
 }
 \description{
 Create \code{installation_plan} object from \code{desc} object
