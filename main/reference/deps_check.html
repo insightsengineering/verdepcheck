@@ -24,12 +24,6 @@
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://insightsengineering.github.io/verdepcheck/main">main</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -115,21 +109,14 @@ If it does not include <code>dependencies</code> then <code>TRUE</code> value is
 <li><p><code>"check"</code> - returned value from <code><a href="http://r-lib.github.io/rcmdcheck/reference/rcmdcheck.html" class="external-link">rcmdcheck::rcmdcheck()</a></code></p></li>
 </ul></div>
     <div class="section level2">
-    <h2 id="note">Note<a class="anchor" aria-label="anchor" href="#note"></a></h2>
-    <p>In order to make full use of the package features, it's recommended to provide <code>"Remotes"</code> section
-in the package <code>DESCRIPTION</code> file for all dependent packages. Some functions are supported only for package
-remotes from GitHub.</p>
-    </div>
-    <div class="section level2">
     <h2 id="strategies">strategies<a class="anchor" aria-label="anchor" href="#strategies"></a></h2>
     
 
-<p>Currently implemented strategies:</p><ul><li><p><code>max</code> - use the greatest version of dependencies pulled from GitHub - i.e. remove any further reference
-(i.e. <code>@&lt;commitish&gt;</code> <code>#&lt;pr&gt;</code> or <code>@*release</code>) to use default branch (most likely: "main").</p></li>
-<li><p><code>release</code> - read <code>"Remotes"</code> field and for each GitHub type of the package source: overwrite source with
-CRAN reference (if available) or overwrite any further reference (i.e. <code>@&lt;commitish&gt;</code> <code>#&lt;pr&gt;</code> or <code>@*release</code>)
-with a "@*release" (if it's achievable).</p></li>
-<li><p><code>min</code> - use the lowest version of dependencies. If no version is specified then the minimal available
+<p>Currently implemented strategies:</p><ul><li><p><code>max</code> - use the greatest version of dependent packages</p></li>
+<li><p><code>release</code> - use released version of dependent packages - use CRAN if possible else if GitHub release
+is available then use it else fail.</p></li>
+<li><p><code>min</code> - use the lowest version of dependent packages incorporating minimal version specification in
+<code>"Imports"</code> and <code>"Suggests"</code>. If no version is specified then the minimal available
 version is assumed. See <a href="get_ref_min.html">get_ref_min</a> for details how the minimal version is determined.</p></li>
 </ul><p>Any modification is done for <em>direct</em> dependencies. Indirect ones are installed as usual.</p>
     </div>
