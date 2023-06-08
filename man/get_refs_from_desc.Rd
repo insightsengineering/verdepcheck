@@ -4,8 +4,9 @@
 \alias{get_refs_from_desc}
 \title{Read \code{"Config/Needs/verdepcheck"} section and return vector of references.}
 \usage{
-get_refs_from_desc(d, f = pkgdepends::parse_pkg_ref)
+get_refs_from_desc(d)
 }
 \description{
 Read \code{"Config/Needs/verdepcheck"} section and return vector of references.
 }
+\keyword{internal}

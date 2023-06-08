@@ -52,7 +52,7 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
   }
 
   d <- desc::desc(path)
-  new_refs <- get_refs_from_desc(d, get_ref_max)
+  new_refs <- lapply(get_refs_from_desc(d), get_ref_max)
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
   d <- desc_cond_set_refs(d, new_refs_str)
 
@@ -77,7 +77,7 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
   }
 
   d <- desc::desc(path)
-  new_refs <- get_refs_from_desc(d, get_ref_release)
+  new_refs <- lapply(get_refs_from_desc(d), get_ref_release)
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
   d <- desc_cond_set_refs(d, new_refs_str)
 
@@ -142,13 +142,14 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
 
 #' Read `"Config/Needs/verdepcheck"` section and return vector of references.
 #' @importFrom pkgdepends parse_pkg_ref
-get_refs_from_desc <- function(d, f = pkgdepends::parse_pkg_ref) {
+#' @keywords internal
+get_refs_from_desc <- function(d) {
   if (.desc_field %nin% d$fields()) {
     return(list())
   }
   lapply(
     trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
-    function(x) f(pkgdepends::parse_pkg_ref(x))
+    function(x) pkgdepends::parse_pkg_ref(x)
   )
 }
 
