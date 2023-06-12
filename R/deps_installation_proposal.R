@@ -215,11 +215,11 @@ desc_to_ip <- function(d, config) {
 cli_pb_init <- function(type, total) {
   cli::cli_progress_bar(
     format = paste(
-      "{pb_spin} Resolving {cli::pb_extra$type} version {cli::pb_extra$package}",
-      "[{pb_current}/{pb_total}]   ETA:{pb_eta}"
+      "{cli::pb_spin} Resolving {cli::pb_extra$type} version {cli::pb_extra$package}",
+      "[{cli::pb_current}/{cli::pb_total}]   ETA:{cli::pb_eta}"
     ),
     format_done = paste0(
-      "{col_green(symbol$tick)} Resolved {pb_total} packages in {pb_elapsed}."
+      "{cli::col_green(cli::symbol$tick)} Resolved {cli::pb_total} packages in {cli::pb_elapsed}."
     ),
     extra = list(type = type, package = character(0)),
     total = total,
