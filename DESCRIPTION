@@ -12,6 +12,7 @@ BugReports: https://github.com/insightsengineering/verdepcheck/issues
 Depends:
     R (>= 3.6)
 Imports:
+    cli (>= 3.0.0),
     desc (>= 1.2),
     gh,
     pkgcache (>= 2.1.0),

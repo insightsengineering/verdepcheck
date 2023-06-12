@@ -8,7 +8,7 @@
 \usage{
 max_deps_check(
   path,
-  config = list(),
+  config = list(dependencies = .desc_field, library = tempfile()),
   build_args = character(),
   check_args = character(),
   ...
@@ -16,17 +16,17 @@ max_deps_check(
 
 release_deps_check(
   path,
-  config = list(),
-  check_args = character(),
+  config = list(dependencies = .desc_field, library = tempfile()),
   build_args = character(),
+  check_args = character(),
   ...
 )
 
 min_deps_check(
   path,
-  config = list(),
-  check_args = character(),
+  config = list(dependencies = .desc_field, library = tempfile()),
   build_args = character(),
+  check_args = character(),
   ...
 )
 }

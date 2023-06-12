@@ -43,17 +43,26 @@
 #' x <- new_max_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
+new_max_deps_installation_proposal <- function( # nolint
+                                               path,
+                                               config = list(
+                                                 dependencies = .desc_field,
+                                                 library = tempfile()
+                                               )) {
   path <- normalizePath(path)
 
-  config$dependencies <- .desc_field
-  if ("library" %nin% names(config)) {
-    config$library <- tempfile()
-  }
-
   d <- desc::desc(path)
-  new_refs <- lapply(get_refs_from_desc(d), get_ref_max)
+
+  refs <- get_refs_from_desc(d)
+  new_refs <- list()
+
+  cli_pb_init("max", length(refs))
+  for (i in seq_along(refs)) {
+    cli_pb_update(refs[[i]]$package)
+    new_refs <- c(new_refs, list(get_ref_release(refs[[i]])))
+  }
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
@@ -68,17 +77,26 @@ new_max_deps_installation_proposal <- function(path, config = list()) { # nolint
 #' x <- new_release_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_release_deps_installation_proposal <- function(path, config = list()) { # nolint
+new_release_deps_installation_proposal <- function( # nolint
+                                                   path,
+                                                   config = list(
+                                                     dependencies = .desc_field,
+                                                     library = tempfile()
+                                                   )) {
   path <- normalizePath(path)
 
-  config$dependencies <- .desc_field
-  if ("library" %nin% names(config)) {
-    config$library <- tempfile()
-  }
-
   d <- desc::desc(path)
-  new_refs <- lapply(get_refs_from_desc(d), get_ref_release)
+
+  refs <- get_refs_from_desc(d)
+  new_refs <- list()
+
+  cli_pb_init("release", length(refs))
+  for (i in seq_along(refs)) {
+    cli_pb_update(refs[[i]]$package)
+    new_refs <- c(new_refs, list(get_ref_release(refs[[i]])))
+  }
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
@@ -95,7 +113,12 @@ new_release_deps_installation_proposal <- function(path, config = list()) { # no
 #' x <- new_min_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
+new_min_deps_installation_proposal <- function( # nolint
+                                               path,
+                                               config = list(
+                                                 dependencies = .desc_field,
+                                                 library = tempfile()
+                                               )) {
   path <- normalizePath(path)
 
   config$dependencies <- .desc_field
@@ -103,36 +126,26 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
     config$library <- tempfile()
   }
 
-  x <- pkgdepends::new_pkg_deps(
-    refs = path,
-    config = config,
-    policy = "lazy"
-  )
-  x$solve()
-  x$stop_for_solution_error()
-  deps <- x$get_solution()$data$deps[[1]]
+  d <- desc::desc(path)
 
-  deps <- deps[deps$package %nin% c("R", rownames(utils::installed.packages(priority = "base"))), ]
-  for (i in seq_len(nrow(deps))) {
-    if (deps[i, "type"] != .desc_field) next
-    package <- deps[i, "package"]
-    deps[i, "op"] <- deps[deps$package == package, "op"][1]
-    deps[i, "version"] <- deps[deps$package == package, "version"][1]
+  refs <- get_refs_from_desc(d)
+  new_refs <- list()
+
+  cli_pb_init("min", length(refs))
+  for (i in seq_along(refs)) {
+    pkg <- refs[[i]]$package
+    version <- subset(d$get_deps(), package == pkg, "version")[[1]]
+    if (version == "*") {
+      op <- op_ver <- ""
+    } else {
+      op <- strsplit(version, " ")[[1]][1]
+      op_ver <- strsplit(version, " ")[[1]][2]
+    }
+    cli_pb_update(pkg)
+    new_refs <- c(new_refs, list(get_ref_min_incl_cran(refs[[i]], op, op_ver)))
   }
-  deps <- deps[deps$type == .desc_field, ]
-
-  deps$ref_parsed <- lapply(deps$ref, pkgdepends::parse_pkg_ref)
-
-  new_refs <- mapply( # @TODO: add cli progress bar
-    get_ref_min_incl_cran,
-    remote_ref = deps$ref_parsed,
-    op = deps$op,
-    op_ver = deps$version,
-    SIMPLIFY = FALSE
-  )
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
 
-  d <- desc::desc(path)
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
@@ -140,17 +153,37 @@ new_min_deps_installation_proposal <- function(path, config = list()) { # nolint
   res
 }
 
-#' Read `"Config/Needs/verdepcheck"` section and return vector of references.
-#' @importFrom pkgdepends parse_pkg_ref
+#' Read DESCRIPTION file and return list of references.
+#' Returned list is an union between references specified in `"Config/Needs/verdepcheck"` field and
+#' standard references for all other not covered dependencies.
+#' @importFrom pkgdepends pkg_dep_types parse_pkg_ref
+#' @importFrom utils installed.packages
 #' @keywords internal
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' d <- desc::desc("!new")
+#' d$set_dep("foo", "Import")
+#' d$set_dep("bar", "Suggest")
+#' d$set_list("Config/Needs/verdepcheck", "foo/bar")
+#' d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in pacakge deps - will be skipped
+#' get_refs_from_desc(d)
 get_refs_from_desc <- function(d) {
   if (.desc_field %nin% d$fields()) {
     return(list())
   }
-  lapply(
+  all_deps <- subset(d$get_deps(), type %in% pkgdepends::pkg_dep_types(), "package")[[1]]
+  refs <- lapply(
     trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
-    function(x) pkgdepends::parse_pkg_ref(x)
+    pkgdepends::parse_pkg_ref
   )
+  base_pkgs <- c("R", rownames(utils::installed.packages(priority = "base")))
+  missing_refs <- setdiff(setdiff(all_deps, base_pkgs), vapply(refs, `[[`, character(1), "package"))
+  res <- c(
+    refs,
+    lapply(missing_refs, pkgdepends::parse_pkg_ref)
+  )
+  res_idx <- match(all_deps, vapply(res, `[[`, character(1), "package"))
+  res_idx <- res_idx[!is.na(res_idx)]
+  res[res_idx]
 }
 
 #' Set `"Config/Needs/verdepcheck"` section into the `desc` object if not empty else clear this section.
@@ -175,4 +208,26 @@ desc_to_ip <- function(d, config) {
     refs = paste0("deps::", temp_desc),
     config = config
   )
+}
+
+#' @importFrom cli cli_progress_bar
+#' @keywords internal
+cli_pb_init <- function(type, total) {
+  cli::cli_progress_bar(
+    format = paste(
+      "{pb_spin} Resolving {cli::pb_extra$type} version {cli::pb_extra$package}",
+      "[{pb_current}/{pb_total}]   ETA:{pb_eta}"
+    ),
+    format_done = paste0(
+      "{col_green(symbol$tick)} Resolved {pb_total} packages in {pb_elapsed}."
+    ),
+    extra = list(type = type, package = character(0)),
+    total = total,
+    .envir = parent.frame(2L)
+  )
+}
+#' @importFrom cli cli_progress_update
+#' @keywords internal
+cli_pb_update <- function(package) {
+  cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(2L))
 }

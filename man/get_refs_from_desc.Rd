@@ -2,11 +2,25 @@
 % Please edit documentation in R/deps_installation_proposal.R
 \name{get_refs_from_desc}
 \alias{get_refs_from_desc}
-\title{Read \code{"Config/Needs/verdepcheck"} section and return vector of references.}
+\title{Read DESCRIPTION file and return list of references.
+Returned list is an union between references specified in \code{"Config/Needs/verdepcheck"} field and
+standard references for all other not covered dependencies.}
 \usage{
 get_refs_from_desc(d)
 }
 \description{
-Read \code{"Config/Needs/verdepcheck"} section and return vector of references.
+Read DESCRIPTION file and return list of references.
+Returned list is an union between references specified in \code{"Config/Needs/verdepcheck"} field and
+standard references for all other not covered dependencies.
+}
+\examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+d <- desc::desc("!new")
+d$set_dep("foo", "Import")
+d$set_dep("bar", "Suggest")
+d$set_list("Config/Needs/verdepcheck", "foo/bar")
+d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in pacakge deps - will be skipped
+get_refs_from_desc(d)
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}
