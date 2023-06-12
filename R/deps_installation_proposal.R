@@ -59,7 +59,7 @@ new_max_deps_installation_proposal <- function( # nolint
   cli_pb_init("max", length(refs))
   for (i in seq_along(refs)) {
     cli_pb_update(refs[[i]]$package)
-    new_refs <- c(new_refs, list(get_ref_release(refs[[i]])))
+    new_refs <- c(new_refs, list(get_ref_max(refs[[i]])))
   }
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
 
