@@ -165,7 +165,10 @@ deps_check_internal <- function(ip, path, build_args, check_args, ...) {
 #'
 #' @export
 max_deps_check <- function(path,
-                           config = list(),
+                           config = list(
+                             dependencies = .desc_field,
+                             library = tempfile()
+                           ),
                            build_args = character(),
                            check_args = character(),
                            ...) {
@@ -176,9 +179,12 @@ max_deps_check <- function(path,
 #' @rdname deps_check
 #' @export
 release_deps_check <- function(path,
-                               config = list(),
-                               check_args = character(),
+                               config = list(
+                                 dependencies = .desc_field,
+                                 library = tempfile()
+                               ),
                                build_args = character(),
+                               check_args = character(),
                                ...) {
   ip <- new_release_deps_installation_proposal(path, config)
   deps_check_internal(ip, path, check_args, build_args, ...)
@@ -187,9 +193,12 @@ release_deps_check <- function(path,
 #' @rdname deps_check
 #' @export
 min_deps_check <- function(path,
-                           config = list(),
-                           check_args = character(),
+                           config = list(
+                             dependencies = .desc_field,
+                             library = tempfile()
+                           ),
                            build_args = character(),
+                           check_args = character(),
                            ...) {
   ip <- new_min_deps_installation_proposal(path, config)
   deps_check_internal(ip, path, check_args, build_args, ...)

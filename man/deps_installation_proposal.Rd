@@ -7,11 +7,20 @@
 \alias{new_min_deps_installation_proposal}
 \title{Create installation proposal using various dependency strategies}
 \usage{
-new_max_deps_installation_proposal(path, config = list())
+new_max_deps_installation_proposal(
+  path,
+  config = list(dependencies = .desc_field, library = tempfile())
+)
 
-new_release_deps_installation_proposal(path, config = list())
+new_release_deps_installation_proposal(
+  path,
+  config = list(dependencies = .desc_field, library = tempfile())
+)
 
-new_min_deps_installation_proposal(path, config = list())
+new_min_deps_installation_proposal(
+  path,
+  config = list(dependencies = .desc_field, library = tempfile())
+)
 }
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
