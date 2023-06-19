@@ -7,28 +7,17 @@
 \alias{new_min_deps_installation_proposal}
 \title{Create installation proposal using various dependency strategies}
 \usage{
-new_max_deps_installation_proposal(
-  path,
-  config = list(dependencies = .desc_field, library = tempfile())
-)
+new_max_deps_installation_proposal(path, config = list())
 
-new_release_deps_installation_proposal(
-  path,
-  config = list(dependencies = .desc_field, library = tempfile())
-)
+new_release_deps_installation_proposal(path, config = list())
 
-new_min_deps_installation_proposal(
-  path,
-  config = list(dependencies = .desc_field, library = tempfile())
-)
+new_min_deps_installation_proposal(path, config = list())
 }
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
 
 \item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
-If it does not include \code{library} then temporary directory is used which simulates clean environment
-without using any pre-installed packages.
-If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
+\code{"dependencies"} and \code{"library"} elements are overwritten by package level defaults.}
 }
 \value{
 \code{pkg_installation_plan} object
@@ -50,17 +39,18 @@ is available then use it else fail.
 version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
 }
 
-Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
+Any modification is done for direct (!) dependencies. Indirect ones are installed as usual.
 }
 
 \section{configuration}{
 
 \code{verdepcheck} will look into \code{"Config/Needs/verdepcheck"} field of the \code{DESCRIPTION} file for dependent packages
-references. See \code{\link[pkgdepends:pkg_refs]{pkgdepends::pkg_refs}} for details.
-Some functions are supported only for package references from GitHub.
-If you specify additional details (i.e. tag, commit, PR or \verb{@*release}) then it wouldn't be changed. Therefore,
-in order to make full use of various strategies, it is recommended to specify general reference in form of
+references. See \code{\link[pkgdepends:pkg_refs]{pkgdepends::pkg_refs}} for details and this package \code{DESCRIPTION} file for an example.
+Please note that some features are enabled only for package references from GitHub.
+If you specify additional details (i.e. tag, commit, PR or \verb{@*release}) in the reference then it wouldn't be changed.
+Therefore, in order to make full use of various strategies, it is recommended to specify general reference in form of
 \verb{[<package>=][github::]<username>/<repository>[/<subdir>]} - i.e. without \verb{[<detail>]} part.
+Please see also \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} and \code{\link[pak:pak-config]{pak::pak-config}} for other configuration possibilities.
 }
 
 \examples{

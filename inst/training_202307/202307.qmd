@@ -1,0 +1,444 @@
+---
+title: "`verdepcheck`"
+author: "Pawel Rucki"
+date: 20/07/2023
+format: revealjs
+---
+
+## Agenda
+
+1. Motivation
+1. Solution
+1. How to use?
+1. How it works?
+1. Discussion
+1. Future work
+
+# Motivation
+
+```{.yaml code-line-numbers="7"}
+Type: Package
+Package: foo.package
+Version: 1.2.3.9000
+Depends:
+    R (>= 3.6)
+Imports:
+    dplyr,
+    (...)
+```
+
+The above specification indicates compatibility with **all** versions of `dplyr` which is very unlikely to be true.
+
+# Motivation
+
+```.default
+Error: object ‘foo’ is not exported by 'namespace:bar'
+```
+
+<br>
+
+```.default
+`foo()` was deprecated in bar 1.0.0.
+i Please use `baz()` instead.
+```
+
+<br>
+
+The new versions of dependencies might introduce a breaking changes.
+
+# Motivation
+
+R environments for clinical trials are usually not updated very frequently.
+
+Users might use `renv` for environment management and packages used might not get updates for some time.
+
+As a result, your package might be used with _older_ version of dependent packages.
+
+# Solution
+
+`verdepcheck` (**ver**sion of **dep**endencies **check**) - a tool for package developers to check your package against different set of dependencies. It is meant to be used primarily in CI.
+
+Available at:
+
+- [`insightsengineering/verdepcheck`](https://github.com/insightsengineering/verdepcheck)
+- [`insightsengineering/r-verdepcheck-action`](https://github.com/insightsengineering/r-verdepcheck-action)
+
+:::{.callout-important}
+Do not confuse `verdepcheck` with `revdepcheck` for reverse dependency checks. Those are totally different tools!
+:::
+
+#
+
+Let's call a "different set of dependencies" a _strategy_. Currently there are three _strategies_ implemented:
+
+- **max** - use _development_ version of dependencies
+- **release** - use _released_ version of dependencies (e.g. from CRAN)
+- **min** - use _minimal_ version of dependencies as per `DESCRIPTION` file
+
+This tool is looking into a **direct** dependencies only.
+
+## Explanation for direct dependencies
+
+The initial prototype of `min` strategy included recursive find of minimal dependency. This oftentimes lead into usage of already archived package or not able to compile very old package on modern systems architecture.
+
+In order to solve potential issues, package author would need to control / specify indirect dependencies which is counter intuitive.
+
+Therefore only **direct** dependencies are being looked into.
+
+# What are the benefits?
+
+* It forces you to specify minimal version of package dependencies to prevent incorrect package usage.
+* Incorporate information about upcoming breaking changes.
+
+# What's needed?
+
+For **max** strategy the algorithm will look for dependent packages references in a new section `Config/Needs/verdepcheck` of the `DESCRIPTION` file.
+
+For **release** and **min** it's not needed (at least for CRAN packages).
+
+:::{.callout-note}
+This might indicate some duplication with the `Remotes` section but it cannot be used because of side effects, i.e. configuration of `verdepcheck` should have no impact package installation.
+:::
+
+
+# How to use?
+
+`<strategy>_deps_check(path)`
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+
+library(verdepcheck)
+
+max_deps_check("/path/to/package")
+release_deps_check("/path/to/package")
+min_deps_check("/path/to/package")
+```
+
+# How to use?
+
+Multiple steps (note private function calls):
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+
+library(verdepcheck)
+
+x <- new_max_deps_installation_proposal("/path/to/package")
+
+# resolve dependencies
+verdepcheck:::solve_ip(x)
+
+# download dependencies
+verdepcheck:::download_ip(x)
+
+# resolve and install
+verdepcheck:::install_ip(x)
+
+# run R CMD CHECK
+verdepcheck:::check_ip(x)
+```
+
+## How to use the output?
+
+The main `<strategy>_deps_check` function returns a list of two elements:
+
+- `"ip"` - installation proposal object from `pkgdepends` - see [docs](https://r-lib.github.io/pkgdepends/reference/pkg_installation_proposal.html#public-methods)
+- `"check"` - returned value from `rcmdcheck::rcmdcheck()` - see [docs](https://rcmdcheck.r-lib.org/reference/rcmdcheck.html)
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+
+x <- max_deps_check("/path/to/package")
+
+# show dependency resolution
+x$ip$show_solution()
+x$ip$draw()
+
+# create artifact
+x$ip$create_lockfile("/path/to/pkg.lock")
+
+# print R CMD CHECK results
+x$check$session_info
+x$check$status
+```
+
+# How it works?
+
+This package is heavily based on [`pkgdepends`](https://r-lib.github.io/pkgdepends) for dependency detection and resolution and also [`rcmdcheck`](https://rcmdcheck.r-lib.org) for executing `"R CMD CHECK"`.
+
+It also uses other packages like `pkgcache`, `pkgbuild`, `desc` or `cli`.
+
+<hr>
+
+Please also see: [r-lib/rcmdcheck/issues/195](https://github.com/r-lib/rcmdcheck/issues/195) and [r-lib/pkgdepends/issues/305](https://github.com/r-lib/pkgdepends/issues/305). Workarounds have been implemented.
+
+## The algorithm
+
+1. Read package dependencies (alongside minimal versions) from `DESCRIPTION` file using Depends, Imports, Suggests sections.
+1. Derive package reference according to the strategy used.
+1. Resolve dependency tree.
+1. Download package sources.
+1. Build and install into temporary directory.
+1. Execute `"R CMD CHECK"` using directory from the previous step as a library path.
+
+## Package reference format
+
+We are using `pkgdepends` (which is then calling `pak`) for package installation. It uses specific format for [package references](https://pak.r-lib.org/reference/pak_package_sources.html).
+
+Few examples:
+
+```
+
+dplyr
+dplyr@1.0.0
+cran::dplyr
+
+foo/bar
+foo/bar@12ab3456
+github::foo/bar
+
+bioc::S4Vectors
+
+/absolute/path/to/package/dir
+local::.
+
+deps::.
+```
+
+## Find package references - the algorithm
+
+- **max** (`verdepcheck:::get_ref_max()`)
+
+  Use reference provided in `Config/Needs/verdepcheck` as is.
+
+- **release** (`verdepcheck:::get_ref_release()`)
+
+  For CRAN pkg: use standard reference (i.e. package name only).
+
+  For GitHub pkg: find the latest release reference.
+
+- **min** (`verdepcheck:::get_ref_min()`)
+
+  For CRAN pkg: use the lowest possible from CRAN archive for which version condition is met.
+
+  For GitHub pkg: loop through releases (tags if no releases) starting from the oldest one until version condition is met.
+
+## Few examples {.smaller}
+
+| Imports: | Config\Needs\verdepcheck | ref max | ref release | ref min |
+|---|---|---|---|---|
+| `rlang (>= 1.0.0)` | `r-lib/rlang` | `r-lib/rlang` | `rlang` | `rlang@1.0.0` |
+| `rlang` | `r-lib/rlang` | `r-lib/rlang` | `rlang` | `rlang@0.1.0` |
+| `rlang (>= 1.0.0)` |  | `rlang` | `rlang` | `rlang@1.0.0` |
+| `rlang` |  | `rlang` | `rlang` | `rlang@0.1.0` |
+| `foo` | `bar/foo` | `bar/foo` | `bar/foo@v1.2.3` | `bar/foo@v0.1.0` |
+| `foo` |  | ERROR: package not found | ERROR: package not found | ERROR: package not found |
+| `Foo` | `bioc::Foo` | `bioc::Foo` | `bioc::Foo` | `bioc::Foo` |
+
+# Dependency resolution
+
+Dependency resolution will _collapse_ the whole dependency tree and warn about conflicts.
+
+:::{.callout-important}
+You have to specify minimal versions allowing dependency resolution to complete.
+:::
+
+It could be a process of multiple iterations of increasing dependent package versions.
+
+## Example - failure
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{.yaml code-line-numbers="7-8"}
+Type: Package
+Package: foo.package
+Version: 1.2.3.9000
+Depends:
+    R (>= 3.6)
+Imports:
+    dplyr (>= 1.0.0),
+    tibble (>= 1.0.0)
+    (...)
+```
+:::
+
+::: {.column width="50%"}
+```{.yaml code-line-numbers="2,3,8"}
+Type: Package
+Package: dplyr
+Package: 1.0.0
+Depends:
+    R (>= 3.2.0)
+Imports:
+    (...)
+    tibble (>= 2.1.3)
+    (...)
+```
+:::
+
+::::
+
+<br>
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+x <- pkgdepends::new_pkg_deps(c("dplyr@1.0.0", "tibble@1.0.0"))
+x$solve()
+x$get_solution()
+```
+
+```.default
+<pkg_solution>
++ result: FAILED
++ refs:
+  - dplyr@1.0.0
+  - tibble@1.0.0
++ constraints (93):
+  (...)
+x failures:
+* dplyr@1.0.0: Can't install dependency tibble (>= 2.1.3)
+* tibble@1.0.0: Conflicts with tibble@1.0.0
+* tibble: Conflicts with tibble@1.0.0
+```
+
+## Example - success
+
+:::: {.columns}
+
+::: {.column width="50%"}
+```{.yaml code-line-numbers="8"}
+Type: Package
+Package: foo.package
+Version: 1.2.3.9000
+Depends:
+    R (>= 3.6)
+Imports:
+    dplyr (>= 1.0.0),
+    tibble (>= 2.1.3)
+    (...)
+```
+:::
+
+::: {.column width="50%"}
+```{.yaml code-line-numbers="8"}
+Type: Package
+Package: dplyr
+Package: 1.0.0
+Depends:
+    R (>= 3.2.0)
+Imports:
+    (...)
+    tibble (>= 2.1.3)
+    (...)
+```
+:::
+
+::::
+
+<br>
+
+```{r}
+#| eval: false
+#| echo: true
+#| code-line-numbers: false
+x <- pkgdepends::new_pkg_deps(c("dplyr@1.0.0", "tibble@2.1.3"))
+x$solve()
+x$get_solution()
+```
+
+```.default
+<pkg_solution>
++ result: OK
++ refs:
+  - dplyr@1.0.0
+  - tibble@2.1.3
++ constraints (95):
+  - select dplyr exactly once
+  - select tibble exactly once
+  - select R6 at most once
+  - select cli at most once
+  - select ellipsis at most once
+  - select fansi at most once
+  - select generics at most once
+  - select glue at most once
+  - select lifecycle at most once
+  - select magrittr at most once
+  ...
++ solution:
+  - cli
+  - crayon
+  - dplyr@1.0.0
+  - ellipsis
+  - fansi
+  - generics
+  - glue
+  - lifecycle
+  - magrittr
+  - pillar
+  - pkgconfig
+  - R6
+  - rlang
+  - tibble@2.1.3
+  - tidyselect
+  - utf8
+  - vctrs
+  - withr
+```
+
+## Discussion:
+
+- One might argue that `foo.package` is fully compatible with the `tibble@1.0.0` syntax but the truth is that `tibble@1.0.0` cannot be installed alongside `dplyr@1.0.0` hence `foo.package` cannot be used with both `dplyr@1.0.0` and `tibble@1.0.0` loaded. Therefore `tibble (>= 1.0.0)` really indicates `tibble (>= 2.1.3)` in this case.
+
+- Because of above, the minimal version specification of dependencies is the _true_ **installable** and **compatible** set of dependencies.
+
+## Real-life observations:
+
+- Oftentimes the dependency tree is of a big depth and there are multi-step conflicts.
+
+- Some very old packages are not compilable on modern machines and you have to increase versions to make it installable.
+
+- The package resolution is just the first step. The next one is to use them in `R CMD CHECK` and validate its compatibility.
+
+- In order to enter GHA debug lines, `verdepcheck` will continue on error entering `R CMD CHECK` step when e.g. dependency resolve failed. If you encounter `vignette builder 'knitr' not found` error - most likely you failed on resolve or install.
+
+# A few caveats:
+
+None of the test result is _stable_:
+
+  - **min**
+
+    Indirect dependencies are installed as usual using the newest available. Therefore: it is not guaranteed that the new release of indirect dependency will be fully compatible with some old version of direct dependency.
+
+    e.g. future version of `tibble` won't be fully compatible with `dplyr@1.0.0`
+
+  - **release**
+
+    The same as above though it's relatively unlikely if you use CRAN-only dependencies as this is checked by CRAN.
+
+  - **max**
+
+    This is the most instable environment changed by pushes to any of the dependencies. Also: the main branch is usually not guaranteed to be correct and you might pull broken package version.
+
+# A few caveats:
+
+What it is not about:
+
+- This does not perform matrix testing of _all_ dependent package versions.
+- This only looks into package versions - in particular: it does not check R versions or system architectures.
+
+# Future work:
+
+- Idea: add `branch` strategy with recursive resolve for possible replacement of `staged.dependencies`.
+- Idea: add custom strategies.
+- Enhance `r-verdepcheck-action` output readability.
+- Remove workarounds implemented once referenced issues are closed.

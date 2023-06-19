@@ -6,7 +6,7 @@
 #'
 #' @returns (`remote_ref`) object with the package reference
 #'
-#' @keywords internal
+#' @export
 #'
 #' @seealso [get_ref_min_incl_cran()]
 get_ref_min_incl_cran <- function(remote_ref, op = "", op_ver = "") {
@@ -58,7 +58,7 @@ check_if_on_cran <- function(remote_ref) {
 #' Get reference to the minimal version of the package.
 #'
 #' @inherit get_ref_min_incl_cran
-#' @keywords internal
+#' @export
 #'
 #' @seealso [get_ref_min_incl_cran()]
 get_ref_min <- function(remote_ref, op = "", op_ver = "") {
@@ -107,7 +107,7 @@ get_ref_min.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
   get_ref_min.remote_ref_cran(remote_ref, op, op_ver)
 }
 
-#' * for GitHub type of remote - this would use [`gh::gh_gql()`] to get list of all tags
+#' * for GitHub type of remote - this would use [`gh::gh_gql()`] to get list of all releases or tags
 #' and then [`gh::gh()`] to download `DESCRIPTION` file and then read package version.
 #'
 #' @rdname get_ref_min
@@ -121,30 +121,30 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     return(remote_ref)
   }
 
-  tags <- get_gh_tags(remote_ref$username, remote_ref$repo)
+  refs <- get_gh_refs(remote_ref$username, remote_ref$repo)
 
-  if (length(tags) == 0) {
+  if (length(refs) == 0) {
     return(remote_ref)
   }
 
   ref_suffix <- ""
   if (op == "") {
-    # loop through the tags starting from the earliest until the first valid description file
-    for (tag in tags) {
-      tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
-      if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
-      ref_suffix <- sprintf("@%s", tag)
+    # loop through the refs starting from the earliest until the first valid description file
+    for (ref in refs) {
+      ref_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, ref)
+      if ((length(ref_desc) == 1 && is.na(ref_desc)) || ref_desc$get_field("Package") != remote_ref$package) next
+      ref_suffix <- sprintf("@%s", ref)
       break
     }
   } else {
-    # loop through the tags starting from the earliest until the first version condition met
-    for (tag in tags) {
-      tag_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, tag)
-      if ((length(tag_desc) == 1 && is.na(tag_desc)) || tag_desc$get_field("Package") != remote_ref$package) next
-      tag_ver <- tag_desc$get_version()
-      op_res <- do.call(op, list(tag_ver, package_version(op_ver)))
+    # loop through the refs starting from the earliest until the first version condition met
+    for (ref in refs) {
+      ref_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, ref)
+      if ((length(ref_desc) == 1 && is.na(ref_desc)) || ref_desc$get_field("Package") != remote_ref$package) next
+      ref_ver <- ref_desc$get_version()
+      op_res <- do.call(op, list(ref_ver, package_version(op_ver)))
       if (op_res) {
-        ref_suffix <- sprintf("@%s", tag)
+        ref_suffix <- sprintf("@%s", ref)
         break
       }
     }
@@ -154,7 +154,35 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
-
+# Get list of releases if not empty else get list of tags
+#' @keywords internal
+get_gh_refs <- function(org, repo) {
+  res <- get_gh_releases(org, repo)
+  if (length(res) > 0) {
+    return(res)
+  }
+  get_gh_tags(org, repo)
+}
+#' @importFrom gh gh_gql
+#' @keywords internal
+get_gh_releases <- function(org, repo) {
+  gql_query <- sprintf("{
+    repository(owner: \"%s\", name: \"%s\") {
+      releases(last: 100, orderBy: { field: CREATED_AT, direction: ASC}) {
+        nodes {
+          isPrerelease
+          tagName
+        }
+      }
+    }
+  }", org, repo)
+  resp <- try(gh::gh_gql(gql_query), silent = TRUE)
+  if (inherits(resp, "try-error")) {
+    return(character(0))
+  }
+  non_prerelease <- Filter(function(x) isFALSE(x$isPrerelease), resp$data$repository$releases$nodes)
+  vapply(non_prerelease, `[[`, character(1), "tagName")
+}
 #' @importFrom gh gh_gql
 #' @keywords internal
 get_gh_tags <- function(org, repo) {
@@ -175,6 +203,8 @@ get_gh_tags <- function(org, repo) {
   }
   vapply(resp$data$repository$refs$edges, function(x) x$node$name, character(1))
 }
+
+
 #' @importFrom desc desc
 #' @importFrom gh gh
 #' @keywords internal
@@ -228,9 +258,9 @@ get_ref_release <- function(remote_ref) {
       return(remote_ref)
     }
     if (!is.null(remote_ref$release) && remote_ref$release != "") {
-      return(cond_parse_pkg_ref_remote(remote_ref))
+      return(cond_parse_pkg_ref_release(remote_ref))
     }
-    return(cond_parse_pkg_ref_remote(remote_ref))
+    return(cond_parse_pkg_ref_release(remote_ref))
   }
   return(remote_ref)
 }
@@ -238,7 +268,7 @@ get_ref_release <- function(remote_ref) {
 #' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom remotes github_remote
 #' @keywords internal
-cond_parse_pkg_ref_remote <- function(remote_ref) {
+cond_parse_pkg_ref_release <- function(remote_ref) {
   has_release <- function(remote_ref) {
     isFALSE(inherits(
       try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),

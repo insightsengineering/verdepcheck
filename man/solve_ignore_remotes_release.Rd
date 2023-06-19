@@ -6,6 +6,12 @@
 \usage{
 solve_ignore_remotes_release(ip)
 }
+\arguments{
+\item{ip}{(\code{pkg_installation_plan}) object to execute}
+}
+\value{
+\code{pkg_installation_plan} object invisibly
+}
 \description{
 Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
 }

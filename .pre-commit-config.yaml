@@ -38,6 +38,7 @@ repos:
           (.*/|)staged_dependencies.yaml|
           (.*/|)\.pre-commit-.*|
           \.github/.*|
+          inst/.*|
           .*\.[rR]|
           .*\.Rproj|
           .*\.py|

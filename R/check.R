@@ -1,32 +1,75 @@
-#' Executes installation plan.
+#' Execute `R CMD CHECK` on a local package with all dependencies pre-installed using various strategies.
 #'
-#' This function would executes the following:
-#' * solves package dependencies
-#' * downloads all package dependencies
-#' * installs system requirements
-#' * installs all package dependencies
+#' @inheritSection new_max_deps_installation_proposal strategies
+#' @inherit new_max_deps_installation_proposal note
+#'
+#' @inheritParams new_max_deps_installation_proposal
+#' @inheritParams execute_ip
+#'
+#' @inherit execute_ip return
+#'
+#' @seealso [deps_installation_proposal]
+#'
+#' @rdname deps_check
+#'
+#' @export
+max_deps_check <- function(path,
+                           config = list(),
+                           build_args = character(),
+                           check_args = character(),
+                           ...) {
+  ip <- new_max_deps_installation_proposal(path, config)
+  execute_ip(ip, path, check_args, build_args, ...)
+}
+
+#' @rdname deps_check
+#' @export
+release_deps_check <- function(path,
+                               config = list(),
+                               build_args = character(),
+                               check_args = character(),
+                               ...) {
+  ip <- new_release_deps_installation_proposal(path, config)
+  execute_ip(ip, path, check_args, build_args, ...)
+}
+
+#' @rdname deps_check
+#' @export
+min_deps_check <- function(path,
+                           config = list(),
+                           build_args = character(),
+                           check_args = character(),
+                           ...) {
+  ip <- new_min_deps_installation_proposal(path, config)
+  execute_ip(ip, path, check_args, build_args, ...)
+}
+
+#' Executes installation plan and [`rcmdcheck::rcmdcheck()`]
 #'
 #' @param ip (`pkg_installation_plan`) object to execute
+#' @inheritParams check_ip
+#'
+#' @return a named `list` with two elements:
+#' * `"ip"` - installation plan object
+#' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
+#'
+#' @keywords internal
+execute_ip <- function(ip, path, build_args, check_args, ...) {
+  ip <- solve_ip(ip)
+  ip <- download_ip(ip)
+  ip <- install_ip(ip)
+  check_res <- check_ip(ip, path, build_args, check_args, ...)
+
+  return(invisible(list(ip = ip, check = check_res)))
+}
+
+
+#' Try to solve using standard method. If error - use [solve_ignore_remotes_release].
+#'
+#' @inheritParams check_ip
 #'
 #' @returns `pkg_installation_plan` object invisibly
 #'
-#' @keywords internal
-install_ip <- function(ip) {
-  try({
-    solve_ip(ip)
-    ip$stop_for_solution_error()
-
-    ip$download()
-    ip$stop_for_download_error()
-
-    ip$install_sysreqs()
-    ip$install()
-  })
-
-  return(invisible(ip))
-}
-
-#' Try to solve using standard method. If error - use [solve_ignore_remotes_release].
 #' @keywords internal
 solve_ip <- function(ip) {
   ip$solve()
@@ -39,9 +82,15 @@ solve_ip <- function(ip) {
       ip$stop_for_solution_error()
     }
   )
+  return(invisible(ip))
 }
 
 #' Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
+#'
+#' @inheritParams check_ip
+#'
+#' @inherit solve_ip return
+#'
 #' @keywords internal
 solve_ignore_remotes_release <- function(ip) {
   # ugly hack! - overwrite resolution result before calling solve
@@ -93,9 +142,47 @@ solve_ignore_remotes_release <- function(ip) {
   return(invisible(ip))
 }
 
+#' Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
+#'
+#' @inheritParams check_ip
+#'
+#' @inherit solve_ip return
+#'
+#' @keywords internal
+download_ip <- function(ip) {
+  try({
+    ip$download()
+    ip$stop_for_download_error()
+  })
+
+  return(invisible(ip))
+}
+
+#' Executes installation plan.
+#'
+#' This function would executes the following:
+#' * solves package dependencies
+#' * downloads all package dependencies
+#' * installs system requirements
+#' * installs all package dependencies
+#'
+#' @inheritParams execute_ip
+#'
+#' @returns `pkg_installation_plan` object invisibly
+#'
+#' @keywords internal
+install_ip <- function(ip) {
+  try({
+    ip$install_sysreqs()
+    ip$install()
+  })
+
+  return(invisible(ip))
+}
+
 #' Executes [`rcmdcheck::rcmdcheck()`] on a local package using `libpath` from the installation plan.
 #'
-#' @param ip (`pkg_installation_plan`) object to extract `libpath` from
+#' @inheritParams execute_ip
 #' @param path (`string`) path to the package sources
 #' @param build_args (`string`) value passed as `build_args` argument into [`rcmdcheck::rcmdcheck()`]
 #' @param check_args (`string`) value passed as `args` argument into [`rcmdcheck::rcmdcheck()`]
@@ -130,76 +217,4 @@ check_ip <- function(ip,
   )
 
   return(res)
-}
-
-#' Executes installation plan and [`rcmdcheck::rcmdcheck()`]
-#'
-#' @inheritParams install_ip
-#' @inheritParams check_ip
-#'
-#' @return a named `list` with two elements:
-#' * `"ip"` - installation plan object
-#' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
-#'
-#' @keywords internal
-deps_check_internal <- function(ip, path, build_args, check_args, ...) {
-  ip <- install_ip(ip)
-  check_res <- check_ip(ip, path, build_args, check_args, ...)
-
-  return(invisible(list(ip = ip, check = check_res)))
-}
-
-#' Execute `R CMD CHECK` on a local package with all dependencies pre-installed using various strategies.
-#'
-#' @inheritSection new_max_deps_installation_proposal strategies
-#' @inherit new_max_deps_installation_proposal note
-#'
-#' @inheritParams new_max_deps_installation_proposal
-#' @inheritParams check_ip
-#'
-#' @inherit deps_check_internal return
-#'
-#' @seealso [deps_installation_proposal]
-#'
-#' @rdname deps_check
-#'
-#' @export
-max_deps_check <- function(path,
-                           config = list(
-                             dependencies = .desc_field,
-                             library = tempfile()
-                           ),
-                           build_args = character(),
-                           check_args = character(),
-                           ...) {
-  ip <- new_max_deps_installation_proposal(path, config)
-  deps_check_internal(ip, path, check_args, build_args, ...)
-}
-
-#' @rdname deps_check
-#' @export
-release_deps_check <- function(path,
-                               config = list(
-                                 dependencies = .desc_field,
-                                 library = tempfile()
-                               ),
-                               build_args = character(),
-                               check_args = character(),
-                               ...) {
-  ip <- new_release_deps_installation_proposal(path, config)
-  deps_check_internal(ip, path, check_args, build_args, ...)
-}
-
-#' @rdname deps_check
-#' @export
-min_deps_check <- function(path,
-                           config = list(
-                             dependencies = .desc_field,
-                             library = tempfile()
-                           ),
-                           build_args = character(),
-                           check_args = character(),
-                           ...) {
-  ip <- new_min_deps_installation_proposal(path, config)
-  deps_check_internal(ip, path, check_args, build_args, ...)
 }

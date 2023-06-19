@@ -7,7 +7,7 @@
 check_ip(ip, path, build_args = character(), check_args = character(), ...)
 }
 \arguments{
-\item{ip}{(\code{pkg_installation_plan}) object to extract \code{libpath} from}
+\item{ip}{(\code{pkg_installation_plan}) object to execute}
 
 \item{path}{(\code{string}) path to the package sources}
 

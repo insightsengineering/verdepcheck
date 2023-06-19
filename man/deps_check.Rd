@@ -8,7 +8,7 @@
 \usage{
 max_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
@@ -16,7 +16,7 @@ max_deps_check(
 
 release_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
@@ -24,7 +24,7 @@ release_deps_check(
 
 min_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
@@ -34,9 +34,7 @@ min_deps_check(
 \item{path}{(\code{string}) path to the package sources}
 
 \item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
-If it does not include \code{library} then temporary directory is used which simulates clean environment
-without using any pre-installed packages.
-If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
+\code{"dependencies"} and \code{"library"} elements are overwritten by package level defaults.}
 
 \item{build_args}{(\code{string}) value passed as \code{build_args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 
@@ -66,7 +64,7 @@ is available then use it else fail.
 version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
 }
 
-Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
+Any modification is done for direct (!) dependencies. Indirect ones are installed as usual.
 }
 
 \seealso{

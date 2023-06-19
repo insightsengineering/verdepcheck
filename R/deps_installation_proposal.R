@@ -16,21 +16,20 @@
 #' `"Imports"` and `"Suggests"`. If no version is specified then the minimal available
 #' version is assumed. See [get_ref_min] for details how the minimal version is determined.
 #'
-#' Any modification is done for _direct_ dependencies. Indirect ones are installed as usual.
+#' Any modification is done for direct (!) dependencies. Indirect ones are installed as usual.
 #'
 #' @section configuration:
 #' `verdepcheck` will look into `"Config/Needs/verdepcheck"` field of the `DESCRIPTION` file for dependent packages
-#' references. See [`pkgdepends::pkg_refs`] for details.
-#' Some functions are supported only for package references from GitHub.
-#' If you specify additional details (i.e. tag, commit, PR or `@*release`) then it wouldn't be changed. Therefore,
-#' in order to make full use of various strategies, it is recommended to specify general reference in form of
+#' references. See [`pkgdepends::pkg_refs`] for details and this package `DESCRIPTION` file for an example.
+#' Please note that some features are enabled only for package references from GitHub.
+#' If you specify additional details (i.e. tag, commit, PR or `@*release`) in the reference then it wouldn't be changed.
+#' Therefore, in order to make full use of various strategies, it is recommended to specify general reference in form of
 #' `[<package>=][github::]<username>/<repository>[/<subdir>]` - i.e. without `[<detail>]` part.
+#' Please see also [`pkgdepends::pkg_config`] and [`pak::pak-config`] for other configuration possibilities.
 #'
 #' @param path (`string`) path to the package sources
 #' @param config (`list`) configuration options. See [`pkgdepends::pkg_config`] for details.
-#' If it does not include `library` then temporary directory is used which simulates clean environment
-#' without using any pre-installed packages.
-#' If it does not include `dependencies` then `TRUE` value is used which means all hard dependencies plus `Suggests`.
+#' `"dependencies"` and `"library"` elements are overwritten by package level defaults.
 #'
 #' @returns `pkg_installation_plan` object
 #'
@@ -43,13 +42,10 @@
 #' x <- new_max_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_max_deps_installation_proposal <- function( # nolint
-                                               path,
-                                               config = list(
-                                                 dependencies = .desc_field,
-                                                 library = tempfile()
-                                               )) {
+new_max_deps_installation_proposal <- function(path, # nolint
+                                               config = list()) {
   path <- normalizePath(path)
+  config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
 
@@ -77,13 +73,10 @@ new_max_deps_installation_proposal <- function( # nolint
 #' x <- new_release_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_release_deps_installation_proposal <- function( # nolint
-                                                   path,
-                                                   config = list(
-                                                     dependencies = .desc_field,
-                                                     library = tempfile()
-                                                   )) {
+new_release_deps_installation_proposal <- function(path, # nolint
+                                                   config = list()) {
   path <- normalizePath(path)
+  config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
 
@@ -113,13 +106,10 @@ new_release_deps_installation_proposal <- function( # nolint
 #' x <- new_min_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_min_deps_installation_proposal <- function( # nolint
-                                               path,
-                                               config = list(
-                                                 dependencies = .desc_field,
-                                                 library = tempfile()
-                                               )) {
+new_min_deps_installation_proposal <- function(path, # nolint
+                                               config = list()) {
   path <- normalizePath(path)
+  config <- append_config(default_config(), config)
 
   config$dependencies <- .desc_field
   if ("library" %nin% names(config)) {
@@ -210,7 +200,8 @@ desc_to_ip <- function(d, config) {
   )
 }
 
-#' @importFrom cli cli_progress_bar
+#' Create `cli` progress bar for resolving versions.
+#' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
 #' @keywords internal
 cli_pb_init <- function(type, total) {
   cli::cli_progress_bar(
