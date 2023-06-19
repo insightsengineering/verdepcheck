@@ -1,7 +1,7 @@
 ---
 title: "`verdepcheck`"
 author: "Pawel Rucki"
-date: 20/07/2023
+date: 2023/08/07
 format: revealjs
 ---
 
@@ -442,3 +442,7 @@ What it is not about:
 - Idea: add custom strategies.
 - Enhance `r-verdepcheck-action` output readability.
 - Remove workarounds implemented once referenced issues are closed.
+
+# THANK YOU!
+
+#
