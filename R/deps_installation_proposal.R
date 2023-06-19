@@ -111,11 +111,6 @@ new_min_deps_installation_proposal <- function(path, # nolint
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
 
-  config$dependencies <- .desc_field
-  if ("library" %nin% names(config)) {
-    config$library <- tempfile()
-  }
-
   d <- desc::desc(path)
 
   refs <- get_refs_from_desc(d)
