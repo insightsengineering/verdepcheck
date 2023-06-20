@@ -1,7 +1,8 @@
 ---
 title: "`verdepcheck`"
 author: "Pawel Rucki"
-date: 2023/08/07
+date: 2023-07-20
+date-format: long
 format: revealjs
 ---
 
@@ -48,6 +49,14 @@ The new versions of dependencies might introduce a breaking changes.
 
 # Motivation
 
+Many interdependent packages actively developed in parallel - when to increase dependency version requirement?
+
+Blindly increase all requirements might be incorrect as one package might be fully compatible with the older version of the other one.
+
+Keeping all unchanged is incorrect as there might be some _breaking_ changes.
+
+# Motivation
+
 R environments for clinical trials are usually not updated very frequently.
 
 Users might use `renv` for environment management and packages used might not get updates for some time.
@@ -69,6 +78,13 @@ Do not confuse `verdepcheck` with `revdepcheck` for reverse dependency checks. T
 
 #
 
+What it is not about:
+
+- This does not perform matrix testing of _all_ versions of dependent packages.
+- This only looks into package versions - in particular: it does not check R versions or system architectures.
+
+#
+
 Let's call a "different set of dependencies" a _strategy_. Currently there are three _strategies_ implemented:
 
 - **max** - use _development_ version of dependencies
@@ -76,14 +92,6 @@ Let's call a "different set of dependencies" a _strategy_. Currently there are t
 - **min** - use _minimal_ version of dependencies as per `DESCRIPTION` file
 
 This tool is looking into a **direct** dependencies only.
-
-## Explanation for direct dependencies
-
-The initial prototype of `min` strategy included recursive find of minimal dependency. This oftentimes lead into usage of already archived package or not able to compile very old package on modern systems architecture.
-
-In order to solve potential issues, package author would need to control / specify indirect dependencies which is counter intuitive.
-
-Therefore only **direct** dependencies are being looked into.
 
 # What are the benefits?
 
@@ -212,7 +220,7 @@ local::.
 deps::.
 ```
 
-## Find package references - the algorithm
+## Find package references - the algorithm {.smaller}
 
 - **max** (`verdepcheck:::get_ref_max()`)
 
@@ -230,6 +238,8 @@ deps::.
 
   For GitHub pkg: loop through releases (tags if no releases) starting from the oldest one until version condition is met.
 
+  Please note that only this strategy includes search on versions of dependencies.
+
 ## Few examples {.smaller}
 
 | Imports: | Config\Needs\verdepcheck | ref max | ref release | ref min |
@@ -244,13 +254,46 @@ deps::.
 
 # Dependency resolution
 
-Dependency resolution will _collapse_ the whole dependency tree and warn about conflicts.
+Dependency resolution will _collapse_ the whole dependency tree (including indirect dependencies) and warn about conflicts.
 
 :::{.callout-important}
 You have to specify minimal versions allowing dependency resolution to complete.
 :::
 
 It could be a process of multiple iterations of increasing dependent package versions.
+
+## Explanation for direct dependencies
+
+The initial prototype of `min` strategy included recursive find of minimal dependency. This oftentimes lead into usage of already archived package or not able to compile very old package on modern systems architecture.
+
+In order to solve potential issues, package author would need to control / specify indirect dependencies which is counter intuitive.
+
+Therefore only **direct** dependencies are being looked into and **indirect** dependencies are installed using standard way - i.e. the greatest available.
+
+## Explanation for direct dependencies
+
+It might happen that the environment would include relatively old version of a directly dependent package alongside the newest version of indirect dependency.
+
+E.g.
+
+```{.yaml code-line-numbers="7"}
+Type: Package
+Package: foo.package
+Version: 1.2.3.9000
+Depends:
+    R (>= 3.6)
+Suggests:
+    testthat (>= 2.0.0)
+    (...)
+```
+
+As a result we will use `testthat@2.0.0` (direct dependency) released in 2017 alongside the newest release of `rlang` (indirect dependency - required by `testthat`) from 2023.
+
+## Explanation for direct dependencies
+
+It's definitely arguable how likely that scenario is but it's definitely a valid and fully functional environment in which your package might be used.
+
+There is an idea for a new `min_concurrent` strategy to address that - not discussed here.
 
 ## Example - failure
 
@@ -395,13 +438,25 @@ x$get_solution()
   - withr
 ```
 
-## Discussion:
+## Discussion on the **min** strategy
 
-- One might argue that `foo.package` is fully compatible with the `tibble@1.0.0` syntax but the truth is that `tibble@1.0.0` cannot be installed alongside `dplyr@1.0.0` hence `foo.package` cannot be used with both `dplyr@1.0.0` and `tibble@1.0.0` loaded. Therefore `tibble (>= 1.0.0)` really indicates `tibble (>= 2.1.3)` in this case.
+- One might argue that `foo.package` is fully compatible with the `tibble@1.0.0` syntax but `tibble@1.0.0` cannot be installed alongside `dplyr@1.0.0` hence `foo.package` cannot be used with both `dplyr@1.0.0` and `tibble@1.0.0` loaded.
 
-- Because of above, the minimal version specification of dependencies is the _true_ **installable** and **compatible** set of dependencies.
+  Therefore `tibble (>= 1.0.0)` (alongside `dplyr (>= 1.0.0)`) really indicates `tibble (>= 2.1.3)`.
 
-## Real-life observations:
+- _Collapsing_ the whole dependency tree requires you to specify `tibble (>= 2.1.3)` otherwise the dependencies cannot be resolved successfully.
+
+## Discussion on the **min** strategy
+
+All of this makes the minimal version specification of dependencies truly a **installable** and **compatible** set of dependencies rather than **compatibility**-wise set od dependencies.
+
+It is a little more strict (i.e. includes additional version increases) as well as breaks encapsulation of what is specified where.
+
+:::{.callout-important}
+This is a significant limitation of the current implementation.
+:::
+
+## Real-life observations: {.smaller}
 
 - Oftentimes the dependency tree is of a big depth and there are multi-step conflicts.
 
@@ -411,7 +466,7 @@ x$get_solution()
 
 - In order to enter GHA debug lines, `verdepcheck` will continue on error entering `R CMD CHECK` step when e.g. dependency resolve failed. If you encounter `vignette builder 'knitr' not found` error - most likely you failed on resolve or install.
 
-# A few caveats:
+# A few caveats: {.smaller}
 
 None of the test result is _stable_:
 
@@ -429,16 +484,12 @@ None of the test result is _stable_:
 
     This is the most instable environment changed by pushes to any of the dependencies. Also: the main branch is usually not guaranteed to be correct and you might pull broken package version.
 
-# A few caveats:
-
-What it is not about:
-
-- This does not perform matrix testing of _all_ dependent package versions.
-- This only looks into package versions - in particular: it does not check R versions or system architectures.
+Therefore, this test should be triggered periodically and not on code change (unless changes includes dependencies). Triggering it on change might give a false message that a failure stems from code changes.
 
 # Future work:
 
 - Idea: add `branch` strategy with recursive resolve for possible replacement of `staged.dependencies`.
+- Idea: `concurrent_min` strategy that uses versions of recursive dependencies that were concurrent (as opposed to max) with the versions of the direct deps being tested.
 - Idea: add custom strategies.
 - Enhance `r-verdepcheck-action` output readability.
 - Remove workarounds implemented once referenced issues are closed.
