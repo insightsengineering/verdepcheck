@@ -34,3 +34,4 @@ reference:
     desc: Determine package reference for appropriate version
     contents:
       - starts_with("get_ref_")
+      - get_release_date
