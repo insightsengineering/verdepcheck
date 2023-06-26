@@ -4,7 +4,7 @@
 \alias{cli_pb_init}
 \title{Create \code{cli} progress bar for resolving versions.}
 \usage{
-cli_pb_init(type, total)
+cli_pb_init(type, total, ...)
 }
 \description{
 Create \code{cli} progress bar for resolving versions.

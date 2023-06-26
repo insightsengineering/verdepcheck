@@ -13,6 +13,11 @@
 #' @rdname deps_check
 #'
 #' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- max_deps_check(".")
+#' x$ip
+#' x$check
 max_deps_check <- function(path,
                            config = list(),
                            build_args = character(),
@@ -24,6 +29,11 @@ max_deps_check <- function(path,
 
 #' @rdname deps_check
 #' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- release_deps_check(".")
+#' x$ip
+#' x$check
 release_deps_check <- function(path,
                                config = list(),
                                build_args = character(),
@@ -35,16 +45,53 @@ release_deps_check <- function(path,
 
 #' @rdname deps_check
 #' @export
-min_deps_check <- function(path,
-                           config = list(),
-                           build_args = character(),
-                           check_args = character(),
-                           ...) {
-  ip <- new_min_deps_installation_proposal(path, config)
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- min_direct_deps_check(".")
+#' x$ip
+#' x$check
+min_direct_deps_check <- function(path,
+                                  config = list(),
+                                  build_args = character(),
+                                  check_args = character(),
+                                  ...) {
+  ip <- new_min_direct_deps_installation_proposal(path, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 
-#' Executes installation plan and [`rcmdcheck::rcmdcheck()`]
+#' @rdname deps_check
+#' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- min_cohort_deps_check(".")
+#' x$ip
+#' x$check
+min_cohort_deps_check <- function(path,
+                                  config = list(),
+                                  build_args = character(),
+                                  check_args = character(),
+                                  ...) {
+  ip <- new_min_cohort_deps_installation_proposal(path, config)
+  execute_ip(ip, path, check_args, build_args, ...)
+}
+
+#' @rdname deps_check
+#' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- min_cohorts_deps_check(".")
+#' x$ip
+#' x$check
+min_cohorts_deps_check <- function(path,
+                                   config = list(),
+                                   build_args = character(),
+                                   check_args = character(),
+                                   ...) {
+  ip <- new_min_cohorts_deps_installation_proposal(path, config)
+  execute_ip(ip, path, check_args, build_args, ...)
+}
+
+#' Executes installation plan and [`rcmdcheck::rcmdcheck()`] in "try mode" to always return.
 #'
 #' @param ip (`pkg_installation_plan`) object to execute
 #' @inheritParams check_ip
@@ -53,32 +100,196 @@ min_deps_check <- function(path,
 #' * `"ip"` - installation plan object
 #' * `"check"` - returned value from [`rcmdcheck::rcmdcheck()`]
 #'
-#' @keywords internal
+#' @export
 execute_ip <- function(ip, path, build_args, check_args, ...) {
-  ip <- solve_ip(ip)
-  ip <- download_ip(ip)
-  ip <- install_ip(ip)
-  check_res <- check_ip(ip, path, build_args, check_args, ...)
+  check_res <- NULL
+  try({
+    ip <- solve_ip(ip)
+    ip <- download_ip(ip)
+    ip <- install_ip(ip)
+    check_res <- check_ip(ip, path, build_args, check_args, ...)
+  })
 
   return(invisible(list(ip = ip, check = check_res)))
 }
 
 
-#' Try to solve using standard method. If error - use [solve_ignore_remotes_release].
+#' Try to solve using standard method. If error - use [resolve_ignoring_release_remote].
 #'
 #' @inheritParams check_ip
 #'
 #' @returns `pkg_installation_plan` object invisibly
 #'
-#' @keywords internal
+#' @export
 solve_ip <- function(ip) {
+  UseMethod("solve_ip", ip)
+}
+#' @exportS3Method solve_ip deps_installation_proposal
+solve_ip.deps_installation_proposal <- function(ip) {
   ip$solve()
+  resolve_ignoring_release_remote(ip)
+}
+
+#' For each direct dependency, resolve that package using PPM snapshot as of release date + 1.
+#' Finally, combine resolutions and run solve.
+#' @keywords internal
+#' @importFrom pkgcache ppm_repo_url
+#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
+#' @exportS3Method solve_ip min_cohorts_deps_installation_proposal
+solve_ip.min_cohorts_deps_installation_proposal <- function(ip) { # nolint
+  ip$resolve()
+  res <- ip$get_resolution()
+
+  deps <- res[1, "deps"][[1]]
+  ## copy op and version to Config\Needs\verdepcheck rows
+  deps <- split(deps, as.factor(deps$package))
+  deps <- lapply(deps, function(x) {
+    x$op <- x$op[1]
+    x$version <- x$version[1]
+    x
+  })
+  deps <- do.call(rbind, deps)
+  deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
+
+  cli_pb_init("min_cohorts", total = nrow(deps))
+
+  deps_res <- lapply(
+    seq_len(nrow(deps)),
+    function(i) {
+      i_pkg <- deps[i, "package"]
+
+      cli_pb_update(package = i_pkg, n = 4L)
+
+      if (i_pkg %in% base_pkgs()) {
+        return(NULL)
+      }
+
+      i_op <- deps[i, "op"]
+      i_op_ver <- deps[i, "version"]
+
+      i_ref_str <- deps[i, "ref"]
+      i_ref <- pkgdepends::parse_pkg_ref(i_ref_str)
+
+      i_ref_minver <- get_ref_min_incl_cran(i_ref, i_op, i_op_ver)
+
+      i_release_date <- get_release_date(i_ref_minver)
+
+      if (is.na(i_release_date)) {
+        ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
+      } else {
+        ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(i_release_date))
+      }
+
+      i_pkg_deps <- pkgdepends::new_pkg_deps(
+        if (inherits(i_ref_minver, "remote_ref_github")) i_ref_minver$ref else i_ref$ref,
+        config = list(dependencies = "hard", cran_mirror = ppm_repo)
+      )
+      suppressMessages(i_pkg_deps$resolve())
+      i_res <- i_pkg_deps$get_resolution()
+      i_res$direct <- i_res$directpkg <- FALSE
+      i_res
+    }
+  )
+
+  new_res <- rbind(res[1, ], do.call(rbind, deps_res))
+  new_res <- new_res[!duplicated(new_res), ]
+
+  ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
+  ip$solve()
+
+  resolve_ignoring_release_remote(ip)
+
+  return(invisible(ip))
+}
+
+#' @keywords internal
+#' @importFrom pkgcache ppm_repo_url
+#' @importFrom pkgdepends parse_pkg_ref
+#' @exportS3Method solve_ip min_cohort_deps_installation_proposal
+solve_ip.min_cohort_deps_installation_proposal <- function(ip) { # nolint
+  ip$resolve()
+  res <- ip$get_resolution()
+
+  deps <- res[1, "deps"][[1]]
+  ## copy op and version to Config\Needs\verdepcheck rows
+  deps <- split(deps, as.factor(deps$package))
+  deps <- lapply(deps, function(x) {
+    x$op <- x$op[1]
+    x$version <- x$version[1]
+    x
+  })
+  deps <- do.call(rbind, deps)
+  deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
+
+  cli_pb_init("min_cohort", total = nrow(deps))
+
+  deps_release_dates <- lapply(
+    seq_len(nrow(deps)),
+    function(i) {
+      i_pkg <- deps[i, "package"]
+
+      cli_pb_update(package = i_pkg, n = 4L)
+
+      if (i_pkg %in% base_pkgs()) {
+        return(NA)
+      }
+
+      i_op <- deps[i, "op"]
+      i_op_ver <- deps[i, "version"]
+
+      i_ref_str <- deps[i, "ref"]
+      i_ref <- pkgdepends::parse_pkg_ref(i_ref_str)
+
+      i_ref_ver <- get_ref_min(i_ref, i_op, i_op_ver)
+
+      get_release_date(i_ref_ver)
+    }
+  )
+
+  max_release_date <- as.character(
+    as.Date(
+      max(
+        unlist(
+          lapply(deps_release_dates, as.Date)
+        ),
+        na.rm = TRUE
+      ),
+      origin = "1960-01-01"
+    )
+  )
+
+  if (is.na(max_release_date)) {
+    ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
+  } else {
+    ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(max_release_date))
+  }
+
+  ip$get_config()$set("cran_mirror", ppm_repo)
+
+  ip$resolve()
+
+  ip$solve()
+
+  resolve_ignoring_release_remote(ip)
+
+  return(invisible(ip))
+}
+
+#' If solution errors finishes with "dependency conflict" error then
+#' re-try again ignoring "@*release" remote refs for detected conflicts.
+#'
+#' @inheritParams check_ip
+#'
+#' @inherit solve_ip return
+#'
+#' @keywords internal
+resolve_ignoring_release_remote <- function(ip) { # nolint
   tryCatch(
     ip$stop_for_solution_error(),
     error = function(e) {
       if (!grepl("*.dependency conflict$", e$message)) stop(e)
       cat("Solve using alternative method ignoring `@*release` for conflicting refs.\n")
-      solve_ignore_remotes_release(ip)
+      solve_ip_ignore_remotes_release(ip)
       ip$stop_for_solution_error()
     }
   )
@@ -92,8 +303,7 @@ solve_ip <- function(ip) {
 #' @inherit solve_ip return
 #'
 #' @keywords internal
-solve_ignore_remotes_release <- function(ip) {
-  # ugly hack! - overwrite resolution result before calling solve
+solve_ip_ignore_remotes_release <- function(ip) { # nolint
   # replace "@*release" GH refs to the "@<ref for min ver>" for all direct dependent pkgs to avoid conflicts
   # use case:
   # foo -imports-> bar (>= 1.2.3) & baz (>= 1.2.3) (and has bar@*release and baz@*release in its Remotes)
@@ -101,7 +311,7 @@ solve_ignore_remotes_release <- function(ip) {
   # when doing min_deps we identify min version of baz to be 1.2.3
   # there is a conflict between baz@1.2.3 and baz@*release
 
-  ip$resolve()
+  if (is.null(ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result)) ip$resolve()
 
   conflicting_pkgs <- resolution <- ip$get_resolution()
 
@@ -142,18 +352,17 @@ solve_ignore_remotes_release <- function(ip) {
   return(invisible(ip))
 }
 
+
 #' Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
 #'
 #' @inheritParams check_ip
 #'
 #' @inherit solve_ip return
 #'
-#' @keywords internal
+#' @export
 download_ip <- function(ip) {
-  try({
-    ip$download()
-    ip$stop_for_download_error()
-  })
+  ip$download()
+  ip$stop_for_download_error()
 
   return(invisible(ip))
 }
@@ -170,12 +379,10 @@ download_ip <- function(ip) {
 #'
 #' @returns `pkg_installation_plan` object invisibly
 #'
-#' @keywords internal
+#' @export
 install_ip <- function(ip) {
-  try({
-    ip$install_sysreqs()
-    ip$install()
-  })
+  ip$install_sysreqs()
+  ip$install()
 
   return(invisible(ip))
 }
@@ -194,7 +401,7 @@ install_ip <- function(ip) {
 #'
 #' @importFrom rcmdcheck rcmdcheck
 #'
-#' @keywords internal
+#' @export
 check_ip <- function(ip,
                      path,
                      build_args = character(),
@@ -202,19 +409,12 @@ check_ip <- function(ip,
                      ...) {
   libpath <- ip$get_config()$get("library")
 
-  res <- tryCatch(
-    rcmdcheck::rcmdcheck(
-      path,
-      libpath = libpath,
-      args = check_args,
-      build_args = build_args,
-      error_on = "never",
-      ...
-    ),
-    error = function(e) {
-      NULL
-    }
+  rcmdcheck::rcmdcheck(
+    path,
+    libpath = libpath,
+    args = check_args,
+    build_args = build_args,
+    error_on = "never",
+    ...
   )
-
-  return(res)
 }

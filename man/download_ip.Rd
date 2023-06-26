@@ -15,4 +15,3 @@ download_ip(ip)
 \description{
 Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.
 }
-\keyword{internal}

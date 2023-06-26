@@ -9,14 +9,28 @@
 #'
 #' @section strategies:
 #' Currently implemented strategies:
-#' * `max` - use the greatest version of dependent packages
-#' * `release` - use released version of dependent packages - use CRAN if possible else if GitHub release
-#' is available then use it else fail.
-#' * `min` - use the lowest version of dependent packages incorporating minimal version specification in
-#' `"Imports"` and `"Suggests"`. If no version is specified then the minimal available
-#' version is assumed. See [get_ref_min] for details how the minimal version is determined.
+#' * `max` - use the greatest version of dependent packages. Please note that using development version is not
+#' guaranteed to be stable.
+#' See [get_ref_max] for details.
+#' * `release` - use the released version of dependent packages. It will try use CRAN if possible else if
+#' GitHub release is available then use it else fail.
+#' See [get_ref_release] for details.
+#' * `min_direct` - use the lowest version of direct dependent packages that satisfy version condition.
+#' If no version is specified then the minimal available version is assumed.
+#' Indirect dependencies are installed as usual, i.e. using the greatest available.
+#' See [get_ref_min] for details.
+#' * `min_cohort` - find maximum date of directly dependent packages release dates and use that as PPM snapshot date
+#' for dependency resolve.
+#' This will limit the versions of indirect dependencies by date of parent package release date.
+#' * `min_cohorts` - for each direct dependency: find its release date and use it as PPM snapshot for that dependency
+#' resolve. Next, combine all the individual resolve outputs and resolve it again.
+#' This will limit the versions of indirect dependencies by date of parent package release date.
 #'
-#' Any modification is done for direct (!) dependencies. Indirect ones are installed as usual.
+#' Please note that only `min_cohort` and `min_cohorts` strategies are "stable" (unless "@*release" dynamic
+#' pointer is used in any of the dependencies - including also indirect ones).
+#' For all other results might differ due to changes in dependencies including a release of a new version.
+#' The most straightforward example is `max` strategy in which the environment will be different after any push of
+#' any of the dependencies.
 #'
 #' @section configuration:
 #' `verdepcheck` will look into `"Config/Needs/verdepcheck"` field of the `DESCRIPTION` file for dependent packages
@@ -101,13 +115,12 @@ new_release_deps_installation_proposal <- function(path, # nolint
 #' @export
 #' @importFrom desc desc
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
-#' @importFrom utils installed.packages
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' x <- new_min_deps_installation_proposal(".")
+#' x <- new_min_direct_deps_installation_proposal(".")
 #' x$solve()
 #' x$get_solution()
-new_min_deps_installation_proposal <- function(path, # nolint
-                                               config = list()) {
+new_min_direct_deps_installation_proposal <- function(path, # nolint
+                                                      config = list()) {
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
 
@@ -134,7 +147,74 @@ new_min_deps_installation_proposal <- function(path, # nolint
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
-  class(res) <- c("min_deps_installation_proposal", "deps_installation_proposal", class(res))
+  class(res) <- c("min_direct_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
+}
+
+#' @rdname deps_installation_proposal
+#' @export
+#' @importFrom desc desc
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- new_min_cohort_deps_installation_proposal(".")
+#' solve_ip(x)
+#' x$get_solution()
+new_min_cohort_deps_installation_proposal <- function(path, # nolint
+                                                      config = list()) {
+  path <- normalizePath(path)
+  config <- append_config(default_config(), config)
+
+  d <- desc::desc(path)
+
+  refs <- get_refs_from_desc(d)
+  # convert github to standard if possible
+  new_refs <- lapply(
+    refs,
+    function(x) {
+      if (inherits(x, "remote_ref_github") && check_if_on_cran(x) && x$commitish == "") {
+        pkgdepends::parse_pkg_ref(x$package)
+      } else {
+        x
+      }
+    }
+  )
+  # for github type - find min version
+  new_refs <- lapply(
+    new_refs,
+    function(x) {
+      if (inherits(x, "remote_ref_github")) {
+        version <- subset(d$get_deps(), package == x$package, version)[[1]]
+        if (version == "*") {
+          op <- op_ver <- ""
+        } else {
+          op <- strsplit(version, " ")[[1]][1]
+          op_ver <- strsplit(version, " ")[[1]][2]
+        }
+        get_ref_min(x, op, op_ver)
+      } else {
+        x
+      }
+    }
+  )
+  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+
+  d <- desc_cond_set_refs(d, new_refs_str)
+
+  res <- desc_to_ip(d, config)
+  class(res) <- c("min_cohort_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
+}
+
+#' @rdname deps_installation_proposal
+#' @export
+#' @importFrom desc desc
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- new_min_cohorts_deps_installation_proposal(".")
+#' solve_ip(x)
+#' x$get_solution()
+new_min_cohorts_deps_installation_proposal <- function(path, # nolint
+                                                       config = list()) {
+  res <- new_min_cohort_deps_installation_proposal(path, config)
+  class(res) <- c("min_cohorts_deps_installation_proposal", class(res)[-1])
   res
 }
 
@@ -142,7 +222,6 @@ new_min_deps_installation_proposal <- function(path, # nolint
 #' Returned list is an union between references specified in `"Config/Needs/verdepcheck"` field and
 #' standard references for all other not covered dependencies.
 #' @importFrom pkgdepends pkg_dep_types parse_pkg_ref
-#' @importFrom utils installed.packages
 #' @keywords internal
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' d <- desc::desc("!new")
@@ -160,8 +239,7 @@ get_refs_from_desc <- function(d) {
     trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
     pkgdepends::parse_pkg_ref
   )
-  base_pkgs <- c("R", rownames(utils::installed.packages(priority = "base")))
-  missing_refs <- setdiff(setdiff(all_deps, base_pkgs), vapply(refs, `[[`, character(1), "package"))
+  missing_refs <- setdiff(setdiff(all_deps, base_pkgs()), vapply(refs, `[[`, character(1), "package"))
   res <- c(
     refs,
     lapply(missing_refs, pkgdepends::parse_pkg_ref)
@@ -198,10 +276,10 @@ desc_to_ip <- function(d, config) {
 #' Create `cli` progress bar for resolving versions.
 #' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
 #' @keywords internal
-cli_pb_init <- function(type, total) {
+cli_pb_init <- function(type, total, ...) {
   cli::cli_progress_bar(
     format = paste(
-      "{cli::pb_spin} Resolving {cli::pb_extra$type} version {cli::pb_extra$package}",
+      "{cli::pb_spin} Resolving {cli::pb_extra$type} version of {cli::pb_extra$package}",
       "[{cli::pb_current}/{cli::pb_total}]   ETA:{cli::pb_eta}"
     ),
     format_done = paste0(
@@ -209,11 +287,12 @@ cli_pb_init <- function(type, total) {
     ),
     extra = list(type = type, package = character(0)),
     total = total,
-    .envir = parent.frame(2L)
+    .envir = parent.frame(2L),
+    ...
   )
 }
 #' @importFrom cli cli_progress_update
 #' @keywords internal
-cli_pb_update <- function(package) {
-  cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(2L))
+cli_pb_update <- function(package, n = 2L, ...) {
+  cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
 }

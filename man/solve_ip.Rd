@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{solve_ip}
 \alias{solve_ip}
-\title{Try to solve using standard method. If error - use \link{solve_ignore_remotes_release}.}
+\title{Try to solve using standard method. If error - use \link{resolve_ignoring_release_remote}.}
 \usage{
 solve_ip(ip)
 }
@@ -13,6 +13,5 @@ solve_ip(ip)
 \code{pkg_installation_plan} object invisibly
 }
 \description{
-Try to solve using standard method. If error - use \link{solve_ignore_remotes_release}.
+Try to solve using standard method. If error - use \link{resolve_ignoring_release_remote}.
 }
-\keyword{internal}

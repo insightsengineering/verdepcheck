@@ -4,14 +4,20 @@
 \alias{new_max_deps_installation_proposal}
 \alias{deps_installation_proposal}
 \alias{new_release_deps_installation_proposal}
-\alias{new_min_deps_installation_proposal}
+\alias{new_min_direct_deps_installation_proposal}
+\alias{new_min_cohort_deps_installation_proposal}
+\alias{new_min_cohorts_deps_installation_proposal}
 \title{Create installation proposal using various dependency strategies}
 \usage{
 new_max_deps_installation_proposal(path, config = list())
 
 new_release_deps_installation_proposal(path, config = list())
 
-new_min_deps_installation_proposal(path, config = list())
+new_min_direct_deps_installation_proposal(path, config = list())
+
+new_min_cohort_deps_installation_proposal(path, config = list())
+
+new_min_cohorts_deps_installation_proposal(path, config = list())
 }
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
@@ -31,15 +37,29 @@ as described below.
 
 Currently implemented strategies:
 \itemize{
-\item \code{max} - use the greatest version of dependent packages
-\item \code{release} - use released version of dependent packages - use CRAN if possible else if GitHub release
-is available then use it else fail.
-\item \code{min} - use the lowest version of dependent packages incorporating minimal version specification in
-\code{"Imports"} and \code{"Suggests"}. If no version is specified then the minimal available
-version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
+\item \code{max} - use the greatest version of dependent packages. Please note that using development version is not
+guaranteed to be stable.
+See \link{get_ref_max} for details.
+\item \code{release} - use the released version of dependent packages. It will try use CRAN if possible else if
+GitHub release is available then use it else fail.
+See \link{get_ref_release} for details.
+\item \code{min_direct} - use the lowest version of direct dependent packages that satisfy version condition.
+If no version is specified then the minimal available version is assumed.
+Indirect dependencies are installed as usual, i.e. using the greatest available.
+See \link{get_ref_min} for details.
+\item \code{min_cohort} - find maximum date of directly dependent packages release dates and use that as PPM snapshot date
+for dependency resolve.
+This will limit the versions of indirect dependencies by date of parent package release date.
+\item \code{min_cohorts} - for each direct dependency: find its release date and use it as PPM snapshot for that dependency
+resolve. Next, combine all the individual resolve outputs and resolve it again.
+This will limit the versions of indirect dependencies by date of parent package release date.
 }
 
-Any modification is done for direct (!) dependencies. Indirect ones are installed as usual.
+Please note that only \code{min_cohort} and \code{min_cohorts} strategies are "stable" (unless "@*release" dynamic
+pointer is used in any of the dependencies - including also indirect ones).
+For all other results might differ due to changes in dependencies including a release of a new version.
+The most straightforward example is \code{max} strategy in which the environment will be different after any push of
+any of the dependencies.
 }
 
 \section{configuration}{
@@ -65,8 +85,18 @@ x$solve()
 x$get_solution()
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-x <- new_min_deps_installation_proposal(".")
+x <- new_min_direct_deps_installation_proposal(".")
 x$solve()
+x$get_solution()
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- new_min_cohort_deps_installation_proposal(".")
+solve_ip(x)
+x$get_solution()
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- new_min_cohorts_deps_installation_proposal(".")
+solve_ip(x)
 x$get_solution()
 \dontshow{\}) # examplesIf}
 }

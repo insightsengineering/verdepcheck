@@ -165,13 +165,14 @@ get_gh_refs <- function(org, repo) {
 }
 #' @importFrom gh gh_gql
 #' @keywords internal
-get_gh_releases <- function(org, repo) {
+get_gh_releases <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date("1900-01-01")) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
       releases(last: 100, orderBy: { field: CREATED_AT, direction: ASC}) {
         nodes {
-          isPrerelease
           tagName
+          isPrerelease
+          createdAt
         }
       }
     }
@@ -180,18 +181,24 @@ get_gh_releases <- function(org, repo) {
   if (inherits(resp, "try-error")) {
     return(character(0))
   }
-  non_prerelease <- Filter(function(x) isFALSE(x$isPrerelease), resp$data$repository$releases$nodes)
-  vapply(non_prerelease, `[[`, character(1), "tagName")
+  res <- Filter(
+    function(x) isFALSE(x$isPrerelease) & x$createdAt > min_date & x$createdAt < max_date,
+    resp$data$repository$releases$nodes
+  )
+  vapply(res, `[[`, character(1), "tagName")
 }
 #' @importFrom gh gh_gql
 #' @keywords internal
-get_gh_tags <- function(org, repo) {
+get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date("1900-01-01")) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
       refs(refPrefix: \"refs/tags/\", last: 100, orderBy: {field: TAG_COMMIT_DATE, direction: ASC}) {
-        edges {
-          node {
-            name
+        nodes {
+          name
+          target {
+            ... on Commit {
+              committedDate
+            }
           }
         }
       }
@@ -201,7 +208,11 @@ get_gh_tags <- function(org, repo) {
   if (inherits(resp, "try-error")) {
     return(character(0))
   }
-  vapply(resp$data$repository$refs$edges, function(x) x$node$name, character(1))
+  res <- Filter(
+    function(x) as.Date(x$target$committedDate) > min_date & as.Date(x$target$committedDate) < max_date,
+    resp$data$repository$refs$nodes
+  )
+  vapply(res, `[[`, character(1), "name")
 }
 
 
@@ -233,7 +244,6 @@ filter_valid_version <- function(x, op, op_ver) {
 #' @inheritParams get_ref_min
 #' @inherit get_ref_min return
 #'
-#' @importFrom pkgdepends parse_pkg_ref
 #' @export
 get_ref_max <- function(remote_ref) {
   remote_ref
@@ -295,4 +305,62 @@ cond_parse_pkg_ref_release <- function(remote_ref) {
   } else {
     NULL
   }
+}
+
+#' Get release date.
+#'
+#' @inheritParams get_ref_min
+#' @inherit get_ref_min return
+#'
+#' @export
+get_release_date <- function(remote_ref) {
+  UseMethod("get_release_date", remote_ref)
+}
+#' @importFrom gh gh_gql
+#' @export
+get_release_date.remote_ref_github <- function(remote_ref) {
+  gql_query <- sprintf("{
+    repository(owner: \"%s\", name: \"%s\") {
+      refs(refPrefix: \"refs/tags/\", query: \"%s\", first: 100) {
+        nodes {
+          target {
+            ... on Commit {
+              committedDate
+            }
+          }
+        }
+      }
+    }
+  }", remote_ref$username, remote_ref$repo, remote_ref$commitish)
+  resp <- try(gh::gh_gql(gql_query), silent = TRUE)
+  if (inherits(resp, "try-error")) {
+    return(character(0))
+  }
+  vapply(resp$data$repository$refs$nodes, function(x) x$target$committedDate, character(1))
+}
+#' @export
+get_release_date.remote_ref_cran <- function(remote_ref) {
+  subset(
+    get_cran_data(remote_ref$package),
+    package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
+    mtime
+  )[[1]][1]
+}
+#' @export
+get_release_date.remote_ref_standard <- function(remote_ref) {
+  get_release_date.remote_ref_cran(remote_ref)
+}
+#' @export
+get_release_date.remote_ref <- function(remote_ref) {
+  NA
+}
+
+#' @importFrom pkgcache cran_archive_list meta_cache_list
+#' @keywords internal
+get_cran_data <- function(package) {
+  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
+  cran_current <- pkgcache::meta_cache_list(packages = package)[, c("package", "version", "published")]
+
+  cran_current <- setNames(cran_current, names(cran_archive))
+  rbind(cran_archive, cran_current)
 }

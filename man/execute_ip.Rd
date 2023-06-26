@@ -2,7 +2,7 @@
 % Please edit documentation in R/check.R
 \name{execute_ip}
 \alias{execute_ip}
-\title{Executes installation plan and \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
+\title{Executes installation plan and \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} in "try mode" to always return.}
 \usage{
 execute_ip(ip, path, build_args, check_args, ...)
 }
@@ -25,6 +25,5 @@ a named \code{list} with two elements:
 }
 }
 \description{
-Executes installation plan and \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}
+Executes installation plan and \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} in "try mode" to always return.
 }
-\keyword{internal}

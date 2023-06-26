@@ -28,4 +28,3 @@ Executes \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} on a local pa
 \seealso{
 \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}} for other configuration possibilities
 }
-\keyword{internal}
