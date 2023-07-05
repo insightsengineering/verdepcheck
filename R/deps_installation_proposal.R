@@ -21,7 +21,7 @@
 #' Next, combine all the individual resolutions and resolve it altogether again.
 #'
 #' Both "min" strategies relies on PPM snapshot in order to limit the versions of indirect dependencies so that
-#' dependency resolution ends with a package released no eariler than any of its dependency.
+#' dependency resolution ends with a package released no earlier than any of its dependency.
 #' However, that's not always true for `min_isolated` strategy - done on purpose.
 #'
 #' Please note that only `min_cohort` and `min_isolated` strategies are "stable". The rest are basing on dynamic
