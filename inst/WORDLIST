@@ -2,6 +2,7 @@ behaviour
 CMD
 cran
 deps
+eariler
 pre
 ver
 verdepcheck

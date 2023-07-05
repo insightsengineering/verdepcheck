@@ -3,9 +3,8 @@
 \name{max_deps_check}
 \alias{max_deps_check}
 \alias{release_deps_check}
-\alias{min_direct_deps_check}
 \alias{min_cohort_deps_check}
-\alias{min_cohorts_deps_check}
+\alias{min_isolated_deps_check}
 \title{Execute \verb{R CMD CHECK} on a local package with all dependencies pre-installed using various strategies.}
 \usage{
 max_deps_check(
@@ -24,14 +23,6 @@ release_deps_check(
   ...
 )
 
-min_direct_deps_check(
-  path,
-  config = list(),
-  build_args = character(),
-  check_args = character(),
-  ...
-)
-
 min_cohort_deps_check(
   path,
   config = list(),
@@ -40,7 +31,7 @@ min_cohort_deps_check(
   ...
 )
 
-min_cohorts_deps_check(
+min_isolated_deps_check(
   path,
   config = list(),
   build_args = character(),
@@ -80,21 +71,18 @@ See \link{get_ref_max} for details.
 \item \code{release} - use the released version of dependent packages. It will try use CRAN if possible else if
 GitHub release is available then use it else fail.
 See \link{get_ref_release} for details.
-\item \code{min_direct} - use the lowest version of direct dependent packages that satisfy version condition.
-If no version is specified then the minimal available version is assumed.
-Indirect dependencies are installed as usual, i.e. using the greatest available.
-See \link{get_ref_min} for details.
 \item \code{min_cohort} - find maximum date of directly dependent packages release dates and use that as PPM snapshot date
 for dependency resolve.
-This will limit the versions of indirect dependencies by date of parent package release date.
-\item \code{min_cohorts} - for each direct dependency: find its release date and use it as PPM snapshot for that dependency
-resolve. Next, combine all the individual resolve outputs and resolve it again.
-This will limit the versions of indirect dependencies by date of parent package release date.
+\item \code{min_isolated} - for each direct dependency: find its release date and use it as PPM snapshot for resolving itself.
+Next, combine all the individual resolutions and resolve it altogether again.
 }
 
-Please note that only \code{min_cohort} and \code{min_cohorts} strategies are "stable" (unless "@*release" dynamic
-pointer is used in any of the dependencies - including also indirect ones).
-For all other results might differ due to changes in dependencies including a release of a new version.
+Both "min" strategies relies on PPM snapshot in order to limit the versions of indirect dependencies so that
+dependency resolution ends with a package released no eariler than any of its dependency.
+However, that's not always true for \code{min_isolated} strategy - done on purpose.
+
+Please note that only \code{min_cohort} and \code{min_isolated} strategies are "stable". The rest are basing on dynamic
+references therefore it results might be different without changes in tested package.
 The most straightforward example is \code{max} strategy in which the environment will be different after any push of
 any of the dependencies.
 }
@@ -111,17 +99,12 @@ x$ip
 x$check
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-x <- min_direct_deps_check(".")
-x$ip
-x$check
-\dontshow{\}) # examplesIf}
-\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 x <- min_cohort_deps_check(".")
 x$ip
 x$check
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-x <- min_cohorts_deps_check(".")
+x <- min_isolated_deps_check(".")
 x$ip
 x$check
 \dontshow{\}) # examplesIf}

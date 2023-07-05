@@ -15,20 +15,17 @@
 #' * `release` - use the released version of dependent packages. It will try use CRAN if possible else if
 #' GitHub release is available then use it else fail.
 #' See [get_ref_release] for details.
-#' * `min_direct` - use the lowest version of direct dependent packages that satisfy version condition.
-#' If no version is specified then the minimal available version is assumed.
-#' Indirect dependencies are installed as usual, i.e. using the greatest available.
-#' See [get_ref_min] for details.
 #' * `min_cohort` - find maximum date of directly dependent packages release dates and use that as PPM snapshot date
 #' for dependency resolve.
-#' This will limit the versions of indirect dependencies by date of parent package release date.
-#' * `min_cohorts` - for each direct dependency: find its release date and use it as PPM snapshot for that dependency
-#' resolve. Next, combine all the individual resolve outputs and resolve it again.
-#' This will limit the versions of indirect dependencies by date of parent package release date.
+#' * `min_isolated` - for each direct dependency: find its release date and use it as PPM snapshot for resolving itself.
+#' Next, combine all the individual resolutions and resolve it altogether again.
 #'
-#' Please note that only `min_cohort` and `min_cohorts` strategies are "stable" (unless "@*release" dynamic
-#' pointer is used in any of the dependencies - including also indirect ones).
-#' For all other results might differ due to changes in dependencies including a release of a new version.
+#' Both "min" strategies relies on PPM snapshot in order to limit the versions of indirect dependencies so that
+#' dependency resolution ends with a package released no eariler than any of its dependency.
+#' However, that's not always true for `min_isolated` strategy - done on purpose.
+#'
+#' Please note that only `min_cohort` and `min_isolated` strategies are "stable". The rest are basing on dynamic
+#' references therefore it results might be different without changes in tested package.
 #' The most straightforward example is `max` strategy in which the environment will be different after any push of
 #' any of the dependencies.
 #'
@@ -114,46 +111,8 @@ new_release_deps_installation_proposal <- function(path, # nolint
 #' @rdname deps_installation_proposal
 #' @export
 #' @importFrom desc desc
-#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
-#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' x <- new_min_direct_deps_installation_proposal(".")
-#' x$solve()
-#' x$get_solution()
-new_min_direct_deps_installation_proposal <- function(path, # nolint
-                                                      config = list()) {
-  path <- normalizePath(path)
-  config <- append_config(default_config(), config)
-
-  d <- desc::desc(path)
-
-  refs <- get_refs_from_desc(d)
-  new_refs <- list()
-
-  cli_pb_init("min", length(refs))
-  for (i in seq_along(refs)) {
-    pkg <- refs[[i]]$package
-    version <- subset(d$get_deps(), package == pkg, "version")[[1]]
-    if (version == "*") {
-      op <- op_ver <- ""
-    } else {
-      op <- strsplit(version, " ")[[1]][1]
-      op_ver <- strsplit(version, " ")[[1]][2]
-    }
-    cli_pb_update(pkg)
-    new_refs <- c(new_refs, list(get_ref_min_incl_cran(refs[[i]], op, op_ver)))
-  }
-  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
-
-  d <- desc_cond_set_refs(d, new_refs_str)
-
-  res <- desc_to_ip(d, config)
-  class(res) <- c("min_direct_deps_installation_proposal", "deps_installation_proposal", class(res))
-  res
-}
-
-#' @rdname deps_installation_proposal
-#' @export
-#' @importFrom desc desc
+#' @importFrom pkgdepends as_pkg_dependencies parse_pkg_ref
+#' @importFrom pkgcache ppm_repo_url
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_min_cohort_deps_installation_proposal(".")
 #' solve_ip(x)
@@ -177,19 +136,123 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
       }
     }
   )
-  # for github type - find min version
+  # for github type - find ref for min version and add it to the GH ref
   new_refs <- lapply(
     new_refs,
     function(x) {
       if (inherits(x, "remote_ref_github")) {
         version <- subset(d$get_deps(), package == x$package, version)[[1]]
         if (version == "*") {
-          op <- op_ver <- ""
+          get_ref_min(x)
         } else {
           op <- strsplit(version, " ")[[1]][1]
           op_ver <- strsplit(version, " ")[[1]][2]
+          get_ref_min(x, op, op_ver)
         }
-        get_ref_min(x, op, op_ver)
+      } else {
+        x
+      }
+    }
+  )
+  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  d <- desc_cond_set_refs(d, new_refs_str)
+
+  # find PPM snapshot
+  refs <- get_refs_from_desc(d)
+  refs_pkg <- vapply(refs, `[[`, character(1), "package")
+  deps <- d$get_deps()
+  deps_release_dates <- lapply(
+    seq_len(nrow(deps)),
+    function(i) {
+      i_pkg <- deps[i, "package"]
+
+      if (tolower(deps[i, "type"]) %nin% tolower(pkgdepends::as_pkg_dependencies(config$dependencies)$direct)) {
+        return(NA)
+      }
+      if (i_pkg %in% base_pkgs()) {
+        return(NA)
+      }
+      if (i_pkg %nin% refs_pkg) {
+        return(NA)
+      }
+
+      i_ref <- refs[[which(refs_pkg == i_pkg)]]
+
+      i_ver <- deps[i, "version"]
+      if (i_ver == "*") {
+        i_ref_ver <- get_ref_min(i_ref)
+      } else {
+        i_op <- strsplit(i_ver, " ")[[1]][1]
+        i_op_ver <- strsplit(i_ver, " ")[[1]][2]
+        i_ref_ver <- get_ref_min(i_ref, i_op, i_op_ver)
+      }
+
+      get_release_date(i_ref_ver)
+    }
+  )
+  max_release_date <- as.character(
+    as.Date(
+      max(
+        unlist(
+          lapply(deps_release_dates, as.Date, origin = "1970-01-01")
+        ),
+        na.rm = TRUE
+      ),
+      origin = "1970-01-01"
+    )
+  )
+  if (is.na(max_release_date)) {
+    ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
+  } else {
+    ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(max_release_date))
+  }
+  config <- append_config(config, list("cran_mirror" = ppm_repo))
+
+  res <- desc_to_ip(d, config)
+  class(res) <- c("min_cohort_deps_installation_proposal", "deps_installation_proposal", class(res))
+  res
+}
+
+#' @rdname deps_installation_proposal
+#' @export
+#' @importFrom desc desc
+#' @importFrom pkgdepends parse_pkg_ref
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' x <- new_min_isolated_deps_installation_proposal(".")
+#' solve_ip(x)
+#' x$get_solution()
+new_min_isolated_deps_installation_proposal <- function(path, # nolint
+                                                        config = list()) {
+  path <- normalizePath(path)
+  config <- append_config(default_config(), config)
+
+  d <- desc::desc(path)
+
+  refs <- get_refs_from_desc(d)
+  # convert github to standard if possible
+  new_refs <- lapply(
+    refs,
+    function(x) {
+      if (inherits(x, "remote_ref_github") && check_if_on_cran(x) && x$commitish == "") {
+        pkgdepends::parse_pkg_ref(x$package)
+      } else {
+        x
+      }
+    }
+  )
+  # for github type - find ref for min version and add it to the GH ref
+  new_refs <- lapply(
+    new_refs,
+    function(x) {
+      if (inherits(x, "remote_ref_github")) {
+        version <- subset(d$get_deps(), package == x$package, version)[[1]]
+        if (version == "*") {
+          get_ref_min(x)
+        } else {
+          op <- strsplit(version, " ")[[1]][1]
+          op_ver <- strsplit(version, " ")[[1]][2]
+          get_ref_min(x, op, op_ver)
+        }
       } else {
         x
       }
@@ -200,21 +263,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
-  class(res) <- c("min_cohort_deps_installation_proposal", "deps_installation_proposal", class(res))
-  res
-}
-
-#' @rdname deps_installation_proposal
-#' @export
-#' @importFrom desc desc
-#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' x <- new_min_cohorts_deps_installation_proposal(".")
-#' solve_ip(x)
-#' x$get_solution()
-new_min_cohorts_deps_installation_proposal <- function(path, # nolint
-                                                       config = list()) {
-  res <- new_min_cohort_deps_installation_proposal(path, config)
-  class(res) <- c("min_cohorts_deps_installation_proposal", class(res)[-1])
+  class(res) <- c("min_isolated_deps_installation_proposal", "deps_installation_proposal", class(res))
   res
 }
 
@@ -232,13 +281,14 @@ new_min_cohorts_deps_installation_proposal <- function(path, # nolint
 #' get_refs_from_desc(d)
 get_refs_from_desc <- function(d) {
   if (.desc_field %nin% d$fields()) {
-    return(list())
+    refs <- list()
+  } else {
+    refs <- lapply(
+      trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
+      pkgdepends::parse_pkg_ref
+    )
   }
   all_deps <- subset(d$get_deps(), type %in% pkgdepends::pkg_dep_types(), "package")[[1]]
-  refs <- lapply(
-    trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
-    pkgdepends::parse_pkg_ref
-  )
   missing_refs <- setdiff(setdiff(all_deps, base_pkgs()), vapply(refs, `[[`, character(1), "package"))
   res <- c(
     refs,

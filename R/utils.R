@@ -6,7 +6,7 @@
 
 default_config <- function() {
   list(
-    dependencies = .desc_field,
+    dependencies = c(.desc_field, pkgdepends::as_pkg_dependencies(TRUE)$direct),
     library = tempfile()
   )
 }

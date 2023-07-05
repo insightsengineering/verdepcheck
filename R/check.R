@@ -47,22 +47,6 @@ release_deps_check <- function(path,
 #' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' x <- min_direct_deps_check(".")
-#' x$ip
-#' x$check
-min_direct_deps_check <- function(path,
-                                  config = list(),
-                                  build_args = character(),
-                                  check_args = character(),
-                                  ...) {
-  ip <- new_min_direct_deps_installation_proposal(path, config)
-  execute_ip(ip, path, check_args, build_args, ...)
-}
-
-#' @rdname deps_check
-#' @export
-#'
-#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- min_cohort_deps_check(".")
 #' x$ip
 #' x$check
@@ -79,15 +63,15 @@ min_cohort_deps_check <- function(path,
 #' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' x <- min_cohorts_deps_check(".")
+#' x <- min_isolated_deps_check(".")
 #' x$ip
 #' x$check
-min_cohorts_deps_check <- function(path,
-                                   config = list(),
-                                   build_args = character(),
-                                   check_args = character(),
-                                   ...) {
-  ip <- new_min_cohorts_deps_installation_proposal(path, config)
+min_isolated_deps_check <- function(path,
+                                    config = list(),
+                                    build_args = character(),
+                                    check_args = character(),
+                                    ...) {
+  ip <- new_min_isolated_deps_installation_proposal(path, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 
@@ -135,8 +119,8 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #' @keywords internal
 #' @importFrom pkgcache ppm_repo_url
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
-#' @exportS3Method solve_ip min_cohorts_deps_installation_proposal
-solve_ip.min_cohorts_deps_installation_proposal <- function(ip) { # nolint
+#' @exportS3Method solve_ip min_isolated_deps_installation_proposal
+solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
   res <- ip$get_resolution()
 
@@ -151,7 +135,7 @@ solve_ip.min_cohorts_deps_installation_proposal <- function(ip) { # nolint
   deps <- do.call(rbind, deps)
   deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
 
-  cli_pb_init("min_cohorts", total = nrow(deps))
+  cli_pb_init("min_isolated", total = nrow(deps))
 
   deps_res <- lapply(
     seq_len(nrow(deps)),
@@ -195,79 +179,6 @@ solve_ip.min_cohorts_deps_installation_proposal <- function(ip) { # nolint
   new_res <- new_res[!duplicated(new_res), ]
 
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
-  ip$solve()
-
-  resolve_ignoring_release_remote(ip)
-
-  return(invisible(ip))
-}
-
-#' @keywords internal
-#' @importFrom pkgcache ppm_repo_url
-#' @importFrom pkgdepends parse_pkg_ref
-#' @exportS3Method solve_ip min_cohort_deps_installation_proposal
-solve_ip.min_cohort_deps_installation_proposal <- function(ip) { # nolint
-  ip$resolve()
-  res <- ip$get_resolution()
-
-  deps <- res[1, "deps"][[1]]
-  ## copy op and version to Config\Needs\verdepcheck rows
-  deps <- split(deps, as.factor(deps$package))
-  deps <- lapply(deps, function(x) {
-    x$op <- x$op[1]
-    x$version <- x$version[1]
-    x
-  })
-  deps <- do.call(rbind, deps)
-  deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
-
-  cli_pb_init("min_cohort", total = nrow(deps))
-
-  deps_release_dates <- lapply(
-    seq_len(nrow(deps)),
-    function(i) {
-      i_pkg <- deps[i, "package"]
-
-      cli_pb_update(package = i_pkg, n = 4L)
-
-      if (i_pkg %in% base_pkgs()) {
-        return(NA)
-      }
-
-      i_op <- deps[i, "op"]
-      i_op_ver <- deps[i, "version"]
-
-      i_ref_str <- deps[i, "ref"]
-      i_ref <- pkgdepends::parse_pkg_ref(i_ref_str)
-
-      i_ref_ver <- get_ref_min(i_ref, i_op, i_op_ver)
-
-      get_release_date(i_ref_ver)
-    }
-  )
-
-  max_release_date <- as.character(
-    as.Date(
-      max(
-        unlist(
-          lapply(deps_release_dates, as.Date)
-        ),
-        na.rm = TRUE
-      ),
-      origin = "1960-01-01"
-    )
-  )
-
-  if (is.na(max_release_date)) {
-    ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-  } else {
-    ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(max_release_date))
-  }
-
-  ip$get_config()$set("cran_mirror", ppm_repo)
-
-  ip$resolve()
-
   ip$solve()
 
   resolve_ignoring_release_remote(ip)
