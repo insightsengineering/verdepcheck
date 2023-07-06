@@ -81,15 +81,16 @@ Do not confuse `verdepcheck` with `revdepcheck` for reverse dependency checks. T
 What it is not about:
 
 - This does not perform matrix testing of _all_ versions of dependent packages.
+- This does not perform search for optimal set of dependencies. It is more a _validator_ of dependencies specification.
 - This only looks into package versions - in particular: it does not check R versions or system architectures.
 
 #
 
-Let's call a "different set of dependencies" a _strategy_. Currently there are three _strategies_ implemented:
+Let's call a "different set of dependencies" a _strategy_. Currently there are four _strategies_ implemented:
 
 - **max** - use _development_ version of dependencies
 - **release** - use _released_ version of dependencies (e.g. from CRAN)
-- **min** - use _minimal_ version of dependencies as per `DESCRIPTION` file
+- **min_cohort** and **min_isolated** - use _minimal_ version of dependencies as per `DESCRIPTION` file.
 
 This tool is looking into a **direct** dependencies only.
 
@@ -102,7 +103,7 @@ This tool is looking into a **direct** dependencies only.
 
 For **max** strategy the algorithm will look for dependent packages references in a new section `Config/Needs/verdepcheck` of the `DESCRIPTION` file.
 
-For **release** and **min** it's not needed (at least for CRAN packages).
+For **release** and **min** it's not needed (unless non-CRAN packages).
 
 :::{.callout-note}
 This might indicate some duplication with the `Remotes` section but it cannot be used because of side effects, i.e. configuration of `verdepcheck` should have no impact package installation.
@@ -127,7 +128,7 @@ min_deps_check("/path/to/package")
 
 # How to use?
 
-Multiple steps (note private function calls):
+Multiple steps:
 
 ```{r}
 #| eval: false
@@ -139,16 +140,16 @@ library(verdepcheck)
 x <- new_max_deps_installation_proposal("/path/to/package")
 
 # resolve dependencies
-verdepcheck:::solve_ip(x)
+solve_ip(x)
 
 # download dependencies
-verdepcheck:::download_ip(x)
+download_ip(x)
 
-# resolve and install
-verdepcheck:::install_ip(x)
+# install
+install_ip(x)
 
 # run R CMD CHECK
-verdepcheck:::check_ip(x)
+check_ip(x)
 ```
 
 ## How to use the output?
@@ -181,7 +182,7 @@ x$check$status
 
 This package is heavily based on [`pkgdepends`](https://r-lib.github.io/pkgdepends) for dependency detection and resolution and also [`rcmdcheck`](https://rcmdcheck.r-lib.org) for executing `"R CMD CHECK"`.
 
-It also uses other packages like `pkgcache`, `pkgbuild`, `desc` or `cli`.
+It also uses other packages like `pkgcache`, `pkgbuild`, `desc`, `cli`, `gh`.
 
 <hr>
 
@@ -222,243 +223,65 @@ deps::.
 
 ## Find package references - the algorithm {.smaller}
 
-- **max** (`verdepcheck:::get_ref_max()`)
+- **max** (`get_ref_max()`)
 
   Use reference provided in `Config/Needs/verdepcheck` as is.
 
-- **release** (`verdepcheck:::get_ref_release()`)
+- **release** (`get_ref_release()`)
 
   For CRAN pkg: use standard reference (i.e. package name only).
 
   For GitHub pkg: find the latest release reference.
 
-- **min** (`verdepcheck:::get_ref_min()`)
+- **min_cohort** (`get_ref_min()`, `get_release_date()`)
 
-  For CRAN pkg: use the lowest possible from CRAN archive for which version condition is met.
+  For each directly dependent package:
 
-  For GitHub pkg: loop through releases (tags if no releases) starting from the oldest one until version condition is met.
+  - Find the lowest possible version for which version condition is met. Take the earliest possible if no condition. Use CRAN archive and GH releases or tags if no releases.
 
-  Please note that only this strategy includes search on versions of dependencies.
+  - Derive release (commit) date.
 
-## Few examples {.smaller}
+  Calculate maximal release date and use it as PPM snapshot when resolving dependency tree.
 
-| Imports: | Config\Needs\verdepcheck | ref max | ref release | ref min |
-|---|---|---|---|---|
-| `rlang (>= 1.0.0)` | `r-lib/rlang` | `r-lib/rlang` | `rlang` | `rlang@1.0.0` |
-| `rlang` | `r-lib/rlang` | `r-lib/rlang` | `rlang` | `rlang@0.1.0` |
-| `rlang (>= 1.0.0)` |  | `rlang` | `rlang` | `rlang@1.0.0` |
-| `rlang` |  | `rlang` | `rlang` | `rlang@0.1.0` |
-| `foo` | `bar/foo` | `bar/foo` | `bar/foo@v1.2.3` | `bar/foo@v0.1.0` |
-| `foo` |  | ERROR: package not found | ERROR: package not found | ERROR: package not found |
-| `Foo` | `bioc::Foo` | `bioc::Foo` | `bioc::Foo` | `bioc::Foo` |
+- **min_isolated** (`get_ref_min()`, `get_release_date()`)
 
-# Dependency resolution
+  Similarly to the above but resolve each of the directly dependent packages separately using its own release date as PPM snapshot date. Next, combine all resolutions and resolve once again (aggregating by max version).
 
-Dependency resolution will _collapse_ the whole dependency tree (including indirect dependencies) and warn about conflicts.
+## Discussion on the **max** strategy
 
-:::{.callout-important}
-You have to specify minimal versions allowing dependency resolution to complete.
-:::
+By definition, it is using non-stable, development package version.
 
-It could be a process of multiple iterations of increasing dependent package versions.
+The result is not _stable_ - it utilizes a dynamic type of reference which might result in different results each time you run this function.
 
-## Explanation for direct dependencies
+For packages that does not practice version increase on each commit, package version number is not a valid package state identifier. It might happen that multiple package states will be `v1.2.3` each. Use md5 sum or package source reference instead.
 
-The initial prototype of `min` strategy included recursive find of minimal dependency. This oftentimes lead into usage of already archived package or not able to compile very old package on modern systems architecture.
+This shouldn't be an obligatory type of check. It's failure should be incorporated as a notification about upcoming dependent breaking changes.
 
-In order to solve potential issues, package author would need to control / specify indirect dependencies which is counter intuitive.
+## Discussion on the **release** strategy
 
-Therefore only **direct** dependencies are being looked into and **indirect** dependencies are installed using standard way - i.e. the greatest available.
+By definition, it is using a stable package version.
 
-## Explanation for direct dependencies
-
-It might happen that the environment would include relatively old version of a directly dependent package alongside the newest version of indirect dependency.
-
-E.g.
-
-```{.yaml code-line-numbers="7"}
-Type: Package
-Package: foo.package
-Version: 1.2.3.9000
-Depends:
-    R (>= 3.6)
-Suggests:
-    testthat (>= 2.0.0)
-    (...)
-```
-
-As a result we will use `testthat@2.0.0` (direct dependency) released in 2017 alongside the newest release of `rlang` (indirect dependency - required by `testthat`) from 2023.
-
-## Explanation for direct dependencies
-
-It's definitely arguable how likely that scenario is but it's definitely a valid and fully functional environment in which your package might be used.
-
-There is an idea for a new `min_concurrent` strategy to address that - not discussed here.
-
-## Example - failure
-
-:::: {.columns}
-
-::: {.column width="50%"}
-```{.yaml code-line-numbers="7-8"}
-Type: Package
-Package: foo.package
-Version: 1.2.3.9000
-Depends:
-    R (>= 3.6)
-Imports:
-    dplyr (>= 1.0.0),
-    tibble (>= 1.0.0)
-    (...)
-```
-:::
-
-::: {.column width="50%"}
-```{.yaml code-line-numbers="2,3,8"}
-Type: Package
-Package: dplyr
-Package: 1.0.0
-Depends:
-    R (>= 3.2.0)
-Imports:
-    (...)
-    tibble (>= 2.1.3)
-    (...)
-```
-:::
-
-::::
-
-<br>
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-line-numbers: false
-x <- pkgdepends::new_pkg_deps(c("dplyr@1.0.0", "tibble@1.0.0"))
-x$solve()
-x$get_solution()
-```
-
-```.default
-<pkg_solution>
-+ result: FAILED
-+ refs:
-  - dplyr@1.0.0
-  - tibble@1.0.0
-+ constraints (93):
-  (...)
-x failures:
-* dplyr@1.0.0: Can't install dependency tibble (>= 2.1.3)
-* tibble@1.0.0: Conflicts with tibble@1.0.0
-* tibble: Conflicts with tibble@1.0.0
-```
-
-## Example - success
-
-:::: {.columns}
-
-::: {.column width="50%"}
-```{.yaml code-line-numbers="8"}
-Type: Package
-Package: foo.package
-Version: 1.2.3.9000
-Depends:
-    R (>= 3.6)
-Imports:
-    dplyr (>= 1.0.0),
-    tibble (>= 2.1.3)
-    (...)
-```
-:::
-
-::: {.column width="50%"}
-```{.yaml code-line-numbers="8"}
-Type: Package
-Package: dplyr
-Package: 1.0.0
-Depends:
-    R (>= 3.2.0)
-Imports:
-    (...)
-    tibble (>= 2.1.3)
-    (...)
-```
-:::
-
-::::
-
-<br>
-
-```{r}
-#| eval: false
-#| echo: true
-#| code-line-numbers: false
-x <- pkgdepends::new_pkg_deps(c("dplyr@1.0.0", "tibble@2.1.3"))
-x$solve()
-x$get_solution()
-```
-
-```.default
-<pkg_solution>
-+ result: OK
-+ refs:
-  - dplyr@1.0.0
-  - tibble@2.1.3
-+ constraints (95):
-  - select dplyr exactly once
-  - select tibble exactly once
-  - select R6 at most once
-  - select cli at most once
-  - select ellipsis at most once
-  - select fansi at most once
-  - select generics at most once
-  - select glue at most once
-  - select lifecycle at most once
-  - select magrittr at most once
-  ...
-+ solution:
-  - cli
-  - crayon
-  - dplyr@1.0.0
-  - ellipsis
-  - fansi
-  - generics
-  - glue
-  - lifecycle
-  - magrittr
-  - pillar
-  - pkgconfig
-  - R6
-  - rlang
-  - tibble@2.1.3
-  - tidyselect
-  - utf8
-  - vctrs
-  - withr
-```
+Similarly to the previous one, the result is not _stable_ - it utilizes a dynamic type of reference which might result in different results each time you run this function.
 
 ## Discussion on the **min** strategy
 
-- One might argue that `foo.package` is fully compatible with the `tibble@1.0.0` syntax but `tibble@1.0.0` cannot be installed alongside `dplyr@1.0.0` hence `foo.package` cannot be used with both `dplyr@1.0.0` and `tibble@1.0.0` loaded.
+It is quite complex topic how to set up an environment with packages that respects minimal version requirements and also are:
 
-  Therefore `tibble (>= 1.0.0)` (alongside `dplyr (>= 1.0.0)`) really indicates `tibble (>= 2.1.3)`.
+- **installable**
 
-- _Collapsing_ the whole dependency tree requires you to specify `tibble (>= 2.1.3)` otherwise the dependencies cannot be resolved successfully.
+- **resolvable** - no conflicts when resolving joint dependency tree
+
+- **coherent** - each package fully compatible with its dependencies. In practice it means that a package cannot be released earlier than any of its dependency.
+
+This package does not aim to find an optimal minimal environment but it's rather a validator of existing dependency specification.
 
 ## Discussion on the **min** strategy
 
-All of this makes the minimal version specification of dependencies truly a **installable** and **compatible** set of dependencies rather than **compatibility**-wise set od dependencies.
+**min_cohort** fulfills all of above criteria but it doesn't necessarily mean it's the optimum (i.e. minimal possible).
 
-It is a little more strict (i.e. includes additional version increases) as well as breaks encapsulation of what is specified where.
+The coherence attribute is debatable as many user errors we have encountered stems from non coherent environment. Yet another question to what incoherency extend should we allow the target environment to be. **min_isolated** strategy propose one option by joining individual, self-coherent trees which after joining doesn't have to be coherent anymore.
 
-:::{.callout-important}
-This is a significant limitation of the current implementation.
-:::
-
-## Real-life observations: {.smaller}
-
-- Oftentimes the dependency tree is of a big depth and there are multi-step conflicts.
+## Real-life observations:
 
 - Some very old packages are not compilable on modern machines and you have to increase versions to make it installable.
 
@@ -466,31 +289,16 @@ This is a significant limitation of the current implementation.
 
 - In order to enter GHA debug lines, `verdepcheck` will continue on error entering `R CMD CHECK` step when e.g. dependency resolve failed. If you encounter `vignette builder 'knitr' not found` error - most likely you failed on resolve or install.
 
-# A few caveats: {.smaller}
+## When to run it?
 
-None of the test result is _stable_:
-
-  - **min**
-
-    Indirect dependencies are installed as usual using the newest available. Therefore: it is not guaranteed that the new release of indirect dependency will be fully compatible with some old version of direct dependency.
-
-    e.g. future version of `tibble` won't be fully compatible with `dplyr@1.0.0`
-
-  - **release**
-
-    The same as above though it's relatively unlikely if you use CRAN-only dependencies as this is checked by CRAN.
-
-  - **max**
-
-    This is the most instable environment changed by pushes to any of the dependencies. Also: the main branch is usually not guaranteed to be correct and you might pull broken package version.
-
-Therefore, this test should be triggered periodically and not on code change (unless changes includes dependencies). Triggering it on change might give a false message that a failure stems from code changes.
+As discussed earlier, most of the tests are not _stable_. Therefore, this test should be triggered periodically and not on code change (unless changes includes dependencies and its usage). Triggering it on change might give a false message that a failure stems from code changes which doesn't have to be true.
 
 # Future work:
 
 - Idea: add `branch` strategy with recursive resolve for possible replacement of `staged.dependencies`.
-- Idea: `concurrent_min` strategy that uses versions of recursive dependencies that were concurrent (as opposed to max) with the versions of the direct deps being tested.
 - Idea: add custom strategies.
+- Idea: add recursive version lookups.
+- Idea: new functionality (probably a separate package) that gets you optimal minimal dependency specification / environment.
 - Enhance `r-verdepcheck-action` output readability.
 - Remove workarounds implemented once referenced issues are closed.
 
