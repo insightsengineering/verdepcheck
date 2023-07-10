@@ -114,7 +114,7 @@ solve_ip.deps_installation_proposal <- function(ip) {
   resolve_ignoring_release_remote(ip)
 }
 
-#' Resolve the dependencies of package based on the release data + 1
+#' Resolve the dependencies of package based on the release date + 1
 #'
 #' @keywords internal
 #' @importFrom pkgcache ppm_repo_url
