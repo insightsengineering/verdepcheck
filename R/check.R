@@ -119,11 +119,11 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #' @keywords internal
 #' @importFrom pkgcache ppm_repo_url
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
-resolve_ppm_snapshot <- function(i_pkg, i_op, i_op_ver, i_ref_str) {
+resolve_ppm_snapshot <- function(pkg_pkg, operator, pkg_version, pkg_ref_str) {
 
-  i_ref <- pkgdepends::parse_pkg_ref(i_ref_str)
+  i_ref <- pkgdepends::parse_pkg_ref(pkg_ref_str)
 
-  i_ref_minver <- get_ref_min_incl_cran(i_ref, i_op, i_op_ver)
+  i_ref_minver <- get_ref_min_incl_cran(i_ref, operator, pkg_version)
 
   i_release_date <- get_release_date(i_ref_minver)
 
@@ -134,14 +134,18 @@ resolve_ppm_snapshot <- function(i_pkg, i_op, i_op_ver, i_ref_str) {
   }
 
   i_pkg_deps <- pkgdepends::new_pkg_deps(
-    if (inherits(i_ref_minver, "remote_ref_github")) i_ref_minver$ref else i_ref$ref,
+    ifelse(
+      inherits(i_ref_minver, "remote_ref_github"),
+      i_ref_minver$ref,
+      i_ref$ref
+    ),
     config = list(dependencies = "hard", cran_mirror = ppm_repo)
   )
   suppressMessages(i_pkg_deps$resolve())
 
   i_res <- i_pkg_deps$get_resolution()
   i_res$direct <- i_res$directpkg <- FALSE
-  i_res$parent <- i_pkg
+  i_res$parent <- pkg_pkg
   i_res
 }
 
@@ -150,15 +154,15 @@ resolve_ppm_snapshot <- function(i_pkg, i_op, i_op_ver, i_ref_str) {
 #' @keywords internal
 enforce_rcpp <- function(pkg_resolution) {
   rcpp_index <- pkg_resolution$package == "Rcpp"
-  if (!any(rcpp_index)) return(NULL)
+  if (!any(rcpp_index)) return(pkg_resolution)
 
   version_lt_1 <- as.numeric_version(pkg_resolution$version) < as.numeric_version("1") &
     rcpp_index
 
-  if (NROW(pkg_resolution[version_lt_1,]) == 0) return(NULL)
+  if (NROW(pkg_resolution[version_lt_1,]) == 0) return(pkg_resolution)
 
   if (as.numeric_version(R.version$major) < as.numeric_version("4")) {
-    return(NULL)
+    return(pkg_resolution)
   }
 
   # Resolve for Rcpp_1.0.0 to replace entries that don't comply with this
@@ -200,12 +204,27 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
       return(NULL)
     }
 
-    resolve_ppm_snapshot(i_pkg, deps[i, "op"], deps[i, "version"], deps[i, "ref"])
+    resolve_ppm_snapshot(
+      i_pkg,
+      deps[i, "op"],
+      deps[i, "version"],
+      deps[i, "ref"])
   })
 
-  new_res <- rbind(res[1, ], do.call(rbind, deps_res))
-  new_res <- new_res[order(as.numeric_version(new_res$version)),]
-  new_res <- new_res[!duplicated(new_res), ]
+    new_res <- do.call(rbind, deps_res)
+  # Order by package name, version number and mirror
+  #  for reproducible resolution
+  order_index <- order( new_res$package,
+    as.numeric_version(new_res$version),
+    new_res$mirror
+  )
+  new_res <- new_res[order_index,]
+  new_res <- new_res[!duplicated(new_res[,c("ref","package", "version")]), ]
+
+  # Keep res at top
+  new_res <- rbind(res[1, ], new_res)
+
+  # Enforce minimum Rcpp version for R > 4.0
   new_res <- enforce_rcpp(new_res)
 
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
