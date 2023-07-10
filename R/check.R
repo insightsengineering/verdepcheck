@@ -119,7 +119,7 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #' @keywords internal
 #' @importFrom pkgcache ppm_repo_url
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
-resolve_ppm_snapshot <- function(pkg_pkg, operator, pkg_version, pkg_ref_str) {
+resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 
   i_ref <- pkgdepends::parse_pkg_ref(pkg_ref_str)
 
@@ -145,7 +145,7 @@ resolve_ppm_snapshot <- function(pkg_pkg, operator, pkg_version, pkg_ref_str) {
 
   i_res <- i_pkg_deps$get_resolution()
   i_res$direct <- i_res$directpkg <- FALSE
-  i_res$parent <- pkg_pkg
+  i_res$parent <- pkg_ref_str
   i_res
 }
 
@@ -167,7 +167,7 @@ enforce_rcpp <- function(pkg_resolution) {
 
   # Resolve for Rcpp_1.0.0 to replace entries that don't comply with this
   #  hard requirement
-  rcpp_res <- resolve_ppm_snapshot("Rcpp", "==", "1.0.0", "Rcpp")
+  rcpp_res <- resolve_ppm_snapshot("Rcpp", "==", "1.0.0")
   pkg_resolution[version_lt_1,] <- rcpp_res
 
   pkg_resolution
@@ -205,13 +205,13 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
     }
 
     resolve_ppm_snapshot(
-      i_pkg,
+      deps[i, "ref"],
       deps[i, "op"],
-      deps[i, "version"],
-      deps[i, "ref"])
+      deps[i, "version"]
+    )
   })
 
-    new_res <- do.call(rbind, deps_res)
+  new_res <- do.call(rbind, deps_res)
   # Order by package name, version number and mirror
   #  for reproducible resolution
   order_index <- order( new_res$package,
@@ -219,7 +219,14 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
     new_res$mirror
   )
   new_res <- new_res[order_index,]
-  new_res <- new_res[!duplicated(new_res[,c("ref","package", "version")]), ]
+  new_res <- new_res[!duplicated(new_res[,c("ref", "package", "version")]), ]
+
+  # Force primary dependencies versions
+  new_res <- new_res[
+    !(new_res$package %in% deps$package) |
+      new_res$package == new_res$parent
+    ,
+  ]
 
   # Keep res at top
   new_res <- rbind(res[1, ], new_res)
