@@ -272,7 +272,13 @@ download_ip <- function(ip) {
 #' @export
 install_ip <- function(ip) {
   ip$install_sysreqs()
-  ip$install()
+  tryCatch(
+    ip$install(),
+    error = function(err) {
+      # Print compilation error when installation fails to help debug
+      print(err)
+      stop(err)
+  })
 
   return(invisible(ip))
 }
