@@ -150,18 +150,11 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
     )
 
     # Remove duplicate entries of current package
-    result[result$ref != deps[i, "ref"] | !duplicated(result$ref),]
+    result[result$ref != deps[i, "ref"] | !duplicated(result$ref), ]
   })
 
   new_res <- do.call(rbind, deps_res)
-  # Order by package name, version number and mirror
-  #  for reproducible resolution
-  order_index <- order( new_res$package,
-    as.numeric_version(new_res$version),
-    new_res$mirror
-  )
-  new_res <- new_res[order_index,]
-  new_res <- new_res[!duplicated(new_res[,c("ref", "package", "version")]), ]
+  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version")]), ]
 
   # Keep primary dependencies versions (in case primary dependency is
   #  resolved in other dependencies)
@@ -173,9 +166,6 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
   # Keep res at top
   new_res <- rbind(res[1, ], new_res)
-
-  # Enforce minimum Rcpp version for R > 4.0
-  new_res <- enforce_rcpp(new_res)
 
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
   ip$solve()

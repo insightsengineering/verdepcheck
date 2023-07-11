@@ -66,27 +66,3 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res$parent <- pkg_ref_str
   i_res
 }
-
-#' Enforce a minimum version of Rcpp (>=1.0.0) for R version above 4.0.0
-#' A change in base R on 4.0.0 makes Rcpp incompatible in previous versions
-#' @keywords internal
-enforce_rcpp <- function(pkg_resolution) {
-  rcpp_index <- pkg_resolution$package == "Rcpp"
-  if (!any(rcpp_index)) return(pkg_resolution)
-
-  version_lt_1 <- as.numeric_version(pkg_resolution$version) < as.numeric_version("1") &
-    rcpp_index
-
-  if (NROW(pkg_resolution[version_lt_1,]) == 0) return(pkg_resolution)
-
-  if (as.numeric_version(R.version$major) < as.numeric_version("4")) {
-    return(pkg_resolution)
-  }
-
-  # Resolve for Rcpp_1.0.0 to replace entries that don't comply with this
-  #  hard requirement
-  rcpp_res <- resolve_ppm_snapshot("Rcpp", "==", "1.0.0")
-  pkg_resolution[version_lt_1,] <- rcpp_res
-
-  pkg_resolution
-}
