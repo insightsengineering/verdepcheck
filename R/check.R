@@ -141,16 +141,15 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
     cli_pb_update(package = i_pkg, n = 4L)
 
-    if (i_pkg %in% base_pkgs()) {
-      return(NULL)
-    }
+    if (i_pkg %in% base_pkgs()) return(NULL)
 
     result <- resolve_ppm_snapshot(
       deps[i, "ref"],
       deps[i, "op"],
       deps[i, "version"]
     )
-    # remove duplicate entries of current package
+
+    # Remove duplicate entries of current package
     result[result$ref != deps[i, "ref"] | !duplicated(result$ref),]
   })
 
@@ -163,6 +162,14 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   )
   new_res <- new_res[order_index,]
   new_res <- new_res[!duplicated(new_res[,c("ref", "package", "version")]), ]
+
+  # Keep primary dependencies versions (in case primary dependency is
+  #  resolved in other dependencies)
+  new_res <- new_res[
+    !(new_res$package %in% deps$package) |
+      new_res$package == new_res$parent
+    ,
+  ]
 
   # Keep res at top
   new_res <- rbind(res[1, ], new_res)
