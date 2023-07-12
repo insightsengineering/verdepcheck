@@ -150,8 +150,19 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     }
   }
 
-  new_ref <- sprintf("%s=%s/%s%s", remote_ref$package, remote_ref$username, remote_ref$repo, ref_suffix) # @TODO
-  pkgdepends::parse_pkg_ref(new_ref)
+  new_ref <- sprintf(
+    "%s=%s/%s%s",
+    remote_ref$package,
+    remote_ref$username,
+    remote_ref$repo,
+    ref_suffix
+  )
+  result <- pkgdepends::parse_pkg_ref(new_ref)
+
+  # Needs to restore original ref as it needs it to solve the pkg tree. With error:
+  #  Can't install dependency <original_ref> (>= <version>)
+  result$ref <- remote_ref$ref
+  result
 }
 
 # Get list of releases if not empty else get list of tags
