@@ -22,7 +22,10 @@ base_pkgs <- function() {
 #' @importFrom pkgcache ppm_snapshots
 get_ppm_snapshot_by_date <- function(date) {
   snaps <- pkgcache::ppm_snapshots()
-  res <- as.character(as.Date(head(snaps[as.Date(snaps$date) > as.Date(date), "date"], 1)))
+  res <- as.character(as.Date(head(
+    snaps[as.Date(snaps$date) > max(as.Date(date), na.rm = TRUE), "date"],
+    1
+  )))
   if (length(res) == 0) stop(sprintf("Cannot find PPM snapshot for date after %s.", as.character(date)))
   res
 }
@@ -45,7 +48,7 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 
   i_release_date <- get_release_date(i_ref_minver)
 
-  if (is.na(i_release_date)) {
+  if (all(is.na(i_release_date))) {
     ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
   } else {
     ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(i_release_date))
