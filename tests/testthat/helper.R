@@ -28,11 +28,14 @@ skip_if_empty_gh_token <- function() {
 #' the key
 #' @param remotes (`vector`) string vector that contains remotes to add to
 #' the DESCRIPTION file
+#' @param need_verdepcheck (`vector`) string vector that contains
+#' Config/Need/verdepcheck elements to add to the DESCRIPTION file
 #' @param .local_envir (`envirnoment`) The environment to use for scoping.
 #'
 #' @keywords internal
 local_description <- function(pkg_list = c(pkgdepends = "Import"),
                               remotes = c(),
+                              need_verdepcheck = c(),
                               .local_envir = parent.frame()) {
 
   d_std <- desc::desc("!new")
@@ -43,6 +46,10 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
 
   for (remote in remotes) {
     d_std$add_remotes(remote)
+  }
+
+  if (!is.null(verdepcheck) && length(verdepcheck) > 0) {
+    d_std$set("Config/Needs/verdepcheck", paste(need_verdepcheck, collapse = ","))
   }
 
   path <- tempfile(pattern = "DESCRIPTION")
