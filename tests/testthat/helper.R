@@ -1,6 +1,6 @@
 skip_if_offline <- function() {
   res <- tryCatch(
-    pingr::ping("https://api.github.com", count = 1L),
+    pingr::ping("api.github.com", count = 1L),
     error = function(e) NA
   )
 
