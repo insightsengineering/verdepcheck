@@ -43,7 +43,8 @@ local_description <- function(pkg_list = list(pkgdepends = "Import"),
 test_proposal_common <- function(x,
                                  pkg_name = "pkgdepends",
                                  platform = "source",
-                                 pkg_ver_target = NULL) {
+                                 pkg_ver_target = NULL,
+                                 pkg_gh_str = NULL) {
   expect_s3_class(x, "pkg_installation_proposal")
 
   solve_ip(x)
@@ -63,13 +64,20 @@ test_proposal_common <- function(x,
 
   # If there is no specific version to check, then compare against latest from
   #  CRAN
-  if (is.null(pkg_ver_target)) {
+  if (is.null(pkg_gh_str) && is.null(pkg_ver_target)) {
     pkg_ver_target <- package_version(
       available.packages(
         repos = pkgcache::default_cran_mirror(),
-        filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
+        filters = list(
+          add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ]
+        )
       )[["Version"]]
     )
+  } else if (!is.null(pkg_gh_str) && is.null(pkg_ver_target)) {
+    gh_str_split <- strsplit(pkg_gh_str, "/")[[1]]
+    pkg_ver_target <- package_version(as.character(
+      get_desc_from_gh(gh_str_split[1], gh_str_split[2])$get_version()
+    ))
   }
 
   expect_identical(pkg_ver_act, package_version(pkg_ver_target))
