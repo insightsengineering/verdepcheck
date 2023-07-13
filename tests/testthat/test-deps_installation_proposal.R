@@ -1,87 +1,57 @@
-d_std <- desc::desc("!new")
-d_std$set_dep("pkgdepends", "Import")
-ref_std_path <- tempfile()
-d_std$write(ref_std_path)
-on.exit(unlink(ref_std_path), add = TRUE, after = FALSE)
-
 test_that("new_max_deps_installation_proposal correctly handles standard reference", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  x <- new_max_deps_installation_proposal(ref_std_path)
-  on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
+  d_std_path <- local_description(list(pkgdepends = "Import"))
+  x <- new_max_deps_installation_proposal(d_std_path)
+  withr::defer(unlink(x$get_config()$library))
 
-  expect_s3_class(x, "pkg_installation_proposal")
-
-  x$solve()
-
-  expect_equal(x$get_solution()$status, "OK")
-
-  x_solution <- x$get_resolution()
-
-  x_solution_pkg <- subset(x_solution, package == "pkgdepends" & platform == "source")
-  expect_equal(nrow(x_solution_pkg), 1)
-
-  pkg_ver_act <- package_version(x_solution_pkg$version)
-  pkg_ver_target <- package_version(
-    available.packages(
-      repos = pkgcache::default_cran_mirror(),
-      filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
-    )[["Version"]]
-  )
-  expect_identical(pkg_ver_act, pkg_ver_target)
+  test_proposal_common(x, "pkgdepends", "source")
 })
 
 test_that("new_release_deps_installation_proposal correctly handles standard reference", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  x <- new_release_deps_installation_proposal(ref_std_path)
-  on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
+  d_std_path <- local_description(list(pkgdepends = "Import"))
+  x <- new_release_deps_installation_proposal(d_std_path)
 
-  expect_s3_class(x, "pkg_installation_proposal")
+  withr::defer(unlink(x$get_config()$library))
 
-  x$solve()
-
-  expect_equal(x$get_solution()$status, "OK")
-
-  x_solution <- x$get_resolution()
-
-  x_solution_pkg <- subset(x_solution, package == "pkgdepends" & platform == "source")
-  expect_equal(nrow(x_solution_pkg), 1)
-
-  pkg_ver_act <- package_version(x_solution_pkg$version)
-  pkg_ver_target <- package_version(
-    available.packages(
-      repos = pkgcache::default_cran_mirror(),
-      filters = list(add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ])
-    )[["Version"]]
-  )
-  expect_identical(pkg_ver_act, pkg_ver_target)
+  test_proposal_common(x, "pkgdepends", "source")
 })
 
-test_that("new_min_deps_installation_proposal correctly handles standard reference", {
+test_that("new_min_isolated_installation_proposal correctly handles standard reference", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  x <- new_min_deps_installation_proposal(ref_std_path)
-  on.exit(unlink(x$get_config()$library), add = TRUE, after = FALSE)
+  d_std_path <- local_description(list(pkgdepends = "Import"))
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
+  withr::defer(unlink(x$get_config()$library))
 
-  expect_s3_class(x, "pkg_installation_proposal")
+  test_proposal_common(x, "pkgdepends", "source", "0.1.0")
+})
 
-  x$solve()
+test_that("new_min_isolated_installation_proposal correctly handles standard reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
 
-  expect_equal(x$get_solution()$status, "OK")
+  d_std_path <- local_description(list(`pkgdepends (>= 0.2.0)` = "Import"))
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
+  withr::defer(unlink(x$get_config()$library))
 
-  x_solution <- x$get_resolution()
+  test_proposal_common(x, "pkgdepends", "source", "0.2.0")
+})
 
-  x_solution_pkg <- subset(x_solution, package == "pkgdepends" & platform == "source")
-  expect_equal(nrow(x_solution_pkg), 1)
+test_that("new_min_cohort_installation_proposal correctly handles standard reference", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
 
-  pkg_ver_act <- package_version(x_solution_pkg$version)
-  pkg_ver_target <- package_version("0.1.0")
+  d_std_path <- local_description(list(pkgdepends = "Import"))
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
+  withr::defer(unlink(x$get_config()$library))
 
-  expect_identical(pkg_ver_act, pkg_ver_target)
+  test_proposal_common(x, "pkgdepends", "source", "0.1.0")
 })
 
 ####
