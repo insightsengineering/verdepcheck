@@ -19,8 +19,20 @@ skip_if_empty_gh_token <- function() {
   if (isFALSE(res)) skip("Not run with empty GH token")
 }
 
-local_description <- function(pkg_list = list(pkgdepends = "Import"),
-                              remotes = list(),
+#' Temporarily create a valid DESCRIPTION file to a temporary location
+#'
+#' The file is deleted after the parent function where this function was called
+#' has exited, when the R session ends or on deman via [withr::deferred_run()]
+#' @param pkg_list (`vector`) named character vector or list with
+#' paired name and type of dependency. It supports versions by using quotes on
+#' the key
+#' @param remotes (`vector`) string vector that contains remotes to add to
+#' the DESCRIPTION file
+#' @param .local_envir (`envirnoment`) The environment to use for scoping.
+#'
+#' @keywords internal
+local_description <- function(pkg_list = c(pkgdepends = "Import"),
+                              remotes = c(),
                               .local_envir = parent.frame()) {
 
   d_std <- desc::desc("!new")
@@ -40,6 +52,22 @@ local_description <- function(pkg_list = list(pkgdepends = "Import"),
   path
 }
 
+#' Aggregator of tests to generally perform on proposals
+#'
+#' @param x (`pkg_installation_proposal` object) Valid proposal created by one
+#' of the available methods.
+#' @param pkg_name (`string`) Name of package that is being tested for version.
+#' @param platform (optional `string`) Name of the platform, should be 'source' in
+#' most cases.
+#' @param pkg_ver_target (optional `string`) version that is expected to be in the
+#' proposal. A `NULL` value indicates to use the latest version on CRAN or a
+#' GitHub repository reference
+#' @param pkg_gh_str (optional `string`) GitHub repository reference to retrieve
+#' the version that is on the main branch. When both this parameter and
+#' `pkg_ver_target` are `NULL`, then it will compare the version in the proposal
+#' with the latest version in CRAN.
+#'
+#' @keywords internal
 test_proposal_common <- function(x,
                                  pkg_name = "pkgdepends",
                                  platform = "source",
