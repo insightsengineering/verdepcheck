@@ -13,6 +13,8 @@
 Get release date from GitHub references
 }
 \examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 remote_ref <- pkgdepends::parse_pkg_ref("rlang@1.0.0")
 get_release_date.remote_ref_cran(remote_ref)
+\dontshow{\}) # examplesIf}
 }

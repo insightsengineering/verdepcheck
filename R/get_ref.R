@@ -336,7 +336,7 @@ get_release_date <- function(remote_ref) {
 #'
 #' @importFrom gh gh_gql
 #' @export
-#' @examples
+#' @examplesIf gh::gh_token() != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
 #' get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
@@ -383,7 +383,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 #' @inheritParams get_release_date
 #'
 #' @export
-#' @examples
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("rlang@1.0.0")
 #' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
