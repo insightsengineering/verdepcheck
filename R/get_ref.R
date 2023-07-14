@@ -329,6 +329,11 @@ cond_parse_pkg_ref_release <- function(remote_ref) {
 get_release_date <- function(remote_ref) {
   UseMethod("get_release_date", remote_ref)
 }
+
+#' Get release date from GitHub references
+#'
+#' @inheritParams get_release_date
+#'
 #' @importFrom gh gh_gql
 #' @export
 #' @examples
@@ -372,7 +377,15 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 
   max(result, na.rm = TRUE)
 }
+
+#' Get release date from GitHub references
+#'
+#' @inheritParams get_release_date
+#'
 #' @export
+#' @examples
+#' remote_ref <- pkgdepends::parse_pkg_ref("rlang@1.0.0")
+#' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
   subset(
     get_cran_data(remote_ref$package),
@@ -380,10 +393,12 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
     mtime
   )[[1]][1]
 }
+
 #' @export
 get_release_date.remote_ref_standard <- function(remote_ref) {
   get_release_date.remote_ref_cran(remote_ref)
 }
+
 #' @export
 get_release_date.remote_ref <- function(remote_ref) {
   NA
