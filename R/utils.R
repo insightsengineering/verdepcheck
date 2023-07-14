@@ -23,7 +23,7 @@ base_pkgs <- function() {
 get_ppm_snapshot_by_date <- function(date) {
   snaps <- pkgcache::ppm_snapshots()
   res <- as.character(as.Date(head(
-    snaps[as.Date(snaps$date) > max(as.Date(date), na.rm = TRUE), "date"],
+    snaps[as.Date(snaps$date) > as.Date(date), "date"],
     1
   )))
   if (length(res) == 0) stop(sprintf("Cannot find PPM snapshot for date after %s.", as.character(date)))
