@@ -1,4 +1,6 @@
 skip_if_offline <- function() {
+  # Using this conditional clause instead of `skip_if_not_installed` to provide
+  #  a better message
   if (!requireNamespace("pingr", quietly = TRUE)) {
     skip("`pingr` cannot be loaded, can't test internet connection.")
   }
