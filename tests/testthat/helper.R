@@ -51,7 +51,7 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
   }
 
   if (!is.null(verdepcheck) && length(verdepcheck) > 0) {
-    d_std$set("Config/Needs/verdepcheck", paste(need_verdepcheck, collapse = ","))
+    d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
   }
 
   path <- tempfile(pattern = "DESCRIPTION")
