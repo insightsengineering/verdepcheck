@@ -50,7 +50,7 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
     d_std$add_remotes(remote)
   }
 
-  if (!is.null(verdepcheck) && length(verdepcheck) > 0) {
+  if (!is.null(need_verdepcheck) && length(need_verdepcheck) > 0) {
     d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
   }
 
