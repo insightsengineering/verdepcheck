@@ -22,7 +22,7 @@ base_pkgs <- function() {
 #' @importFrom pkgcache ppm_snapshots
 get_ppm_snapshot_by_date <- function(date) {
   snaps <- pkgcache::ppm_snapshots()
-  res <- as.character(as.Date(head(
+  res <- as.character(as.Date(utils::head(
     snaps[as.Date(snaps$date) > as.Date(date), "date"],
     1
   )))
@@ -68,7 +68,6 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res
 }
 
-
 #' Create `cli` progress bar for resolving versions.
 #' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
 #' @keywords internal
@@ -93,4 +92,7 @@ cli_pb_init <- function(type, total, ...) {
 #' @keywords internal
 cli_pb_update <- function(package, n = 2L, ...) {
   cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
+
+subset_package_version <- function(df, package_name) {
+  result <- df$version[df$package == package_name]
 }

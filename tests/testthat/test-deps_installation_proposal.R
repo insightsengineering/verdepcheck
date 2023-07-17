@@ -3,9 +3,7 @@ test_that("new_max_deps_installation_proposal correctly handles standard referen
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(pkgdepends = "Import"))
-  x <- suppressMessages(
-    new_max_deps_installation_proposal(d_std_path)
-  )
+  x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
@@ -16,10 +14,7 @@ test_that("new_release_deps_installation_proposal correctly handles standard ref
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(pkgdepends = "Import"))
-  x <- suppressMessages(
-    new_release_deps_installation_proposal(d_std_path)
-  )
-
+  x <- new_release_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
@@ -30,9 +25,7 @@ test_that("new_min_isolated_installation_proposal correctly handles standard ref
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(pkgdepends = "Import"))
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
@@ -43,9 +36,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles standard 
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(pkgdepends = "Import"))
-  x <- suppressMessages(
-    new_min_cohort_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
@@ -73,9 +64,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   desc_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(
     list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
-  x <- suppressMessages(
-    new_max_deps_installation_proposal(d_std_path)
-  )
+  x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
@@ -89,9 +78,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@*re
   desc_str <- "r-lib/pkgdepends@*release"
   d_std_path <- local_description(
     list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
-  x <- suppressMessages(
-    new_max_deps_installation_proposal(d_std_path)
-  )
+  x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
@@ -105,9 +92,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@v0.
   desc_str <- "r-lib/pkgdepends@v0.3.2"
   d_std_path <- local_description(
     list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
-  x <- suppressMessages(
-    new_max_deps_installation_proposal(d_std_path)
-  )
+  x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.3.2", remote_str)
@@ -119,9 +104,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
 
   remote_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
-  x <- suppressMessages(
-    new_max_deps_installation_proposal(d_std_path)
-  )
+  x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
@@ -133,9 +116,7 @@ test_that("new_release_deps_installation_proposal correctly handles <org>/<repo>
 
   remote_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
-  x <- suppressMessages(
-    new_release_deps_installation_proposal(d_std_path)
-  )
+  x <- new_release_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
@@ -149,9 +130,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<re
   d_std_path <- local_description(
     list(pkgdepends = "Import"), remotes = c(remote_str)
   )
-  x <- suppressMessages(
-    new_min_cohort_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
@@ -166,9 +145,7 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
   d_std_path <- local_description(
     list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str
   )
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
@@ -193,9 +170,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" 
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(`pkgdepends (>= 0.2.0)` = "Import"), "r-lib/pkgdepends")
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
@@ -206,9 +181,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" 
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(`pkgdepends (>= 0.2.0)` = "Import"))
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
@@ -219,9 +192,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" de
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(`pkgdepends (>= 0.2.0)` = "Import"), "r-lib/pkgdepends")
-  x <- suppressMessages(
-    new_min_cohort_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
@@ -232,9 +203,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" de
   skip_if_empty_gh_token()
 
   d_std_path <- local_description(list(`pkgdepends (>= 0.2.0)` = "Import"))
-  x <- suppressMessages(
-    new_min_cohort_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
@@ -256,9 +225,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
       "insightsengineering/formatters"
     )
   )
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)
@@ -282,9 +249,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly resolves format
       `formatters (>= 0.4.1)` = "Import"
     )
   )
-  x <- suppressMessages(
-    new_min_isolated_deps_installation_proposal(d_std_path)
-  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
   x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)

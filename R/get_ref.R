@@ -350,7 +350,7 @@ get_release_date <- function(remote_ref) {
 #' @export
 #' @examplesIf gh::gh_token() != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
-#' get_release_date.remote_ref_github(remote_ref)
+#' verdepcheck:::get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
@@ -404,7 +404,7 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
   subset(
     get_cran_data(remote_ref$package),
     package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
-    mtime
+    select = "mtime"
   )[[1]][1]
 }
 
