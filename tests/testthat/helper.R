@@ -39,7 +39,6 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
                               remotes = c(),
                               need_verdepcheck = c(),
                               .local_envir = parent.frame()) {
-
   d_std <- desc::desc("!new")
 
   for (pkg in names(pkg_list)) {
