@@ -159,9 +159,6 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   )
   result <- pkgdepends::parse_pkg_ref(new_ref)
 
-  # Needs to restore original ref as it needs it to solve the pkg tree. With error:
-  #  Can't install dependency <original_ref> (>= <version>)
-  result$ref <- remote_ref$ref
   result
 }
 
