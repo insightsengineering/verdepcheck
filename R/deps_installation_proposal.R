@@ -156,6 +156,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     }
   )
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
 
   # find PPM snapshot
