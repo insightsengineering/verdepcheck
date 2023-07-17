@@ -80,10 +80,12 @@ test_proposal_common <- function(x,
                                  pkg_name = "pkgdepends",
                                  platform = "source",
                                  pkg_ver_target = NULL,
-                                 pkg_gh_str = NULL) {
+                                 pkg_gh_str = NULL,
+                                 solve_ip = TRUE) {
   expect_s3_class(x, "pkg_installation_proposal")
 
-  solve_ip(x)
+  # Allows to re-use x accross packages without having to solve it again
+  if (solve_ip) solve_ip(x)
 
   expect_equal(x$get_solution()$status, "OK")
 
