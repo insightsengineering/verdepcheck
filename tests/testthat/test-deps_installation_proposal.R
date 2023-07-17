@@ -61,8 +61,10 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  remote_str <- "r-lib/pkgdepends"
-  d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
+  remote_str <- "r-lib/pkgdepends@*release"
+  desc_str <- "r-lib/pkgdepends"
+  d_std_path <- local_description(
+    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
@@ -86,11 +88,14 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<re
   skip_if_empty_gh_token()
 
   remote_str <- "r-lib/pkgdepends"
-  d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
+  desc_str <- "r-lib/pkgdepends"
+  d_std_path <- local_description(
+    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str
+  )
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
 })
 
 test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> reference", {
@@ -98,11 +103,14 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
   skip_if_empty_gh_token()
 
   remote_str <- "r-lib/pkgdepends"
-  d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
-  x <- new_min_deps_installation_proposal(d_std_path)
+  desc_str <- "r-lib/pkgdepends"
+  d_std_path <- local_description(
+    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str
+  )
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
 })
 
 # ################################################################

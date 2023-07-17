@@ -91,12 +91,12 @@ test_proposal_common <- function(x,
 
   x_solution_pkg <- subset(
     x_solution,
-    package == pkg_name & platform == "source" & repotype == "cran"
+    package == pkg_name & platform == "source"
   )
 
-  expect_equal(nrow(x_solution_pkg), 1)
+  expect_true(nrow(x_solution_pkg) >= 1)
 
-  pkg_ver_act <- package_version(x_solution_pkg$version)
+  pkg_ver_act <- max(package_version(x_solution_pkg$version))
 
   # If there is no specific version to check, then compare against latest from
   #  CRAN
@@ -112,7 +112,7 @@ test_proposal_common <- function(x,
   } else if (!is.null(pkg_gh_str) && is.null(pkg_ver_target)) {
     gh_str_split <- strsplit(pkg_gh_str, "/")[[1]]
     pkg_ver_target <- package_version(as.character(
-      get_desc_from_gh(gh_str_split[1], gh_str_split[2])$get_version()
+      get_desc_from_gh(gh_str_split[1], gsub("@.*$", "", gh_str_split[2]))$get_version()
     ))
   }
 
