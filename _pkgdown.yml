@@ -25,7 +25,13 @@ reference:
     contents:
       - ends_with("_deps_installation_proposal")
 
+  - title: Installation Plan methods
+    desc: Methods on the installation plan objects
+    contents:
+      - ends_with("_ip")
+
   - title: Find package reference
     desc: Determine package reference for appropriate version
     contents:
       - starts_with("get_ref_")
+      - get_release_date

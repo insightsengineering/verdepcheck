@@ -37,4 +37,3 @@ verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 \seealso{
 \code{\link[=get_ref_min_incl_cran]{get_ref_min_incl_cran()}}
 }
-\keyword{internal}

@@ -21,4 +21,3 @@ This function would executes the following:
 \item installs all package dependencies
 }
 }
-\keyword{internal}

@@ -25,11 +25,10 @@ Typical workflow includes the following:
 
 Supported strategies are:
 
-- `max` - use the greatest (development) versions of dependencies
-- `release` - use the latest release - using `@*release` reference of the `remotes` package
-- `min` - use the minimal version of dependencies
-
-Please note that this is applicable only for direct dependencies of your package. Indirect dependencies are being installed using default installation process.
+- `max` - use the greatest version of dependent packages. Please note that using development version is not guaranteed to be stable.
+- `release` - use the released version of dependent packages. It will try use CRAN if possible else if GitHub release is available then use it else fail.
+- `min_cohort` - find maximum date of directly dependent packages release dates and use that as PPM snapshot date for dependency resolve.
+- `min_isolated` - for each direct dependency: find its release date and use it as PPM snapshot for resolving itself. Next, combine all the individual resolutions and resolve it altogether again.
 
 The main functions are:
 
