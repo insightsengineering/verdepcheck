@@ -164,9 +164,7 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     remote_ref$repo,
     ref_suffix
   )
-  result <- pkgdepends::parse_pkg_ref(new_ref)
-
-  result
+  pkgdepends::parse_pkg_ref(new_ref)
 }
 
 # Get list of releases if not empty else get list of tags
