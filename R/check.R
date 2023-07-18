@@ -151,8 +151,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   })
 
   new_res <- do.call(rbind, deps_res)
-
-  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version")]), ]
+  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version", "parent")]), ]
 
   # Keep res at top
   new_res <- rbind(res[1, ], new_res)
