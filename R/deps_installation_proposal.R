@@ -323,28 +323,31 @@ desc_remotes_cleanup <- function(d, new_refs) {
   remotes_pkg <- vapply(remotes, `[[`, character(1), "package")
 
   # Find which packages of the new_refs are defined in Remotes
-  new_refs_gh <- vapply(
-    new_refs,
+  new_refs_remotes <- Filter(
     function(.x) {
       isTRUE(.x$package %in% remotes_pkg) && inherits(.x, "remote_ref_github")
     },
-    logical(1)
+    new_refs
   )
 
   # New remotes ref to use when replacing
-  new_ref_remote <- vapply(new_refs[new_refs_gh], `[[`, character(1), "ref")
-
-  # Remotes that are not in new_refs are kept, as well as the ones that were
-  #  resolved to be a github repo
-  d$clear_remotes()
+  new_ref_remote <- vapply(new_refs_remotes, `[[`, character(1), "ref")
 
   new_ref_pkg <- vapply(new_refs, `[[`, character(1), "package")
+
+  # Remove from `Remotes` all package that have been resolved to
+  #  * CRAN package
+  #  * GitHub tag
   new_remotes <- c(
-    # Keep remotes
+    # Keep remotes (if the DESCRIPTION file is correct, this should have no elements)
     d$get_remotes()[!(remotes_pkg %in% new_ref_pkg)],
     # Modified remotes
     new_ref_remote
   )
+
+  # Remotes that are not in new_refs are kept, as well as the ones that were
+  #  resolved to be a github repo
+  d$clear_remotes()
 
   # Return clause without Remotes section
   if (is.null(new_remotes) || length(new_remotes) == 0) return(d)
