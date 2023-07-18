@@ -84,7 +84,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@*re
   test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
 })
 
-test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@v0.3.2 reference (particular remote tag)", {
+test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@<tag> ref. (particular remote tag)", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -98,7 +98,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@v0.
   test_proposal_common(x, "pkgdepends", "source", "0.3.2", remote_str)
 })
 
-test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> reference (without Config/Need/verdpcheck)", {
+test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref. (without Config/Need/verdpcheck)", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -165,7 +165,7 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
 #  with (>= a.b.c)
 # ###############################################################
 
-test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" dependency for <org>/<repo> reference", {
+test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" dependency for <org>/<repo> ref.", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -238,7 +238,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
 #
 # Note that the calls to `test_proposal_common` have different versions from the
 #  local description specification (in `rtables` and `formatters` packages)
-test_that("new_min_isolated_deps_installation_proposal correctly resolves formatters version different from specifications", {
+test_that("new_min_isolated_deps_installation_proposal correctly resolves a different version from specifications", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
