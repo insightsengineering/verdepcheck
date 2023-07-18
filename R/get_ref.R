@@ -100,7 +100,12 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
     pkgdepends::parse_pkg_ref(new_ref),
     error = function(err) {
       cli::cli_alert_danger(
-        "Possible problem finding release for: `{remote_ref$package} ({op} {op_ver})`"
+        paste(
+          sep = " ",
+          "Possible problem finding release for:",
+          "`{remote_ref$package} ({op} {op_ver})`.",
+          "The version might be invalid."
+        )
       )
       stop(err)
     })
