@@ -358,7 +358,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
                 committedDate
               }
             }
-        	}
+          }
         }
       }
     }
