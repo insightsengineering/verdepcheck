@@ -121,7 +121,6 @@ solve_ip.deps_installation_proposal <- function(ip) {
 solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
   res <- ip$get_resolution()
-  res$parent <- NA_character_
 
   deps <- res[1, "deps"][[1]]
   ## copy op and version to Config\Needs\verdepcheck rows
@@ -150,7 +149,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   })
 
   new_res <- do.call(rbind, deps_res)
-  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version", "parent")]), ]
+  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version")]), ]
 
   # Keep res at top
   new_res <- rbind(res[1, ], new_res)

@@ -66,6 +66,5 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 
   i_res <- i_pkg_deps$get_resolution()
   i_res$direct <- i_res$directpkg <- FALSE
-  i_res$parent <- pkg_ref_str
   i_res
 }
