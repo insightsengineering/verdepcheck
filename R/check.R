@@ -134,6 +134,9 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   deps <- do.call(rbind, deps)
   deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
 
+  # Avoid repeating calls to resolve_ppm_snapshot
+  deps <- deps[!duplicated(deps[, c("ref", "op", "version")]), ]
+
   cli_pb_init("min_isolated", total = nrow(deps))
 
   deps_res <- lapply(seq_len(nrow(deps)), function(i) {
@@ -143,11 +146,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
     if (i_pkg %in% base_pkgs()) return(NULL)
 
-    resolve_ppm_snapshot(
-      deps[i, "ref"],
-      deps[i, "op"],
-      deps[i, "version"]
-    )
+    resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"])
   })
 
   new_res <- do.call(rbind, deps_res)
