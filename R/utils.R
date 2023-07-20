@@ -60,7 +60,7 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
       i_ref_minver$ref,
       i_ref$ref
     ),
-    config = list(dependencies = "hard", cran_mirror = ppm_repo)
+    config = list(dependencies = "hard", cran_mirror = ppm_repo, library = tempfile())
   )
   suppressMessages(i_pkg_deps$resolve())
 

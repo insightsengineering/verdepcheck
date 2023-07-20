@@ -149,10 +149,15 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   })
 
   new_res <- do.call(rbind, deps_res)
-  new_res <- new_res[!duplicated(new_res[, c("ref", "package", "version")]), ]
+
+  # Keep only top versions in calculated resolution (new_res).
+  #  Very large resolution tables can become problematic and taking a long in reaching
+  #  a solution. If
+  new_res <- new_res[order(new_res$ref, package_version(new_res$version), decreasing = TRUE), ]
+  new_res <- new_res[!duplicated(new_res[, c("ref")]), ]
 
   # Keep res at top
-  new_res <- rbind(res[1, ], new_res)
+  new_res <- rbind(res[1:2, ], new_res)
 
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
   ip$solve()
