@@ -350,7 +350,9 @@ desc_remotes_cleanup <- function(d, new_refs) {
   d$clear_remotes()
 
   # Return clause without Remotes section
-  if (is.null(new_remotes) || length(new_remotes) == 0) return(d)
+  if (is.null(new_remotes) || length(new_remotes) == 0) {
+    return(d)
+  }
   d$set_remotes(new_remotes)
   d
 }

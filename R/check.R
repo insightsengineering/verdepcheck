@@ -143,7 +143,9 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
     cli_pb_update(package = i_pkg, n = 4L)
 
-    if (i_pkg %in% base_pkgs()) return(NULL)
+    if (i_pkg %in% base_pkgs()) {
+      return(NULL)
+    }
 
     resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"])
   })
@@ -280,7 +282,8 @@ install_ip <- function(ip) {
       # Print compilation error when installation fails to help debug
       print(err)
       stop(err)
-  })
+    }
+  )
 
   return(invisible(ip))
 }

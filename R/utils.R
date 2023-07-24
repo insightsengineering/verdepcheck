@@ -41,7 +41,6 @@ parse_ppm_url <- function(snapshot) {
 #' @importFrom pkgcache ppm_repo_url
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
 resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
-
   i_ref <- pkgdepends::parse_pkg_ref(pkg_ref_str)
 
   i_ref_minver <- get_ref_min_incl_cran(i_ref, operator, pkg_version)

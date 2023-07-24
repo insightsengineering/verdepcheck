@@ -108,7 +108,8 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
         )
       )
       stop(err)
-    })
+    }
+  )
 }
 
 #' @rdname get_ref_min
@@ -372,7 +373,9 @@ get_release_date.remote_ref_github <- function(remote_ref) {
   result <- vapply(
     resp$data$repository$refs$edges,
     function(x) {
-      if (x$node$name != remote_ref$commitish) return(NA_character_)
+      if (x$node$name != remote_ref$commitish) {
+        return(NA_character_)
+      }
       x$node$target$committedDate
     },
     character(1)
