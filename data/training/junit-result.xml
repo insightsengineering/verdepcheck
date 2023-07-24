@@ -1,41 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-07-17T11:35:19Z" hostname="387c24fcd6a0" tests="12" skipped="12" failures="0" errors="0" time="0.512">
-    <testcase time="0.0509999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
+  <testsuite name="deps_installation_proposal" timestamp="2023-07-24T07:02:42Z" hostname="a3153d70e9c1" tests="12" skipped="12" failures="0" errors="0" time="0.536">
+    <testcase time="0.0519999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:2:3')"/>
     </testcase>
     <testcase time="0.124" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:13:3')"/>
     </testcase>
-    <testcase time="0.046" classname="deps_installation_proposal" name="new_min_isolated_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.052" classname="deps_installation_proposal" name="new_min_isolated_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:25:3')"/>
     </testcase>
     <testcase time="0.032" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:36:3')"/>
     </testcase>
-    <testcase time="0.036" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.038" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:61:3')"/>
     </testcase>
-    <testcase time="0.03" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.0329999999999999" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:73:3')"/>
     </testcase>
-    <testcase time="0.0309999999999999" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.032" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:85:3')"/>
     </testcase>
-    <testcase time="0.036" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.032" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:97:3')"/>
     </testcase>
-    <testcase time="0.0309999999999999" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+    <testcase time="0.038" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:123:3')"/>
     </testcase>
-    <testcase time="0.03" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+    <testcase time="0.0329999999999999" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:134:3')"/>
     </testcase>
-    <testcase time="0.0350000000000001" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+    <testcase time="0.0329999999999999" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:145:3')"/>
     </testcase>
-    <testcase time="0.03" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+    <testcase time="0.0370000000000001" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:156:3')"/>
+    </testcase>
+  </testsuite>
+  <testsuite name="get_ref" timestamp="2023-07-24T07:02:43Z" hostname="a3153d70e9c1" tests="3" skipped="3" failures="0" errors="0" time="0.117">
+    <testcase time="0.048" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_teal_v0.10.0">
+      <skipped message="Reason: No internet connection ('test-get_ref.R:2:3')"/>
+    </testcase>
+    <testcase time="0.0319999999999998" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_1.0.0">
+      <skipped message="Reason: No internet connection ('test-get_ref.R:14:3')"/>
+    </testcase>
+    <testcase time="0.0370000000000001" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_0.0.0">
+      <skipped message="Reason: No internet connection ('test-get_ref.R:26:3')"/>
     </testcase>
   </testsuite>
 </testsuites>
