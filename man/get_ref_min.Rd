@@ -37,7 +37,7 @@ to obtain historical data.
 }
 
 \itemize{
-\item for GitHub type of remote - this would use \code{\link[gh:gh_gql]{gh::gh_gql()}} to get list of all tags
+\item for GitHub type of remote - this would use \code{\link[gh:gh_gql]{gh::gh_gql()}} to get list of all releases or tags
 and then \code{\link[gh:gh]{gh::gh()}} to download \code{DESCRIPTION} file and then read package version.
 }
 }
@@ -56,4 +56,3 @@ verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
 \seealso{
 \code{\link[=get_ref_min_incl_cran]{get_ref_min_incl_cran()}}
 }
-\keyword{internal}

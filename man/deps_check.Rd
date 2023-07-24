@@ -3,12 +3,13 @@
 \name{max_deps_check}
 \alias{max_deps_check}
 \alias{release_deps_check}
-\alias{min_deps_check}
+\alias{min_cohort_deps_check}
+\alias{min_isolated_deps_check}
 \title{Execute \verb{R CMD CHECK} on a local package with all dependencies pre-installed using various strategies.}
 \usage{
 max_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
@@ -16,15 +17,23 @@ max_deps_check(
 
 release_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
 )
 
-min_deps_check(
+min_cohort_deps_check(
   path,
-  config = list(dependencies = .desc_field, library = tempfile()),
+  config = list(),
+  build_args = character(),
+  check_args = character(),
+  ...
+)
+
+min_isolated_deps_check(
+  path,
+  config = list(),
   build_args = character(),
   check_args = character(),
   ...
@@ -34,9 +43,7 @@ min_deps_check(
 \item{path}{(\code{string}) path to the package sources}
 
 \item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
-If it does not include \code{library} then temporary directory is used which simulates clean environment
-without using any pre-installed packages.
-If it does not include \code{dependencies} then \code{TRUE} value is used which means all hard dependencies plus \code{Suggests}.}
+\code{"dependencies"} and \code{"library"} elements are overwritten by package level defaults.}
 
 \item{build_args}{(\code{string}) value passed as \code{build_args} argument into \code{\link[rcmdcheck:rcmdcheck]{rcmdcheck::rcmdcheck()}}}
 
@@ -58,17 +65,50 @@ Execute \verb{R CMD CHECK} on a local package with all dependencies pre-installe
 
 Currently implemented strategies:
 \itemize{
-\item \code{max} - use the greatest version of dependent packages
-\item \code{release} - use released version of dependent packages - use CRAN if possible else if GitHub release
-is available then use it else fail.
-\item \code{min} - use the lowest version of dependent packages incorporating minimal version specification in
-\code{"Imports"} and \code{"Suggests"}. If no version is specified then the minimal available
-version is assumed. See \link{get_ref_min} for details how the minimal version is determined.
+\item \code{max} - use the greatest version of dependent packages. Please note that using development version is not
+guaranteed to be stable.
+See \link{get_ref_max} for details.
+\item \code{release} - use the released version of dependent packages. It will try use CRAN if possible else if
+GitHub release is available then use it else fail.
+See \link{get_ref_release} for details.
+\item \code{min_cohort} - find maximum date of directly dependent packages release dates and use that as PPM snapshot date
+for dependency resolve.
+\item \code{min_isolated} - for each direct dependency: find its release date and use it as PPM snapshot for resolving itself.
+Next, combine all the individual resolutions and resolve it altogether again.
 }
 
-Any modification is done for \emph{direct} dependencies. Indirect ones are installed as usual.
+Both "min" strategies relies on PPM snapshot in order to limit the versions of indirect dependencies so that
+dependency resolution ends with a package released no earlier than any of its dependency.
+However, that's not always true for \code{min_isolated} strategy - done on purpose.
+
+Please note that only \code{min_cohort} and \code{min_isolated} strategies are "stable". The rest are basing on dynamic
+references therefore it results might be different without changes in tested package.
+The most straightforward example is \code{max} strategy in which the environment will be different after any push of
+any of the dependencies.
 }
 
+\examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- max_deps_check(".")
+x$ip
+x$check
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- release_deps_check(".")
+x$ip
+x$check
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- min_cohort_deps_check(".")
+x$ip
+x$check
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+x <- min_isolated_deps_check(".")
+x$ip
+x$check
+\dontshow{\}) # examplesIf}
+}
 \seealso{
 \link{deps_installation_proposal}
 }
