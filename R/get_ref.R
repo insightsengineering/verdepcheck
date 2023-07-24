@@ -29,7 +29,7 @@ get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
-  if (check_if_on_cran(remote_ref)) {
+  if (check_if_on_cran(remote_ref, list(op = op, op_ver = package_version(op_ver)))) {
     gh_res <- get_ref_min(remote_ref, op, op_ver)
     gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
     gh_ver <- gh_desc$get_version()
@@ -51,8 +51,22 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' Check if package is available on CRAN.
 #' @importFrom pkgcache meta_cache_list
 #' @keywords internal
-check_if_on_cran <- function(remote_ref) {
-  nrow(pkgcache::meta_cache_list(remote_ref$package)) > 0
+#'
+#' @examples
+#' check_if_on_cran(list(package = "magrittr"))
+#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "2000.5.0"))
+check_if_on_cran <- function(remote_ref, version = NULL) {
+  cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
+  if (is.null(version)) return(nrow(cran_listings) > 0)
+  # Check if minimum version exists on CRAN
+  any(do.call(
+    version$op,
+    list(
+      package_version(cran_listings$version),
+      version$op_ver
+    )
+  ))
 }
 
 #' Get reference to the minimal version of the package.

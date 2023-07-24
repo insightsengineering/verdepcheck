@@ -30,6 +30,36 @@ get_ppm_snapshot_by_date <- function(date) {
   res
 }
 
+#' Get package version from description
+#'
+#' @keywords internal
+#'
+#' @examples
+#' d <- desc::desc(cmd = "!new")
+#'
+#' d$set_dep("magrittr", type = "Imports", version = "*")
+#' verdepcheck:::version_from_desc("magrittr", d)
+#'
+#' d$set_dep("magrittr", type = "Imports", version = ">= 1.5")
+#' verdepcheck:::version_from_desc("magrittr", d)
+version_from_desc <- function(pkg_name, desc) {
+  version <- subset(desc$get_deps(), package == pkg_name, version)[[1]]
+  result <- list(
+    package = pkg_name,
+    version_str = version,
+    op = "",
+    op_ver = ""
+  )
+  if (version == "*" || trimws(version) == "") {
+    return(result)
+  }
+  split_vec <- strsplit(version, " ")[[1]]
+  result$version_str <- version
+  result$op <- split_vec[1]
+  result$op_ver <- package_version(split_vec[2])
+  result
+}
+
 #' @importFrom pkgcache ppm_repo_url
 parse_ppm_url <- function(snapshot) {
   file.path(pkgcache::ppm_repo_url(), snapshot)
