@@ -96,7 +96,19 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
   min_ver <- Filter(function(x) x == min(pv), pv)
 
   new_ref <- sprintf("%s@%s", remote_ref$ref, names(min_ver)) # @TODO deparse, add ver, parse again
-  pkgdepends::parse_pkg_ref(new_ref)
+  tryCatch(
+    pkgdepends::parse_pkg_ref(new_ref),
+    error = function(err) {
+      cli::cli_alert_danger(
+        paste(
+          sep = " ",
+          "Possible problem finding release for:",
+          "`{remote_ref$package} ({op} {op_ver})`.",
+          "The version might be invalid."
+        )
+      )
+      stop(err)
+    })
 }
 
 #' @rdname get_ref_min
@@ -150,7 +162,13 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
     }
   }
 
-  new_ref <- sprintf("%s=%s/%s%s", remote_ref$package, remote_ref$username, remote_ref$repo, ref_suffix) # @TODO
+  new_ref <- sprintf(
+    "%s=%s/%s%s",
+    remote_ref$package,
+    remote_ref$username,
+    remote_ref$repo,
+    ref_suffix
+  )
   pkgdepends::parse_pkg_ref(new_ref)
 }
 
@@ -163,6 +181,7 @@ get_gh_refs <- function(org, repo) {
   }
   get_gh_tags(org, repo)
 }
+
 #' @importFrom gh gh_gql
 #' @keywords internal
 get_gh_releases <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date("1900-01-01")) {
@@ -187,6 +206,7 @@ get_gh_releases <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.
   )
   vapply(res, `[[`, character(1), "tagName")
 }
+
 #' @importFrom gh gh_gql
 #' @keywords internal
 get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date("1900-01-01")) {
@@ -316,29 +336,63 @@ cond_parse_pkg_ref_release <- function(remote_ref) {
 get_release_date <- function(remote_ref) {
   UseMethod("get_release_date", remote_ref)
 }
+
+#' Get release date from GitHub references
+#'
+#' @inheritParams get_release_date
+#'
 #' @importFrom gh gh_gql
 #' @export
+#' @examplesIf gh::gh_token() != ""
+#' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
+#' get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
       refs(refPrefix: \"refs/tags/\", query: \"%s\", first: 100) {
-        nodes {
-          target {
-            ... on Commit {
-              committedDate
+        edges {
+        	node {
+          	name
+            target {
+              ... on Commit {
+                committedDate
+              }
             }
           }
         }
       }
     }
   }", remote_ref$username, remote_ref$repo, remote_ref$commitish)
+
   resp <- try(gh::gh_gql(gql_query), silent = TRUE)
   if (inherits(resp, "try-error")) {
     return(character(0))
   }
-  vapply(resp$data$repository$refs$nodes, function(x) x$target$committedDate, character(1))
+
+  result <- vapply(
+    resp$data$repository$refs$edges,
+    function(x) {
+      if (x$node$name != remote_ref$commitish) return(NA_character_)
+      x$node$target$committedDate
+    },
+    character(1)
+  )
+
+  if (length(result) <= 1) {
+    return(result %||% NA_character_)
+  }
+
+  max(result, na.rm = TRUE)
 }
+
+#' Get release date from GitHub references
+#'
+#' @inheritParams get_release_date
+#'
 #' @export
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' remote_ref <- pkgdepends::parse_pkg_ref("rlang@1.0.0")
+#' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
   subset(
     get_cran_data(remote_ref$package),
@@ -346,10 +400,12 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
     mtime
   )[[1]][1]
 }
+
 #' @export
 get_release_date.remote_ref_standard <- function(remote_ref) {
   get_release_date.remote_ref_cran(remote_ref)
 }
+
 #' @export
 get_release_date.remote_ref <- function(remote_ref) {
   NA

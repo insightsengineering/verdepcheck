@@ -117,8 +117,6 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #' For each direct dependency, resolve that package using PPM snapshot as of release date + 1.
 #' Finally, combine resolutions and run solve.
 #' @keywords internal
-#' @importFrom pkgcache ppm_repo_url
-#' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
 #' @exportS3Method solve_ip min_isolated_deps_installation_proposal
 solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
@@ -135,48 +133,31 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   deps <- do.call(rbind, deps)
   deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
 
+  # Avoid repeating calls to resolve_ppm_snapshot
+  deps <- deps[!duplicated(deps[, c("ref", "op", "version")]), ]
+
   cli_pb_init("min_isolated", total = nrow(deps))
 
-  deps_res <- lapply(
-    seq_len(nrow(deps)),
-    function(i) {
-      i_pkg <- deps[i, "package"]
+  deps_res <- lapply(seq_len(nrow(deps)), function(i) {
+    i_pkg <- deps[i, "package"]
 
-      cli_pb_update(package = i_pkg, n = 4L)
+    cli_pb_update(package = i_pkg, n = 4L)
 
-      if (i_pkg %in% base_pkgs()) {
-        return(NULL)
-      }
+    if (i_pkg %in% base_pkgs()) return(NULL)
 
-      i_op <- deps[i, "op"]
-      i_op_ver <- deps[i, "version"]
+    resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"])
+  })
 
-      i_ref_str <- deps[i, "ref"]
-      i_ref <- pkgdepends::parse_pkg_ref(i_ref_str)
+  new_res <- do.call(rbind, deps_res)
 
-      i_ref_minver <- get_ref_min_incl_cran(i_ref, i_op, i_op_ver)
+  # Keep only top versions in calculated resolution (new_res).
+  #  Very large resolution tables can become problematic and taking a long in reaching
+  #  a solution. If
+  new_res <- new_res[order(new_res$ref, package_version(new_res$version), decreasing = TRUE), ]
+  new_res <- new_res[!duplicated(new_res[, c("ref")]), ]
 
-      i_release_date <- get_release_date(i_ref_minver)
-
-      if (is.na(i_release_date)) {
-        ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-      } else {
-        ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(i_release_date))
-      }
-
-      i_pkg_deps <- pkgdepends::new_pkg_deps(
-        if (inherits(i_ref_minver, "remote_ref_github")) i_ref_minver$ref else i_ref$ref,
-        config = list(dependencies = "hard", cran_mirror = ppm_repo)
-      )
-      suppressMessages(i_pkg_deps$resolve())
-      i_res <- i_pkg_deps$get_resolution()
-      i_res$direct <- i_res$directpkg <- FALSE
-      i_res
-    }
-  )
-
-  new_res <- rbind(res[1, ], do.call(rbind, deps_res))
-  new_res <- new_res[!duplicated(new_res), ]
+  # Keep res at top
+  new_res <- rbind(res[1:2, ], new_res)
 
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
   ip$solve()
@@ -293,7 +274,13 @@ download_ip <- function(ip) {
 #' @export
 install_ip <- function(ip) {
   ip$install_sysreqs()
-  ip$install()
+  tryCatch(
+    ip$install(),
+    error = function(err) {
+      # Print compilation error when installation fails to help debug
+      print(err)
+      stop(err)
+  })
 
   return(invisible(ip))
 }

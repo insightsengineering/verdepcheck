@@ -101,6 +101,7 @@ new_release_deps_installation_proposal <- function(path, # nolint
   }
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
 
+  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
@@ -155,6 +156,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     }
   )
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
 
   # find PPM snapshot
@@ -260,6 +262,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   )
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
 
+  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
 
   res <- desc_to_ip(d, config)
@@ -299,6 +302,59 @@ get_refs_from_desc <- function(d) {
   res[res_idx]
 }
 
+#' Replace Remotes in the `desc` that have been resolved to a GitHub tag or are
+#' in CRAN
+#'
+#' Replaces any existing Remotes entry with the resolved GitHub tag from the
+#' `new_refs`.
+#'
+#' It keeps all the existing Remotes that have not been resolved in `new_refs`.
+#'
+#' @param d (`desc`) DESCRIPTION object
+#' @param new_refs (`list`) remote references that have been resolved and are
+#' being updated in `Config/Needs/verdepcheck`
+#' @keywords internal
+desc_remotes_cleanup <- function(d, new_refs) {
+  # Parse the remotes to retrieve the package names
+  remotes <- pkgdepends::parse_pkg_refs(d$get_remotes())
+
+  # Get the packages defined in remotes
+  #  (making sure that only packages that are already defined here are modified)
+  remotes_pkg <- vapply(remotes, `[[`, character(1), "package")
+
+  # Find which packages of the new_refs are defined in Remotes
+  new_refs_remotes <- Filter(
+    function(.x) {
+      isTRUE(.x$package %in% remotes_pkg) && inherits(.x, "remote_ref_github")
+    },
+    new_refs
+  )
+
+  # New remotes ref to use when replacing
+  new_ref_remote <- vapply(new_refs_remotes, `[[`, character(1), "ref")
+
+  new_ref_pkg <- vapply(new_refs, `[[`, character(1), "package")
+
+  # Remove from `Remotes` all package that have been resolved to
+  #  * CRAN package
+  #  * GitHub tag
+  new_remotes <- c(
+    # Keep remotes (if the DESCRIPTION file is correct, this should have no elements)
+    d$get_remotes()[!(remotes_pkg %in% new_ref_pkg)],
+    # Modified remotes
+    new_ref_remote
+  )
+
+  # Remotes that are not in new_refs are kept, as well as the ones that were
+  #  resolved to be a github repo
+  d$clear_remotes()
+
+  # Return clause without Remotes section
+  if (is.null(new_remotes) || length(new_remotes) == 0) return(d)
+  d$set_remotes(new_remotes)
+  d
+}
+
 #' Set `"Config/Needs/verdepcheck"` section into the `desc` object if not empty else clear this section.
 #' @keywords internal
 desc_cond_set_refs <- function(d, refs) {
@@ -329,7 +385,9 @@ desc_to_ip <- function(d, config) {
 cli_pb_init <- function(type, total, ...) {
   cli::cli_progress_bar(
     format = paste(
-      "{cli::pb_spin} Resolving {cli::pb_extra$type} version of {cli::pb_extra$package}",
+      "{cli::pb_spin} Resolving",
+      "{cli::style_bold(cli::col_yellow(cli::pb_extra$type))}",
+      "version of {cli::col_blue(cli::pb_extra$package)}",
       "[{cli::pb_current}/{cli::pb_total}]   ETA:{cli::pb_eta}"
     ),
     format_done = paste0(
