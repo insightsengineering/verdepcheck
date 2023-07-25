@@ -1,3 +1,4 @@
+
 #' Read DESCRIPTION file and return list of references.
 #'
 #' Returned list is an union between references specified in `"Config/Needs/verdepcheck"` field and
@@ -151,10 +152,8 @@ version_from_desc <- function(pkg_name, desc) {
 #' versions <- paste(1:10, rep("0", 10), sep = ".")
 #' verdepcheck:::filter_valid_version(versions, ">=", "3.1")
 filter_valid_version <- function(x, op, op_ver) {
-  res <- package_version(x)
-  res <- Filter(Negate(is.na), res)
+  res <- Filter(Negate(is.na), numeric_version(x, strict = FALSE))
   if (op == "" || op_ver == "") return(res)
-
   Filter(function(x) check_valid_version(x, op, op_ver), res)
 }
 
@@ -171,9 +170,9 @@ filter_valid_version <- function(x, op, op_ver) {
 #' versions <- paste(1:10, rep("0", 10), sep = ".")
 #' verdepcheck:::check_valid_version(versions, ">=", "3.1")
 check_valid_version <- function(x, op, op_ver) {
-  res <- package_version(x, strict = FALSE)
+  res <- numeric_version(x, strict = FALSE)
   res <- Filter(Negate(is.na), res)
-  if (op == "" || op_ver == "") return(res)
+  if (op == "" || op_ver == "") return(rep(TRUE, NROW(res)))
 
-  do.call(op, list(res, package_version(op_ver)))
+  do.call(op, list(res, numeric_version(op_ver)))
 }
