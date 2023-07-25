@@ -92,7 +92,4 @@ cli_pb_init <- function(type, total, ...) {
 #' @keywords internal
 cli_pb_update <- function(package, n = 2L, ...) {
   cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
-
-subset_package_version <- function(df, package_name) {
-  result <- df$version[df$package == package_name]
 }
