@@ -55,18 +55,13 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' @examples
 #' check_if_on_cran(list(package = "magrittr"))
 #' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
-#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "2000.5.0"))
+#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+#' check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
 check_if_on_cran <- function(remote_ref, version = NULL) {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
-  if (is.null(version)) return(nrow(cran_listings) > 0)
+  if (is.null(version)) return(NROW(cran_listings) > 0)
   # Check if minimum version exists on CRAN
-  any(do.call(
-    version$op,
-    list(
-      package_version(cran_listings$version),
-      version$op_ver
-    )
-  ))
+  NROW(filter_valid_version(cran_listings$version, version$op, version$op_ver)) > 0
 }
 
 #' Get reference to the minimal version of the package.
@@ -169,7 +164,7 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
       ref_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, ref)
       if ((length(ref_desc) == 1 && is.na(ref_desc)) || ref_desc$get_field("Package") != remote_ref$package) next
       ref_ver <- ref_desc$get_version()
-      op_res <- do.call(op, list(ref_ver, package_version(op_ver)))
+      op_res <- check_valid_version(ref_ver, op, op_ver)
       if (op_res) {
         ref_suffix <- sprintf("@%s", ref)
         break
@@ -250,10 +245,15 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
   vapply(res, `[[`, character(1), "name")
 }
 
-
+#' Get DESCRIPTION from GitHub Repository
+#'
 #' @importFrom desc desc
 #' @importFrom gh gh
 #' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::get_desc_from_gh("tidyverse", "tibble")
+#' verdepcheck:::get_desc_from_gh("insightsengineering", "formatters", "v0.5.0")
 get_desc_from_gh <- function(org, repo, ref = "") {
   if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
@@ -262,16 +262,6 @@ get_desc_from_gh <- function(org, repo, ref = "") {
     return(NA)
   }
   desc::desc(text = resp$message)
-}
-
-#' @keywords internal
-filter_valid_version <- function(x, op, op_ver) {
-  res <- x
-  res <- Filter(Negate(is.na), res)
-  if (op != "" && op_ver != "") {
-    res <- Filter(function(x) do.call(op, list(x, package_version(op_ver))), res)
-  }
-  return(res)
 }
 
 #' Get reference to the maximal version of the package.

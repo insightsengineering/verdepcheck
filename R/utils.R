@@ -30,36 +30,6 @@ get_ppm_snapshot_by_date <- function(date) {
   res
 }
 
-#' Get package version from description
-#'
-#' @keywords internal
-#'
-#' @examples
-#' d <- desc::desc(cmd = "!new")
-#'
-#' d$set_dep("magrittr", type = "Imports", version = "*")
-#' verdepcheck:::version_from_desc("magrittr", d)
-#'
-#' d$set_dep("magrittr", type = "Imports", version = ">= 1.5")
-#' verdepcheck:::version_from_desc("magrittr", d)
-version_from_desc <- function(pkg_name, desc) {
-  version <- subset(desc$get_deps(), package == pkg_name, version)[[1]]
-  result <- list(
-    package = pkg_name,
-    version_str = version,
-    op = "",
-    op_ver = ""
-  )
-  if (version == "*" || trimws(version) == "") {
-    return(result)
-  }
-  split_vec <- strsplit(version, " ")[[1]]
-  result$version_str <- version
-  result$op <- split_vec[1]
-  result$op_ver <- package_version(split_vec[2])
-  result
-}
-
 #' @importFrom pkgcache ppm_repo_url
 parse_ppm_url <- function(snapshot) {
   file.path(pkgcache::ppm_repo_url(), snapshot)
@@ -96,4 +66,31 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res <- i_pkg_deps$get_resolution()
   i_res$direct <- i_res$directpkg <- FALSE
   i_res
+}
+
+
+#' Create `cli` progress bar for resolving versions.
+#' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
+#' @keywords internal
+cli_pb_init <- function(type, total, ...) {
+  cli::cli_progress_bar(
+    format = paste(
+      "{cli::pb_spin} Resolving",
+      "{cli::style_bold(cli::col_yellow(cli::pb_extra$type))}",
+      "version of {cli::col_blue(cli::pb_extra$package)}",
+      "[{cli::pb_current}/{cli::pb_total}]   ETA:{cli::pb_eta}"
+    ),
+    format_done = paste0(
+      "{cli::col_green(cli::symbol$tick)} Resolved {cli::pb_total} packages in {cli::pb_elapsed}."
+    ),
+    extra = list(type = type, package = character(0)),
+    total = total,
+    .envir = parent.frame(2L),
+    ...
+  )
+}
+#' @importFrom cli cli_progress_update
+#' @keywords internal
+cli_pb_update <- function(package, n = 2L, ...) {
+  cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
 }

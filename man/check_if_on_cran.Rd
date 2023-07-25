@@ -4,9 +4,15 @@
 \alias{check_if_on_cran}
 \title{Check if package is available on CRAN.}
 \usage{
-check_if_on_cran(remote_ref)
+check_if_on_cran(remote_ref, version = NULL)
 }
 \description{
 Check if package is available on CRAN.
+}
+\examples{
+check_if_on_cran(list(package = "magrittr"))
+check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
 }
 \keyword{internal}
