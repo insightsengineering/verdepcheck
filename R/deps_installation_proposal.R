@@ -142,14 +142,8 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     new_refs,
     function(x) {
       if (inherits(x, "remote_ref_github")) {
-        version <- subset_package_version(d$get_deps(), x$package)
-        if (version == "*") {
-          get_ref_min(x)
-        } else {
-          op <- strsplit(version, " ")[[1]][1]
-          op_ver <- strsplit(version, " ")[[1]][2]
-          get_ref_min(x, op, op_ver)
-        }
+        version <- version_from_desc(x$package, d)
+        get_ref_min(x, version$op, version$op_ver)
       } else {
         x
       }
