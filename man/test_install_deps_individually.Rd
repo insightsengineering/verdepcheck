@@ -26,5 +26,5 @@ for more information (e.g. \link{new_max_deps_installation_proposal})
 There is no output for this function other than the messages in the console.
 }
 \examples{
-install_deps_individually("../repos/teal.code")
+verdepcheck::test_install_deps_individually("../repos/teal.code")
 }

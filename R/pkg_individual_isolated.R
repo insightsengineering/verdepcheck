@@ -18,7 +18,7 @@
 #' contains a DESCRIPTION file.
 #'
 #' @examples
-#' install_deps_individually("../repos/teal.code")
+#' verdepcheck::test_install_deps_individually("../repos/teal.code")
 test_install_deps_individually <- function(path) { # nolint
   path <- normalizePath(path)
 
@@ -85,10 +85,10 @@ test_install_deps_individually <- function(path) { # nolint
 #' test_install_pkg_versions("Rcpp", ">=", "0.12.15", 2)
 #' test_install_pkg_versions("Rcpp", ">=", "0.12.15", NA, TRUE)
 test_install_pkg_versions <- function(package,
-                                          op = "",
-                                          op_ver = "",
-                                          max_count = NA,
-                                          until_success = TRUE) {
+                                      op = "",
+                                      op_ver = "",
+                                      max_count = NA,
+                                      until_success = TRUE) {
 
   # Get all versions from CRAN, but only keep those that match op / op_version
   pkg_versions <- pkgcache::cran_archive_list(packages = package)

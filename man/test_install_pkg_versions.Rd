@@ -9,7 +9,7 @@ test_install_pkg_versions(
   op = "",
   op_ver = "",
   max_count = NA,
-  until_success = FALSE
+  until_success = TRUE
 )
 }
 \arguments{
