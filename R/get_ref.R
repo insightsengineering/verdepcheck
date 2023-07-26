@@ -418,6 +418,32 @@ get_release_date.remote_ref <- function(remote_ref) {
   NA
 }
 
+#' @keywords internal
+get_bioc_release_date <- function() {
+  config_url <- "https://bioconductor.org/config.yaml"
+  response <- httr::GET(config_url)
+  result <- yaml::yaml.load(httr::content(response, "text", encoding = "UTF-8"))
+  bioc_version <- pkgcache::bioc_version()
+  strptime(result$release_dates[[as.character(bioc_version)]], "%m/%d/%Y")
+}
+
+#' @keywords internal
+get_bioc_package_release_date <- function(package) {
+  source_url <- pkgcache::meta_cache_list(packages = package)$sources[[1]]
+  last_modified <- httr::GET(source_url)$headers$`last-modified`
+  strptime(last_modified, format = "%a, %d %b %Y %H:%M:%S")
+}
+
+#' Cached release date for Bioconductor
+#' @keywords internal
+bioc_release_date <- tryCatch(
+  get_bioc_release_date(),
+  error = function(err) {
+    # Fallback method that looks for the last modified date of an existing package
+    NA
+  }
+)
+
 #' Get CRAN/Bioc metadata information on packages
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
@@ -435,16 +461,13 @@ get_cran_data <- function(package) {
 
   # Bioc custom logic as packages in Bioconductor do not return a published date
   #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
-  #  note: a date is required for the Cohort strategy
+  #  note: a date is required for the `min_cohort` strategy
+  if (is.na(bioc_release_date)) {
+    bioc_release_date <- get_bioc_package_release_date(package)
+  }
+
   bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
-  cran_current[bioc_na_mtime_ix, "published"] <- as.Date(vapply(
-    cran_current[bioc_na_mtime_ix, "sources"],
-    function(.x) {
-      last_modified <- httr::GET(.x[[1]])$headers$`last-modified`
-      as.Date(strptime(last_modified, format = "%a, %d %b %Y"))
-    },
-    double(1)
-  ))
+  cran_current[bioc_na_mtime_ix, "published"] <- bioc_release_date
 
   # Remove extra columns
   cran_current <- cran_current[, setdiff(names(cran_current), c("type", "sources"))]

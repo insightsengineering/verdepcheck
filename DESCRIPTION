@@ -15,6 +15,7 @@ Imports:
     cli (>= 3.6.0),
     desc (>= 1.2),
     gh,
+    httr,
     pkgcache (>= 2.1.0),
     pkgdepends (>= 0.5.0),
     rcmdcheck,
