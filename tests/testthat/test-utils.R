@@ -20,7 +20,7 @@ test_that("local_description will create a valid DESCRIPTION file with Remotes",
     pkg_list = list(
       pkgdepends = "Imports", `dplyr (>= 1.0)` = "Imports"
     ),
-    remotes = c("r-lib/pkgdepends")
+    remotes = c("r-lib/pkgdepends@*release")
   )
   expect_true(file.exists(file_path))
 
@@ -40,9 +40,39 @@ test_that("local_description will create a valid DESCRIPTION file with Remotes",
   ref <- pkgdepends::parse_pkg_ref(d$get_remotes())
 
   expect_equal(ref$package, "pkgdepends")
+  expect_equal(ref$ref, "r-lib/pkgdepends@*release")
+  expect_s3_class(ref, "remote_ref_github")
+})
+
+test_that("local_description will create a valid DESCRIPTION file with Config/Need/verdepcheck", {
+  file_path <- local_description(
+    pkg_list = list(
+      pkgdepends = "Imports", `dplyr (>= 1.0)` = "Imports"
+    ),
+    need_verdepcheck = c("r-lib/pkgdepends")
+  )
+  expect_true(file.exists(file_path))
+
+  d <- expect_silent(
+    desc::desc(file = file_path)
+  )
+
+  deps <- d$get_deps()
+
+  expect_true("pkgdepends" %in% deps$package)
+  expect_true("dplyr" %in% deps$package)
+
+  expect_equal(deps$version[deps$package == "dplyr"], ">= 1.0")
+
+  expect_equal(NROW(d$get_remotes()), 0)
+
+  ref <- pkgdepends::parse_pkg_ref(get_desc_field_pkgs(d))
+
+  expect_equal(ref$package, "pkgdepends")
   expect_equal(ref$ref, "r-lib/pkgdepends")
   expect_s3_class(ref, "remote_ref_github")
 })
+
 
 test_that("local_description will create a temporary file", {
   inner_fun <- function() {
