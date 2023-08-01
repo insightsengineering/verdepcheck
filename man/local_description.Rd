@@ -20,13 +20,13 @@ the key}
 the DESCRIPTION file}
 
 \item{need_verdepcheck}{(\code{vector}) string vector that contains
-Config/Need/verdepcheck elements to add to the DESCRIPTION file}
+\code{Config/Need/verdepcheck} elements to add to the DESCRIPTION file}
 
 \item{.local_envir}{(\code{envirnoment}) The environment to use for scoping.}
 }
 \description{
 The file is deleted after the parent environment where this function was called
-has exited, when the R session ends or on deman via \code{\link[withr:defer]{withr::deferred_run()}}
+has exited, when the R session ends or on demand via \code{\link[withr:defer]{withr::deferred_run()}}
 }
 \examples{
 verdepcheck:::local_description(

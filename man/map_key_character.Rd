@@ -10,10 +10,10 @@ map_key_character(x, key)
 \arguments{
 \item{x}{(\code{list}) list of lists where each internal list contain the same key}
 
-\item{field}{(\code{character(1)}) key of field to ret}
+\item{field}{(\code{character(1)}) key of field to retrieve}
 }
 \description{
-Support function to reduce repetive code
+Support function to reduce repetitive code
 }
 \examples{
 verdepcheck:::map_key_character(

@@ -2,7 +2,7 @@
 % Please edit documentation in R/desc_utils.R
 \name{get_desc_field_pkgs}
 \alias{get_desc_field_pkgs}
-\title{Get the packages from the custom config field}
+\title{Get the packages from the custom configuration field}
 \usage{
 get_desc_field_pkgs(d)
 }
@@ -13,6 +13,6 @@ get_desc_field_pkgs(d)
 character string
 }
 \description{
-Get the packages from the custom config field
+Get the packages from the custom configuration field
 }
 \keyword{internal}

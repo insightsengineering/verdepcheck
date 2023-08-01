@@ -32,7 +32,7 @@ get_refs_from_desc <- function(d) {
   res[res_idx]
 }
 
-#' Get the packages from the custom config field
+#' Get the packages from the custom configuration field
 #' @param d (`desc`) DESCRIPTION object from [desc::description]
 #' @return character string
 #' @keywords internal

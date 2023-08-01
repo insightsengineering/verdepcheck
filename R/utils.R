@@ -27,7 +27,7 @@ get_ppm_snapshot_by_date <- function(date) {
     1
   )))
   if (length(res) == 0) {
-    rlang::warn(sprintf(
+    warning(sprintf(
       paste0(
         "Cannot find PPM snapshot for date after %s.",
         " Will use current CRAN instead."
@@ -109,7 +109,7 @@ cli_pb_update <- function(package, n = 2L, ...) {
 #' Temporarily create a valid DESCRIPTION file to a location that will be deleted
 #'
 #' The file is deleted after the parent environment where this function was called
-#' has exited, when the R session ends or on deman via [withr::deferred_run()]
+#' has exited, when the R session ends or on demand via [withr::deferred_run()]
 #'
 #' @param pkg_list (`vector`) named character vector or list with
 #' paired name and type of dependency. It supports versions by using quotes on
@@ -117,7 +117,7 @@ cli_pb_update <- function(package, n = 2L, ...) {
 #' @param remotes (`vector`) string vector that contains remotes to add to
 #' the DESCRIPTION file
 #' @param need_verdepcheck (`vector`) string vector that contains
-#' Config/Need/verdepcheck elements to add to the DESCRIPTION file
+#' `Config/Need/verdepcheck` elements to add to the DESCRIPTION file
 #' @param .local_envir (`envirnoment`) The environment to use for scoping.
 #'
 #' @keywords internal
@@ -155,10 +155,10 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
 #' Parse through vector of `remote_ref` and retrieve one of the keys of each
 #' element
 #'
-#' Support function to reduce repetive code
+#' Support function to reduce repetitive code
 #'
 #' @param x (`list`) list of lists where each internal list contain the same key
-#' @param field (`character(1)`) key of field to ret
+#' @param field (`character(1)`) key of field to retrieve
 #'
 #' @keywords internal
 #'

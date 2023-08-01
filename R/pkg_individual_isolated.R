@@ -68,7 +68,7 @@ test_install_deps_individually <- function(path) { # nolint
 #' Test install all the versions of the package locally
 #'
 #' Support function to assess if every version specified by `op` and `op_ver`
-#' of the package are installable. This is not always the case as there might
+#' of the package can be installed. This is not always the case as there might
 #' be some API changes that break specific versions.
 #'
 #' The `Rcpp` package before 0.12.16 cannot be compiled by R versions above 4.0
@@ -96,9 +96,7 @@ test_install_pkg_versions <- function(package,
                                       until_success = TRUE) {
   # Get all versions from CRAN, but only keep those that match op / op_version
   pkg_latest <- pkgcache::meta_cache_list(package)[, c("package", "version", "target", "published", "sources")]
-  pkg_latest$sources <- vapply(pkg_latest$sources, function(.x) {
-    .x[[1]][1]
-  }, character(1))
+  pkg_latest$sources <- vapply(pkg_latest$sources, function(.x) .x[[1]][1], character(1))
   pkg_latest$mirror <- pkg_latest$sources
   colnames(pkg_latest) <- c("package", "version", "raw", "mtime", "url", "mirror")
   pkg_latest$raw <- file.path(package, basename(pkg_latest$raw))

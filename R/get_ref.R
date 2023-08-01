@@ -420,16 +420,16 @@ get_release_date.remote_ref <- function(remote_ref) {
   NA
 }
 
-#' Get the pseudo-published date of Bioc packages
+#' Get the pseudo-published date of Bioconductor packages
 #'
 #' The date from the last modification to the sources is assumed to be the
 #' published date as it is not available in `pkgcache` results.
 #'
 #' The official metadata of the Bioconductor release does not work for the
-#' purpose of this package (https://bioconductor.org/config.yaml). As there
+#' purpose of this package (`https://bioconductor.org/config.yaml`). As there
 #' might be a edge case where a Bioconductor package was changed and depends
-#' on a newer version of a package. (Actual edge case with SummarizedExperiment
-#' and matrixStats)
+#' on a newer version of a package. (Actual edge case with `SummarizedExperiment`
+#' and `matrixStats`)
 #'
 #' @keywords internal
 get_bioc_package_release_date <- function(package) {
@@ -453,7 +453,7 @@ get_bioc_package_release_date <- function(package) {
   )
 }
 
-#' Get CRAN/Bioc metadata information on packages
+#' Get CRAN/Bioconductor metadata information on packages
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @keywords internal

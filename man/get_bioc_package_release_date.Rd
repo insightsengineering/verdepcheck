@@ -2,7 +2,7 @@
 % Please edit documentation in R/get_ref.R
 \name{get_bioc_package_release_date}
 \alias{get_bioc_package_release_date}
-\title{Get the pseudo-published date of Bioc packages}
+\title{Get the pseudo-published date of Bioconductor packages}
 \usage{
 get_bioc_package_release_date(package)
 }
@@ -12,9 +12,9 @@ published date as it is not available in \code{pkgcache} results.
 }
 \details{
 The official metadata of the Bioconductor release does not work for the
-purpose of this package (https://bioconductor.org/config.yaml). As there
+purpose of this package (\verb{https://bioconductor.org/config.yaml}). As there
 might be a edge case where a Bioconductor package was changed and depends
-on a newer version of a package. (Actual edge case with SummarizedExperiment
-and matrixStats)
+on a newer version of a package. (Actual edge case with \code{SummarizedExperiment}
+and \code{matrixStats})
 }
 \keyword{internal}

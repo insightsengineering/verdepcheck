@@ -27,7 +27,7 @@ successful installation of a package should stop the search.}
 }
 \description{
 Support function to assess if every version specified by \code{op} and \code{op_ver}
-of the package are installable. This is not always the case as there might
+of the package can be installed. This is not always the case as there might
 be some API changes that break specific versions.
 }
 \details{
