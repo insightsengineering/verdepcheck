@@ -101,8 +101,8 @@ new_release_deps_installation_proposal <- function(path, # nolint
   }
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
 
-  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
   class(res) <- c("release_deps_installation_proposal", "deps_installation_proposal", class(res))
@@ -150,8 +150,8 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     }
   )
   new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
-  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_remotes_cleanup(d)
 
   # find PPM snapshot
   refs <- get_refs_from_desc(d)
@@ -253,10 +253,10 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
       }
     }
   )
-  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  new_refs_str <- map_key_character(new_refs, "ref")
 
-  d <- desc_remotes_cleanup(d, new_refs)
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
   class(res) <- c("min_isolated_deps_installation_proposal", "deps_installation_proposal", class(res))

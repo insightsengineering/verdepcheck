@@ -21,45 +21,6 @@ skip_if_empty_gh_token <- function() {
   if (isFALSE(res)) skip("Not run with empty GH token")
 }
 
-#' Temporarily create a valid DESCRIPTION file to a temporary location
-#'
-#' The file is deleted after the parent function where this function was called
-#' has exited, when the R session ends or on deman via [withr::deferred_run()]
-#' @param pkg_list (`vector`) named character vector or list with
-#' paired name and type of dependency. It supports versions by using quotes on
-#' the key
-#' @param remotes (`vector`) string vector that contains remotes to add to
-#' the DESCRIPTION file
-#' @param need_verdepcheck (`vector`) string vector that contains
-#' Config/Need/verdepcheck elements to add to the DESCRIPTION file
-#' @param .local_envir (`envirnoment`) The environment to use for scoping.
-#'
-#' @keywords internal
-local_description <- function(pkg_list = c(pkgdepends = "Import"),
-                              remotes = c(),
-                              need_verdepcheck = c(),
-                              .local_envir = parent.frame()) {
-  d_std <- desc::desc("!new")
-
-  for (pkg in names(pkg_list)) {
-    d_std$set_dep(pkg, pkg_list[[pkg]])
-  }
-
-  for (remote in remotes) {
-    d_std$add_remotes(remote)
-  }
-
-  if (!is.null(need_verdepcheck) && length(need_verdepcheck) > 0) {
-    d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
-  }
-
-  path <- tempfile(pattern = "DESCRIPTION")
-  d_std$write(path)
-  withr::defer(unlink(path), envir = .local_envir)
-
-  path
-}
-
 #' Aggregator of tests to generally perform on proposals
 #'
 #' @param x (`pkg_installation_proposal` object) Valid proposal created by one

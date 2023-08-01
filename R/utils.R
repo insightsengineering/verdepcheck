@@ -103,3 +103,68 @@ cli_pb_init <- function(type, total, ...) {
 cli_pb_update <- function(package, n = 2L, ...) {
   cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
 }
+
+#' Temporarily create a valid DESCRIPTION file to a location that will be deleted
+#'
+#' The file is deleted after the parent environment where this function was called
+#' has exited, when the R session ends or on deman via [withr::deferred_run()]
+#'
+#' @param pkg_list (`vector`) named character vector or list with
+#' paired name and type of dependency. It supports versions by using quotes on
+#' the key
+#' @param remotes (`vector`) string vector that contains remotes to add to
+#' the DESCRIPTION file
+#' @param need_verdepcheck (`vector`) string vector that contains
+#' Config/Need/verdepcheck elements to add to the DESCRIPTION file
+#' @param .local_envir (`envirnoment`) The environment to use for scoping.
+#'
+#' @keywords internal
+#' @examples
+#' verdepcheck:::local_description(
+#'   list(rtables = "Import"),
+#'   remotes = "insightsengineering/rtables",
+#'   need_verdepcheck = "rtables=insightsengineering/rtables@0.6.2"
+#' )
+local_description <- function(pkg_list = c(pkgdepends = "Import"),
+                              remotes = c(),
+                              need_verdepcheck = c(),
+                              .local_envir = parent.frame()) {
+  d_std <- desc::desc("!new")
+
+  for (pkg in names(pkg_list)) {
+    d_std$set_dep(pkg, pkg_list[[pkg]])
+  }
+
+  for (remote in remotes) {
+    d_std$add_remotes(remote)
+  }
+
+  if (!is.null(need_verdepcheck) && length(need_verdepcheck) > 0) {
+    d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
+  }
+
+  path <- tempfile(pattern = "DESCRIPTION")
+  d_std$write(path)
+  withr::defer(unlink(path), envir = .local_envir)
+
+  path
+}
+
+#' Parse through vector of `remote_ref` and retrieve one of the keys of each
+#' element
+#'
+#' Support function to reduce repetive code
+#'
+#' @param x (`list`) list of lists where each internal list contain the same key
+#' @param field (`character(1)`) key of field to ret
+#'
+#' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::map_key_character(
+#'   list(list(a = "1", b = "2"), list(a = "3", b = "4"), list(a = "5", b = "6")),
+#'   "a"
+#' )
+map_key_character <- function(x, key) {
+  vapply(x, `[[`, character(1), key)
+}

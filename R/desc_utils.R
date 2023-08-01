@@ -17,7 +17,7 @@ get_refs_from_desc <- function(d) {
     refs <- list()
   } else {
     refs <- lapply(
-      trimws(strsplit(d$get_field(.desc_field), ",")[[1]]),
+      get_desc_field_pkgs(d),
       pkgdepends::parse_pkg_ref
     )
   }
@@ -32,53 +32,70 @@ get_refs_from_desc <- function(d) {
   res[res_idx]
 }
 
+#' Get the packages from the custom config field
+#' @param d (`desc`) DESCRIPTION object from [desc::description]
+#' @return character string
+#' @keywords internal
+get_desc_field_pkgs <- function(d) {
+  trimws(strsplit(d$get_field(.desc_field), ",")[[1]])
+}
+
 #' Replace Remotes in the `desc` that have been resolved to a GitHub tag or are
 #' in CRAN
 #'
-#' Replaces any existing Remotes entry with the resolved GitHub tag from the
-#' `new_refs`.
-#' It keeps all the existing Remotes that have not been resolved in `new_refs`.
+#' Replaces any existing Remotes entry with the resolved GitHub tag from
+#' `Config/Needs/verdepcheck`.
 #'
 #' @param d (`desc`) DESCRIPTION object
-#' @param new_refs (`list`) remote references that have been resolved and are
-#' being updated in `Config/Needs/verdepcheck`
 #' @keywords internal
-desc_remotes_cleanup <- function(d, new_refs) {
+#' @examples
+#' # Example that should replace rtables & formatters on Remotes
+#' #  but not pkgdepends
+#'
+#' d <- desc::desc(
+#'   file = verdepcheck:::local_description(
+#'     list(
+#'       rtables = "Import", formatters = "Import", pkgdepends = "Import",
+#'       dplyr = "Import"
+#'     ),
+#'     remotes = c(
+#'       "insightsengineering/rtables@*release",
+#'       "insightsengineering/formatters@*release",
+#'       "r-lib/pkgdepends@*release"
+#'     ),
+#'     need_verdepcheck = c(
+#'       "dplyr",
+#'       "rtables=insightsengineering/rtables@0.6.2",
+#'       "formatters=insightsengineering/formatters@0.5.1"
+#'     )
+#'   )
+#' )
+#' verdepcheck:::desc_remotes_cleanup(d)
+desc_remotes_cleanup <- function(d) {
+  # Parse the `Config/Needs/verdepcheck` to retrieve references and extract package names
+  desc_field_pkgs <- pkgdepends::parse_pkg_refs(get_desc_field_pkgs(d))
+  desc_field_pkg_names <- map_key_character(desc_field_pkgs, "package")
+
   # Parse the remotes to retrieve the package names
   remotes <- pkgdepends::parse_pkg_refs(d$get_remotes())
+  remotes_pkg <- map_key_character(remotes, "package")
 
-  # Get the packages defined in remotes
-  #  (making sure that only packages that are already defined here are modified)
-  remotes_pkg <- vapply(remotes, `[[`, character(1), "package")
+  # Add to remotes `Config/Needs/verdepcheck` that resolve to a remote_ref_github
+  desc_field_include_ix <- vapply(desc_field_pkgs, inherits, logical(1), "remote_ref_github")
 
-  # Find which packages of the new_refs are defined in Remotes
-  new_refs_remotes <- Filter(
-    function(.x) {
-      isTRUE(.x$package %in% remotes_pkg) && inherits(.x, "remote_ref_github")
-    },
-    new_refs
-  )
+  # Only keep previous remotes that are not defined in `Config/Needs/verdepcheck`
+  remotes_include_ix <- remotes_pkg %in% setdiff(remotes_pkg, desc_field_pkg_names)
 
-  # New remotes ref to use when replacing
-  new_ref_remote <- vapply(new_refs_remotes, `[[`, character(1), "ref")
-
-  new_ref_pkg <- vapply(new_refs, `[[`, character(1), "package")
-
-  # Remove from `Remotes` all package that have been resolved to
-  #  * CRAN package
-  #  * GitHub tag
+  # Create new list of references that will be used as "Remotes"
   new_remotes <- c(
-    # Keep remotes (if the DESCRIPTION file is correct, this should have no elements)
-    d$get_remotes()[!(remotes_pkg %in% new_ref_pkg)],
-    # Modified remotes
-    new_ref_remote
+    map_key_character(desc_field_pkgs[desc_field_include_ix], "ref"),
+    map_key_character(remotes[remotes_include_ix], "ref")
   )
 
-  # Remotes that are not in new_refs are kept, as well as the ones that were
-  #  resolved to be a github repo
+  # Remove all remotes and override it
   d$clear_remotes()
 
-  # Return clause without Remotes section
+  # Return clause without Remotes section if none should be kept
   if (is.null(new_remotes) || length(new_remotes) == 0) return(d)
   d$set_remotes(new_remotes)
   d
