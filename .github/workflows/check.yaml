@@ -13,7 +13,6 @@ on:
   push:
     branches:
       - main
-      - training_cleanup
   workflow_dispatch:
 
 jobs:
