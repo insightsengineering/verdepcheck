@@ -4,9 +4,17 @@
 \alias{check_if_on_cran}
 \title{Check if package is available on CRAN.}
 \usage{
-check_if_on_cran(remote_ref)
+check_if_on_cran(remote_ref, version = NULL)
 }
 \description{
 Check if package is available on CRAN.
+}
+\examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+verdepcheck:::check_if_on_cran(list(package = "magrittr"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

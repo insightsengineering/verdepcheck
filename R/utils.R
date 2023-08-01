@@ -22,16 +22,26 @@ base_pkgs <- function() {
 #' @importFrom pkgcache ppm_snapshots
 get_ppm_snapshot_by_date <- function(date) {
   snaps <- pkgcache::ppm_snapshots()
-  res <- as.character(as.Date(head(
+  res <- as.character(as.Date(utils::head(
     snaps[as.Date(snaps$date) > as.Date(date), "date"],
     1
   )))
-  if (length(res) == 0) stop(sprintf("Cannot find PPM snapshot for date after %s.", as.character(date)))
+  if (length(res) == 0) {
+    rlang::warn(sprintf(
+        paste0(
+          "Cannot find PPM snapshot for date after %s.",
+          " Will use current CRAN instead."
+        ),
+        as.character(date)
+    ))
+    return(NA)
+  }
   res
 }
 
 #' @importFrom pkgcache ppm_repo_url
-parse_ppm_url <- function(snapshot) {
+parse_ppm_url <- function(snapshot = NA) {
+  if (is.na(snapshot)) return(pkgcache::default_cran_mirror())
   file.path(pkgcache::ppm_repo_url(), snapshot)
 }
 
@@ -66,4 +76,95 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res <- i_pkg_deps$get_resolution()
   i_res$direct <- i_res$directpkg <- FALSE
   i_res
+}
+
+#' Create `cli` progress bar for resolving versions.
+#' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
+#' @keywords internal
+cli_pb_init <- function(type, total, ...) {
+  cli::cli_progress_bar(
+    format = paste(
+      "{cli::pb_spin} Resolving",
+      "{cli::style_bold(cli::col_yellow(cli::pb_extra$type))}",
+      "version of {cli::col_blue(cli::pb_extra$package)}",
+      "[{cli::pb_current}/{cli::pb_total}]   ETA:{cli::pb_eta}"
+    ),
+    format_done = paste0(
+      "{cli::col_green(cli::symbol$tick)} Resolved {cli::pb_total} packages in {cli::pb_elapsed}."
+    ),
+    extra = list(type = type, package = character(0)),
+    total = total,
+    .envir = parent.frame(2L),
+    ...
+  )
+}
+#' @importFrom cli cli_progress_update
+#' @keywords internal
+cli_pb_update <- function(package, n = 2L, ...) {
+  cli::cli_progress_update(extra = list(package = package), .envir = parent.frame(n), ...)
+}
+
+#' Temporarily create a valid DESCRIPTION file to a location that will be deleted
+#'
+#' The file is deleted after the parent environment where this function was called
+#' has exited, when the R session ends or on deman via [withr::deferred_run()]
+#'
+#' @param pkg_list (`vector`) named character vector or list with
+#' paired name and type of dependency. It supports versions by using quotes on
+#' the key
+#' @param remotes (`vector`) string vector that contains remotes to add to
+#' the DESCRIPTION file
+#' @param need_verdepcheck (`vector`) string vector that contains
+#' Config/Need/verdepcheck elements to add to the DESCRIPTION file
+#' @param .local_envir (`envirnoment`) The environment to use for scoping.
+#'
+#' @keywords internal
+#' @examples
+#' verdepcheck:::local_description(
+#'   list(rtables = "Import"),
+#'   remotes = "insightsengineering/rtables",
+#'   need_verdepcheck = "rtables=insightsengineering/rtables@0.6.2"
+#' )
+local_description <- function(pkg_list = c(pkgdepends = "Import"),
+                              remotes = c(),
+                              need_verdepcheck = c(),
+                              .local_envir = parent.frame()) {
+  d_std <- desc::desc("!new")
+
+  for (pkg in names(pkg_list)) {
+    d_std$set_dep(pkg, pkg_list[[pkg]])
+  }
+
+  for (remote in remotes) {
+    d_std$add_remotes(remote)
+  }
+
+  if (!is.null(need_verdepcheck) && length(need_verdepcheck) > 0) {
+    d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
+  }
+
+  path <- tempfile(pattern = "DESCRIPTION")
+  d_std$write(path)
+  withr::defer(unlink(path), envir = .local_envir)
+
+  path
+}
+
+#' Parse through vector of `remote_ref` and retrieve one of the keys of each
+#' element
+#'
+#' Support function to reduce repetive code
+#'
+#' @param x (`list`) list of lists where each internal list contain the same key
+#' @param field (`character(1)`) key of field to ret
+#'
+#' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::map_key_character(
+#'   list(list(a = "1", b = "2"), list(a = "3", b = "4"), list(a = "5", b = "6")),
+#'   "a"
+#' )
+map_key_character <- function(x, key) {
+  vapply(x, `[[`, character(1), key)
 }

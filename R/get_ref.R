@@ -29,7 +29,7 @@ get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
-  if (check_if_on_cran(remote_ref)) {
+  if (check_if_on_cran(remote_ref, list(op = op, op_ver = op_ver))) {
     gh_res <- get_ref_min(remote_ref, op, op_ver)
     gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
     gh_ver <- gh_desc$get_version()
@@ -51,8 +51,17 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' Check if package is available on CRAN.
 #' @importFrom pkgcache meta_cache_list
 #' @keywords internal
-check_if_on_cran <- function(remote_ref) {
-  nrow(pkgcache::meta_cache_list(remote_ref$package)) > 0
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+check_if_on_cran <- function(remote_ref, version = NULL) {
+  cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
+  if (is.null(version) || NROW(cran_listings) == 0) return(NROW(cran_listings) > 0)
+  # Check if minimum version exists on CRAN
+  NROW(filter_valid_version(cran_listings$version, version$op, version$op_ver)) > 0
 }
 
 #' Get reference to the minimal version of the package.
@@ -104,7 +113,7 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
           sep = " ",
           "Possible problem finding release for:",
           "`{remote_ref$package} ({op} {op_ver})`.",
-          "The version might be invalid."
+          "The package name or version might be invalid."
         )
       )
       stop(err)
@@ -155,7 +164,7 @@ get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
       ref_desc <- get_desc_from_gh(remote_ref$username, remote_ref$repo, ref)
       if ((length(ref_desc) == 1 && is.na(ref_desc)) || ref_desc$get_field("Package") != remote_ref$package) next
       ref_ver <- ref_desc$get_version()
-      op_res <- do.call(op, list(ref_ver, package_version(op_ver)))
+      op_res <- check_valid_version(ref_ver, op, op_ver)
       if (op_res) {
         ref_suffix <- sprintf("@%s", ref)
         break
@@ -236,10 +245,15 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
   vapply(res, `[[`, character(1), "name")
 }
 
-
+#' Get DESCRIPTION from GitHub Repository
+#'
 #' @importFrom desc desc
 #' @importFrom gh gh
 #' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::get_desc_from_gh("tidyverse", "tibble")
+#' verdepcheck:::get_desc_from_gh("insightsengineering", "formatters", "v0.5.0")
 get_desc_from_gh <- function(org, repo, ref = "") {
   if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
@@ -248,16 +262,6 @@ get_desc_from_gh <- function(org, repo, ref = "") {
     return(NA)
   }
   desc::desc(text = resp$message)
-}
-
-#' @keywords internal
-filter_valid_version <- function(x, op, op_ver) {
-  res <- x
-  res <- Filter(Negate(is.na), res)
-  if (op != "" && op_ver != "") {
-    res <- Filter(function(x) do.call(op, list(x, package_version(op_ver))), res)
-  }
-  return(res)
 }
 
 #' Get reference to the maximal version of the package.
@@ -346,7 +350,7 @@ get_release_date <- function(remote_ref) {
 #' @export
 #' @examplesIf gh::gh_token() != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
-#' get_release_date.remote_ref_github(remote_ref)
+#' verdepcheck:::get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
@@ -400,7 +404,7 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
   subset(
     get_cran_data(remote_ref$package),
     package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
-    mtime
+    select = "mtime"
   )[[1]][1]
 }
 
@@ -414,11 +418,62 @@ get_release_date.remote_ref <- function(remote_ref) {
   NA
 }
 
+#' Get the pseudo-published date of Bioc packages
+#'
+#' The date from the last modification to the sources is assumed to be the
+#' published date as it is not available in `pkgcache` results.
+#'
+#' The official metadata of the Bioconductor release does not work for the
+#' purpose of this package (https://bioconductor.org/config.yaml). As there
+#' might be a edge case where a Bioconductor package was changed and depends
+#' on a newer version of a package. (Actual edge case with SummarizedExperiment
+#' and matrixStats)
+#'
+#' @keywords internal
+get_bioc_package_release_date <- function(package) {
+  pkg_list <- pkgcache::meta_cache_list(packages = package)
+  tryCatch({
+    pkg_list <- pkg_list[order(package_version(pkg_list$version)),][1,]
+    source_url <- pkg_list$sources[[1]]
+    last_modified <- httr::GET(source_url)$headers$`last-modified`
+    as.POSIXct(strptime(last_modified, format = "%a, %d %b %Y %H:%M:%S"))
+  },
+  error = function(err) {
+    cli::cli_alert_info(paste0(
+      "Couldn't find the release date for ",
+      cli::col_blue("bioc::{{{package}}}"),
+      ". This may cause a failure to install packages as",
+      " min_cohort / min_isolated strategies depend on the release date."
+    ))
+    NA
+  })
+}
+
+#' Get CRAN/Bioc metadata information on packages
+#'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @keywords internal
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' verdepcheck:::get_cran_data("pkgcache")
+#' verdepcheck:::get_cran_data("SummarizedExperiment")
 get_cran_data <- function(package) {
-  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
-  cran_current <- pkgcache::meta_cache_list(packages = package)[, c("package", "version", "published")]
+  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c(
+    "package", "version", "mtime"
+  )]
+  cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
+    "type", "package", "version", "published"
+  )]
+
+  # Bioc custom logic as packages in Bioconductor do not return a published date
+  #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
+  #  note: a date is required for the `min_cohort` strategy
+  bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
+  if (NROW(cran_current[bioc_na_mtime_ix,]) > 0) {
+    cran_current[bioc_na_mtime_ix, "published"] <- get_bioc_package_release_date(package)
+  }
+
+  # Remove extra columns
+  cran_current <- cran_current[, setdiff(names(cran_current), c("type"))]
 
   cran_current <- setNames(cran_current, names(cran_archive))
   rbind(cran_archive, cran_current)
