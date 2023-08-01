@@ -10,9 +10,11 @@ check_if_on_cran(remote_ref, version = NULL)
 Check if package is available on CRAN.
 }
 \examples{
-check_if_on_cran(list(package = "magrittr"))
-check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
-check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
-check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+verdepcheck:::check_if_on_cran(list(package = "magrittr"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}

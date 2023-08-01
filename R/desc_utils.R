@@ -21,7 +21,8 @@ get_refs_from_desc <- function(d) {
       pkgdepends::parse_pkg_ref
     )
   }
-  all_deps <- subset(d$get_deps(), type %in% pkgdepends::pkg_dep_types(), "package")[[1]]
+  all_deps <- d$get_deps()
+  all_deps <- all_deps$package[all_deps$type %in% pkgdepends::pkg_dep_types()]
   missing_refs <- setdiff(setdiff(all_deps, base_pkgs()), vapply(refs, `[[`, character(1), "package"))
   res <- c(
     refs,

@@ -26,5 +26,10 @@ for more information (e.g. \link{new_max_deps_installation_proposal})
 There is no output for this function other than the messages in the console.
 }
 \examples{
-verdepcheck::test_install_deps_individually("../repos/teal.code")
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+desc_path <- verdepcheck:::local_description(
+  list(`dplyr (>= 1.1.2)` = "Import")
+)
+verdepcheck:::test_install_deps_individually(desc_path)
+\dontshow{\}) # examplesIf}
 }

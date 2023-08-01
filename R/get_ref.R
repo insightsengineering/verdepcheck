@@ -52,11 +52,11 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' @importFrom pkgcache meta_cache_list
 #' @keywords internal
 #'
-#' @examples
-#' check_if_on_cran(list(package = "magrittr"))
-#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
-#' check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
-#' check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
+#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
 check_if_on_cran <- function(remote_ref, version = NULL) {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
   if (is.null(version) || NROW(cran_listings) == 0) return(NROW(cran_listings) > 0)
@@ -453,7 +453,7 @@ get_bioc_package_release_date <- function(package) {
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @keywords internal
-#' @examples
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_cran_data("pkgcache")
 #' verdepcheck:::get_cran_data("SummarizedExperiment")
 get_cran_data <- function(package) {

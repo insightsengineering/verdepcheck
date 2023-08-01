@@ -17,8 +17,11 @@
 #' @param path (`character`) File path to a valid package directory that
 #' contains a DESCRIPTION file.
 #'
-#' @examples
-#' verdepcheck::test_install_deps_individually("../repos/teal.code")
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' desc_path <- verdepcheck:::local_description(
+#'   list(`dplyr (>= 1.1.2)` = "Import")
+#' )
+#' verdepcheck:::test_install_deps_individually(desc_path)
 test_install_deps_individually <- function(path) { # nolint
   path <- normalizePath(path)
 
@@ -36,6 +39,8 @@ test_install_deps_individually <- function(path) { # nolint
         x$commitish == ""
       ) {
         pkgdepends::parse_pkg_ref(x$package)
+      } else if (inherits(x, "remote_ref_standard")) {
+        x
       } else {
         # Discard all non-CRAN packages
         NULL
@@ -47,7 +52,7 @@ test_install_deps_individually <- function(path) { # nolint
     new_refs,
     function(.x) {
       version <- version_from_desc(.x$package, d)
-      test_install_all_pkg_versions(
+      test_install_pkg_versions(
         .x$package,
         version$op,
         version$op_ver,
@@ -80,7 +85,7 @@ test_install_deps_individually <- function(path) { # nolint
 #'
 #' @export
 #'
-#' @examples
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' test_install_pkg_versions("checkmate", ">=", "2.1.0")
 #' test_install_pkg_versions("Rcpp", ">=", "0.12.15", 2)
 #' test_install_pkg_versions("Rcpp", ">=", "0.12.15", NA, TRUE)
@@ -91,7 +96,16 @@ test_install_pkg_versions <- function(package,
                                       until_success = TRUE) {
 
   # Get all versions from CRAN, but only keep those that match op / op_version
-  pkg_versions <- pkgcache::cran_archive_list(packages = package)
+  pkg_latest <- pkgcache::meta_cache_list(package)[, c("package", "version", "target", "published", "sources")]
+  pkg_latest$sources <- vapply(pkg_latest$sources, function(.x) { .x[[1]][1] }, character(1))
+  pkg_latest$mirror <- pkg_latest$sources
+  colnames(pkg_latest) <- c("package", "version", "raw", "mtime", "url", "mirror")
+  pkg_latest$raw <- file.path(package, basename(pkg_latest$raw))
+
+  pkg_versions <- rbind(
+    pkgcache::cran_archive_list(packages = package),
+    pkg_latest
+  )
   ix_versions <- check_valid_version(pkg_versions$version, op, op_ver)
 
   # Convert from logical array to position index capping the size on `max_count`

@@ -36,7 +36,9 @@ The \code{Rcpp} package before 0.12.16 cannot be compiled by R versions above 4.
 There is no output for this function other than the messages in the console.
 }
 \examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 test_install_pkg_versions("checkmate", ">=", "2.1.0")
 test_install_pkg_versions("Rcpp", ">=", "0.12.15", 2)
 test_install_pkg_versions("Rcpp", ">=", "0.12.15", NA, TRUE)
+\dontshow{\}) # examplesIf}
 }
