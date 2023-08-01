@@ -28,11 +28,11 @@ get_ppm_snapshot_by_date <- function(date) {
   )))
   if (length(res) == 0) {
     rlang::warn(sprintf(
-        paste0(
-          "Cannot find PPM snapshot for date after %s.",
-          " Will use current CRAN instead."
-        ),
-        as.character(date)
+      paste0(
+        "Cannot find PPM snapshot for date after %s.",
+        " Will use current CRAN instead."
+      ),
+      as.character(date)
     ))
     return(NA)
   }
@@ -41,7 +41,9 @@ get_ppm_snapshot_by_date <- function(date) {
 
 #' @importFrom pkgcache ppm_repo_url
 parse_ppm_url <- function(snapshot = NA) {
-  if (is.na(snapshot)) return(pkgcache::default_cran_mirror())
+  if (is.na(snapshot)) {
+    return(pkgcache::default_cran_mirror())
+  }
   file.path(pkgcache::ppm_repo_url(), snapshot)
 }
 

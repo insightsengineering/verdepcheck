@@ -1,4 +1,3 @@
-
 #' Try to solve using standard method. If error - use [resolve_ignoring_release_remote].
 #'
 #' @inheritParams check_ip
@@ -50,7 +49,9 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
     cli_pb_update(package = i_pkg, n = 4L)
 
-    if (i_pkg %in% base_pkgs()) return(NULL)
+    if (i_pkg %in% base_pkgs()) {
+      return(NULL)
+    }
 
     resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"])
   })

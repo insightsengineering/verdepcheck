@@ -232,8 +232,8 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
       version <- version_from_desc(x$package, d)
       if (
         inherits(x, "remote_ref_github") &&
-        check_if_on_cran(x, version) &&
-        x$commitish == ""
+          check_if_on_cran(x, version) &&
+          x$commitish == ""
       ) {
         pkgdepends::parse_pkg_ref(x$package)
       } else {

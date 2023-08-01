@@ -63,7 +63,9 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   remote_str <- "r-lib/pkgdepends"
   desc_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(
-    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
+    list(pkgdepends = "Import"),
+    remotes = c(remote_str), need_verdepcheck = desc_str
+  )
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
@@ -77,7 +79,9 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@*re
   remote_str <- "r-lib/pkgdepends"
   desc_str <- "r-lib/pkgdepends@*release"
   d_std_path <- local_description(
-    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
+    list(pkgdepends = "Import"),
+    remotes = c(remote_str), need_verdepcheck = desc_str
+  )
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
@@ -91,7 +95,9 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@<ta
   remote_str <- "r-lib/pkgdepends@v0.3.2"
   desc_str <- "r-lib/pkgdepends@v0.3.2"
   d_std_path <- local_description(
-    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str)
+    list(pkgdepends = "Import"),
+    remotes = c(remote_str), need_verdepcheck = desc_str
+  )
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
@@ -128,7 +134,8 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<re
 
   remote_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(
-    list(pkgdepends = "Import"), remotes = c(remote_str)
+    list(pkgdepends = "Import"),
+    remotes = c(remote_str)
   )
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
@@ -143,7 +150,8 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
   remote_str <- "r-lib/pkgdepends"
   desc_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(
-    list(pkgdepends = "Import"), remotes = c(remote_str), need_verdepcheck = desc_str
+    list(pkgdepends = "Import"),
+    remotes = c(remote_str), need_verdepcheck = desc_str
   )
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))

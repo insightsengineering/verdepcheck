@@ -1,4 +1,3 @@
-
 #' Read DESCRIPTION file and return list of references.
 #'
 #' Returned list is an union between references specified in `"Config/Needs/verdepcheck"` field and
@@ -97,7 +96,9 @@ desc_remotes_cleanup <- function(d) {
   d$clear_remotes()
 
   # Return clause without Remotes section if none should be kept
-  if (is.null(new_remotes) || length(new_remotes) == 0) return(d)
+  if (is.null(new_remotes) || length(new_remotes) == 0) {
+    return(d)
+  }
   d$set_remotes(new_remotes)
   d
 }
@@ -171,7 +172,9 @@ version_from_desc <- function(pkg_name, desc) {
 #' verdepcheck:::filter_valid_version(versions, ">=", "3.1")
 filter_valid_version <- function(x, op, op_ver) {
   res <- Filter(Negate(is.na), numeric_version(x, strict = FALSE))
-  if (op == "" || op_ver == "") return(res)
+  if (op == "" || op_ver == "") {
+    return(res)
+  }
   Filter(function(x) check_valid_version(x, op, op_ver), res)
 }
 
@@ -190,7 +193,9 @@ filter_valid_version <- function(x, op, op_ver) {
 check_valid_version <- function(x, op, op_ver) {
   res <- numeric_version(x, strict = FALSE)
   res <- Filter(Negate(is.na), res)
-  if (op == "" || op_ver == "") return(rep(TRUE, NROW(res)))
+  if (op == "" || op_ver == "") {
+    return(rep(TRUE, NROW(res)))
+  }
 
   do.call(op, list(res, numeric_version(op_ver)))
 }

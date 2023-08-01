@@ -59,7 +59,9 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
 check_if_on_cran <- function(remote_ref, version = NULL) {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
-  if (is.null(version) || NROW(cran_listings) == 0) return(NROW(cran_listings) > 0)
+  if (is.null(version) || NROW(cran_listings) == 0) {
+    return(NROW(cran_listings) > 0)
+  }
   # Check if minimum version exists on CRAN
   NROW(filter_valid_version(cran_listings$version, version$op, version$op_ver)) > 0
 }
@@ -432,21 +434,23 @@ get_release_date.remote_ref <- function(remote_ref) {
 #' @keywords internal
 get_bioc_package_release_date <- function(package) {
   pkg_list <- pkgcache::meta_cache_list(packages = package)
-  tryCatch({
-    pkg_list <- pkg_list[order(package_version(pkg_list$version)),][1,]
-    source_url <- pkg_list$sources[[1]]
-    last_modified <- httr::GET(source_url)$headers$`last-modified`
-    as.POSIXct(strptime(last_modified, format = "%a, %d %b %Y %H:%M:%S"))
-  },
-  error = function(err) {
-    cli::cli_alert_info(paste0(
-      "Couldn't find the release date for ",
-      cli::col_blue("bioc::{{{package}}}"),
-      ". This may cause a failure to install packages as",
-      " min_cohort / min_isolated strategies depend on the release date."
-    ))
-    NA
-  })
+  tryCatch(
+    {
+      pkg_list <- pkg_list[order(package_version(pkg_list$version)), ][1, ]
+      source_url <- pkg_list$sources[[1]]
+      last_modified <- httr::GET(source_url)$headers$`last-modified`
+      as.POSIXct(strptime(last_modified, format = "%a, %d %b %Y %H:%M:%S"))
+    },
+    error = function(err) {
+      cli::cli_alert_info(paste0(
+        "Couldn't find the release date for ",
+        cli::col_blue("bioc::{{{package}}}"),
+        ". This may cause a failure to install packages as",
+        " min_cohort / min_isolated strategies depend on the release date."
+      ))
+      NA
+    }
+  )
 }
 
 #' Get CRAN/Bioc metadata information on packages
@@ -468,7 +472,7 @@ get_cran_data <- function(package) {
   #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
   #  note: a date is required for the `min_cohort` strategy
   bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
-  if (NROW(cran_current[bioc_na_mtime_ix,]) > 0) {
+  if (NROW(cran_current[bioc_na_mtime_ix, ]) > 0) {
     cran_current[bioc_na_mtime_ix, "published"] <- get_bioc_package_release_date(package)
   }
 

@@ -1,5 +1,4 @@
 test_that("filter_valid_version will filter for valid versions", {
-
   versions <- paste(1:10, rep("0", 10), sep = ".")
 
   expect_length(filter_valid_version(versions, ">=", "3.1"), 7)

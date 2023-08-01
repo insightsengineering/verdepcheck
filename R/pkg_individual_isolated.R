@@ -35,8 +35,8 @@ test_install_deps_individually <- function(path) { # nolint
       version <- version_from_desc(x$package, d)
       if (
         inherits(x, "remote_ref_github") &&
-        check_if_on_cran(x, version) &&
-        x$commitish == ""
+          check_if_on_cran(x, version) &&
+          x$commitish == ""
       ) {
         pkgdepends::parse_pkg_ref(x$package)
       } else if (inherits(x, "remote_ref_standard")) {
@@ -94,10 +94,11 @@ test_install_pkg_versions <- function(package,
                                       op_ver = "",
                                       max_count = NA,
                                       until_success = TRUE) {
-
   # Get all versions from CRAN, but only keep those that match op / op_version
   pkg_latest <- pkgcache::meta_cache_list(package)[, c("package", "version", "target", "published", "sources")]
-  pkg_latest$sources <- vapply(pkg_latest$sources, function(.x) { .x[[1]][1] }, character(1))
+  pkg_latest$sources <- vapply(pkg_latest$sources, function(.x) {
+    .x[[1]][1]
+  }, character(1))
   pkg_latest$mirror <- pkg_latest$sources
   colnames(pkg_latest) <- c("package", "version", "raw", "mtime", "url", "mirror")
   pkg_latest$raw <- file.path(package, basename(pkg_latest$raw))
@@ -152,15 +153,18 @@ test_install_pkg_versions <- function(package,
     )
 
     # Try to install
-    install_result[[el]] <- tryCatch({
-      ip$solve()
-      ip$download()
-      ip$install()
-      list(version = row$version, fun = cli::cli_alert_success, status = 0L)
-    }, error = function(err) {
-      print(err)
-      list(version = row$version, fun = cli::cli_alert_danger, status = -1L)
-    })
+    install_result[[el]] <- tryCatch(
+      {
+        ip$solve()
+        ip$download()
+        ip$install()
+        list(version = row$version, fun = cli::cli_alert_success, status = 0L)
+      },
+      error = function(err) {
+        print(err)
+        list(version = row$version, fun = cli::cli_alert_danger, status = -1L)
+      }
+    )
 
     # Break loop on first sucessful install
     if (until_success && install_result[[el]]$status == 0L) break
