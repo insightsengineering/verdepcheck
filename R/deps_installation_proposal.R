@@ -225,6 +225,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   d <- desc::desc(path)
 
   refs <- get_refs_from_desc(d)
+
   # convert github to standard if possible
   new_refs <- lapply(
     refs,
@@ -241,6 +242,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
       }
     }
   )
+
   # for github type - find ref for min version and add it to the GH ref
   new_refs <- lapply(
     new_refs,

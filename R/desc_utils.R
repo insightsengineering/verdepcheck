@@ -9,25 +9,25 @@
 #' d$set_dep("foo", "Import")
 #' d$set_dep("bar", "Suggest")
 #' d$set_list("Config/Needs/verdepcheck", "foo/bar")
-#' d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in pacakge deps - will be skipped
+#' d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in package deps - will be skipped
 #' get_refs_from_desc(d)
 get_refs_from_desc <- function(d) {
   if (.desc_field %nin% d$fields()) {
     refs <- list()
   } else {
-    refs <- lapply(
-      get_desc_field_pkgs(d),
-      pkgdepends::parse_pkg_ref
-    )
+    refs <- lapply(get_desc_field_pkgs(d), pkgdepends::parse_pkg_ref)
   }
   all_deps <- d$get_deps()
   all_deps <- all_deps$package[all_deps$type %in% pkgdepends::pkg_dep_types()]
-  missing_refs <- setdiff(setdiff(all_deps, base_pkgs()), vapply(refs, `[[`, character(1), "package"))
+  missing_refs <- setdiff(
+    setdiff(all_deps, base_pkgs()),
+    map_key_character(refs, "package")
+  )
   res <- c(
     refs,
     lapply(missing_refs, pkgdepends::parse_pkg_ref)
   )
-  res_idx <- match(all_deps, vapply(res, `[[`, character(1), "package"))
+  res_idx <- match(all_deps, map_key_character(res, "package"))
   res_idx <- res_idx[!is.na(res_idx)]
   res[res_idx]
 }
