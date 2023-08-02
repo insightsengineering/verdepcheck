@@ -16,7 +16,7 @@ d <- desc::desc("!new")
 d$set_dep("foo", "Import")
 d$set_dep("bar", "Suggest")
 d$set_list("Config/Needs/verdepcheck", "foo/bar")
-d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in pacakge deps - will be skipped
+d$set_list("Config/Needs/verdepcheck", "foo/baz") # not in package deps - will be skipped
 get_refs_from_desc(d)
 \dontshow{\}) # examplesIf}
 }
