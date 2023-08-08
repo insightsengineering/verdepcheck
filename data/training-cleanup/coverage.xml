@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0.0723684210526316" branch-rate="0" lines-covered="44" lines-valid="608" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-08-02 06:53:01.816025">
+<coverage line-rate="0.0723684210526316" branch-rate="0" lines-covered="44" lines-valid="608" branches-covered="0" branches-valid="0" complexity="0" version="3.6.2" timestamp="2023-08-08 07:48:13.272821">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
@@ -486,7 +486,6 @@
             <method name="version_from_desc" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
                 <line number="143" hits="0" branch="false"/>
-                <line number="144" hits="0" branch="false"/>
                 <line number="145" hits="0" branch="false"/>
                 <line number="146" hits="0" branch="false"/>
                 <line number="147" hits="0" branch="false"/>
@@ -495,28 +494,29 @@
                 <line number="150" hits="0" branch="false"/>
                 <line number="151" hits="0" branch="false"/>
                 <line number="152" hits="0" branch="false"/>
-                <line number="154" hits="0" branch="false"/>
+                <line number="153" hits="0" branch="false"/>
                 <line number="155" hits="0" branch="false"/>
                 <line number="156" hits="0" branch="false"/>
                 <line number="157" hits="0" branch="false"/>
                 <line number="158" hits="0" branch="false"/>
+                <line number="159" hits="0" branch="false"/>
               </lines>
             </method>
             <method name="filter_valid_version" signature="" line-rate="0.75" branch-rate="0" complexity="0">
               <lines>
-                <line number="174" hits="10" branch="false"/>
                 <line number="175" hits="10" branch="false"/>
-                <line number="176" hits="0" branch="false"/>
-                <line number="178" hits="10" branch="false"/>
+                <line number="176" hits="10" branch="false"/>
+                <line number="177" hits="0" branch="false"/>
+                <line number="179" hits="10" branch="false"/>
               </lines>
             </method>
             <method name="check_valid_version" signature="" line-rate="1" branch-rate="0" complexity="0">
               <lines>
-                <line number="194" hits="106" branch="false"/>
                 <line number="195" hits="106" branch="false"/>
                 <line number="196" hits="106" branch="false"/>
-                <line number="197" hits="2" branch="false"/>
-                <line number="200" hits="102" branch="false"/>
+                <line number="197" hits="106" branch="false"/>
+                <line number="198" hits="2" branch="false"/>
+                <line number="201" hits="102" branch="false"/>
               </lines>
             </method>
           </methods>
@@ -564,7 +564,6 @@
             <line number="126" hits="0" branch="false"/>
             <line number="127" hits="0" branch="false"/>
             <line number="143" hits="0" branch="false"/>
-            <line number="144" hits="0" branch="false"/>
             <line number="145" hits="0" branch="false"/>
             <line number="146" hits="0" branch="false"/>
             <line number="147" hits="0" branch="false"/>
@@ -573,20 +572,21 @@
             <line number="150" hits="0" branch="false"/>
             <line number="151" hits="0" branch="false"/>
             <line number="152" hits="0" branch="false"/>
-            <line number="154" hits="0" branch="false"/>
+            <line number="153" hits="0" branch="false"/>
             <line number="155" hits="0" branch="false"/>
             <line number="156" hits="0" branch="false"/>
             <line number="157" hits="0" branch="false"/>
             <line number="158" hits="0" branch="false"/>
-            <line number="174" hits="10" branch="false"/>
+            <line number="159" hits="0" branch="false"/>
             <line number="175" hits="10" branch="false"/>
-            <line number="176" hits="0" branch="false"/>
-            <line number="178" hits="10" branch="false"/>
-            <line number="194" hits="106" branch="false"/>
+            <line number="176" hits="10" branch="false"/>
+            <line number="177" hits="0" branch="false"/>
+            <line number="179" hits="10" branch="false"/>
             <line number="195" hits="106" branch="false"/>
             <line number="196" hits="106" branch="false"/>
-            <line number="197" hits="2" branch="false"/>
-            <line number="200" hits="102" branch="false"/>
+            <line number="197" hits="106" branch="false"/>
+            <line number="198" hits="2" branch="false"/>
+            <line number="201" hits="102" branch="false"/>
           </lines>
         </class>
         <class name="get_ref.R" filename="R/get_ref.R" line-rate="0.10762331838565" branch-rate="0" complexity="0">
