@@ -11,6 +11,8 @@ Get DESCRIPTION from GitHub Repository
 }
 \examples{
 verdepcheck:::get_desc_from_gh("tidyverse", "tibble")
-verdepcheck:::get_desc_from_gh("insightsengineering", "formatters", "v0.5.0")
+verdepcheck:::get_desc_from_gh("tidyverse", "tibble", "v3.2.0")
+verdepcheck:::get_desc_from_gh("tidyverse", "dplyr", "v1.1.0")
+verdepcheck:::get_desc_from_gh("r-lib", "rlang", "v1.0.0")
 }
 \keyword{internal}

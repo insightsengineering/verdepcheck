@@ -255,7 +255,9 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
 #'
 #' @examples
 #' verdepcheck:::get_desc_from_gh("tidyverse", "tibble")
-#' verdepcheck:::get_desc_from_gh("insightsengineering", "formatters", "v0.5.0")
+#' verdepcheck:::get_desc_from_gh("tidyverse", "tibble", "v3.2.0")
+#' verdepcheck:::get_desc_from_gh("tidyverse", "dplyr", "v1.1.0")
+#' verdepcheck:::get_desc_from_gh("r-lib", "rlang", "v1.0.0")
 get_desc_from_gh <- function(org, repo, ref = "") {
   if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
