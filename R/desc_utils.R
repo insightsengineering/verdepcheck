@@ -153,7 +153,6 @@ version_from_desc <- function(pkg_name, desc) {
     return(result)
   }
   split_vec <- strsplit(version, " ")[[1]]
-  result$version_str <- version
   result$op <- split_vec[1]
   result$op_ver <- split_vec[2]
   result
@@ -169,7 +168,7 @@ version_from_desc <- function(pkg_name, desc) {
 #' @keywords internal
 #'
 #' @examples
-#' versions <- paste(1:10, rep("0", 10), sep = ".")
+#' versions <- paste(1:10, 0, sep = ".")
 #' verdepcheck:::filter_valid_version(versions, ">=", "3.1")
 filter_valid_version <- function(x, op, op_ver) {
   res <- Filter(Negate(is.na), numeric_version(x, strict = FALSE))
@@ -189,7 +188,7 @@ filter_valid_version <- function(x, op, op_ver) {
 #' @keywords internal
 #'
 #' @examples
-#' versions <- paste(1:10, rep("0", 10), sep = ".")
+#' versions <- paste(1:10, 0, sep = ".")
 #' verdepcheck:::check_valid_version(versions, ">=", "3.1")
 check_valid_version <- function(x, op, op_ver) {
   res <- numeric_version(x, strict = FALSE)

@@ -352,7 +352,7 @@ get_release_date <- function(remote_ref) {
 #' @export
 #' @examplesIf gh::gh_token() != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
-#' verdepcheck:::get_release_date.remote_ref_github(remote_ref)
+#' get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {

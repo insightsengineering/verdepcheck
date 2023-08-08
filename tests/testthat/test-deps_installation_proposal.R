@@ -223,9 +223,9 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
 
   d_std_path <- local_description(
     list(
-      `tern (>= 0.8.3)` = "Import",
-      `rtables (>= 0.6.1)` = "Import",
-      `formatters (>= 0.5.0)` = "Import"
+      "tern (>= 0.8.3)" = "Import",
+      "rtables (>= 0.6.1)" = "Import",
+      "formatters (>= 0.5.0)" = "Import"
     ),
     need_verdepcheck = list(
       "insightsengineering/tern",
@@ -252,9 +252,9 @@ test_that("new_min_isolated_deps_installation_proposal correctly resolves a diff
 
   d_std_path <- local_description(
     list(
-      `tern (>= 0.8.3)` = "Import",
-      `rtables (>= 0.6.0)` = "Import",
-      `formatters (>= 0.4.1)` = "Import"
+      "tern (>= 0.8.3)" = "Import",
+      "rtables (>= 0.6.0)" = "Import",
+      "formatters (>= 0.4.1)" = "Import"
     )
   )
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
