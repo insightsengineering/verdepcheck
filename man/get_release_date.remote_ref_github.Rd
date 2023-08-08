@@ -15,6 +15,6 @@ Get release date from GitHub references
 \examples{
 \dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
-verdepcheck:::get_release_date.remote_ref_github(remote_ref)
+get_release_date.remote_ref_github(remote_ref)
 \dontshow{\}) # examplesIf}
 }

@@ -18,7 +18,7 @@ with using a relational operator.}
 Check for package versions that comply with an operator and version
 }
 \examples{
-versions <- paste(1:10, rep("0", 10), sep = ".")
+versions <- paste(1:10, 0, sep = ".")
 verdepcheck:::check_valid_version(versions, ">=", "3.1")
 }
 \keyword{internal}
