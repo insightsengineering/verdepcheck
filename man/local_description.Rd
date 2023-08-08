@@ -30,9 +30,9 @@ has exited, when the R session ends or on demand via \code{\link[withr:defer]{wi
 }
 \examples{
 verdepcheck:::local_description(
-  list(rtables = "Import"),
-  remotes = "insightsengineering/rtables",
-  need_verdepcheck = "rtables=insightsengineering/rtables@0.6.2"
+  list(dplyr = "Import"),
+  remotes = "tidyverse/dplyr",
+  need_verdepcheck = "dplyr=tidyverse/dplyr@v1.1.0"
 )
 }
 \keyword{internal}

@@ -11,7 +11,7 @@ Get CRAN/Bioconductor metadata information on packages
 }
 \examples{
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-verdepcheck:::get_cran_data("pkgcache")
+verdepcheck:::get_cran_data("dplyr")
 verdepcheck:::get_cran_data("SummarizedExperiment")
 \dontshow{\}) # examplesIf}
 }

@@ -53,10 +53,10 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' @keywords internal
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::check_if_on_cran(list(package = "magrittr"))
-#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "0.5.0"))
-#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = ">=", op_ver = "9999.9.99"))
-#' verdepcheck:::check_if_on_cran(list(package = "magrittr"), list(op = "<", op_ver = "0.0.0"))
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"))
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = ">=", op_ver = "1.1.0"))
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = ">=", op_ver = "9999.9.99"))
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = "<", op_ver = "0.0.0"))
 check_if_on_cran <- function(remote_ref, version = NULL) {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
   if (is.null(version) || NROW(cran_listings) == 0) {
@@ -254,10 +254,8 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
 #' @keywords internal
 #'
 #' @examples
-#' verdepcheck:::get_desc_from_gh("tidyverse", "tibble")
-#' verdepcheck:::get_desc_from_gh("tidyverse", "tibble", "v3.2.0")
+#' verdepcheck:::get_desc_from_gh("tidyverse", "dplyr")
 #' verdepcheck:::get_desc_from_gh("tidyverse", "dplyr", "v1.1.0")
-#' verdepcheck:::get_desc_from_gh("r-lib", "rlang", "v1.0.0")
 get_desc_from_gh <- function(org, repo, ref = "") {
   if (ref == "") ref <- "HEAD"
   url_str <- sprintf("/repos/%s/%s/contents/DESCRIPTION?ref=%s", org, repo, ref)
@@ -353,7 +351,7 @@ get_release_date <- function(remote_ref) {
 #' @importFrom gh gh_gql
 #' @export
 #' @examplesIf gh::gh_token() != ""
-#' remote_ref <- pkgdepends::parse_pkg_ref("insightsengineering/teal@v0.10.0")
+#' remote_ref <- pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0")
 #' get_release_date.remote_ref_github(remote_ref)
 get_release_date.remote_ref_github <- function(remote_ref) {
   gql_query <- sprintf("{
@@ -402,7 +400,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 #'
 #' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' remote_ref <- pkgdepends::parse_pkg_ref("rlang@1.0.0")
+#' remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
 #' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
   subset(
@@ -460,7 +458,7 @@ get_bioc_package_release_date <- function(package) {
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @keywords internal
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_cran_data("pkgcache")
+#' verdepcheck:::get_cran_data("dplyr")
 #' verdepcheck:::get_cran_data("SummarizedExperiment")
 get_cran_data <- function(package) {
   cran_archive <- pkgcache::cran_archive_list(packages = package)[, c(

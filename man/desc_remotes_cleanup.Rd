@@ -15,24 +15,23 @@ Replaces any existing Remotes entry with the resolved GitHub tag from
 \code{Config/Needs/verdepcheck}.
 }
 \examples{
-# Example that should replace rtables & formatters on Remotes
-#  but not pkgdepends
+# Example that should replace dplyr & tibble on Remotes but not pkgdepends
 
 d <- desc::desc(
   file = verdepcheck:::local_description(
     list(
-      rtables = "Import", formatters = "Import", pkgdepends = "Import",
-      dplyr = "Import"
+      dplyr = "Import",
+      tibble = "Import",
+      pkgdepends = "Import"
     ),
     remotes = c(
-      "insightsengineering/rtables@*release",
-      "insightsengineering/formatters@*release",
+      "tidyverse/dplyr@*release",
+      "tidyverse/tibble@*release",
       "r-lib/pkgdepends@*release"
     ),
     need_verdepcheck = c(
       "dplyr",
-      "rtables=insightsengineering/rtables@0.6.2",
-      "formatters=insightsengineering/formatters@0.5.1"
+      "tibble=tidyverse/tibble@v3.2.1"
     )
   )
 )
