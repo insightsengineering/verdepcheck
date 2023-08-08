@@ -140,8 +140,9 @@ desc_to_ip <- function(d, config) {
 #' d$set_dep("magrittr", type = "Imports", version = ">= 1.5")
 #' verdepcheck:::version_from_desc("magrittr", d)
 version_from_desc <- function(pkg_name, desc) {
-  subset_versions <- function(.x) (.x$version[.x$package == pkg_name])[[1]]
-  version <- subset_versions(desc$get_deps())
+  all_deps <- desc$get_deps()
+
+  version <- (all_deps$version[all_deps$package == pkg_name])[[1]]
   result <- list(
     package = pkg_name,
     version_str = version,
