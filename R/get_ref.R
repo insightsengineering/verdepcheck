@@ -420,39 +420,6 @@ get_release_date.remote_ref <- function(remote_ref) {
   NA
 }
 
-#' Get the pseudo-published date of Bioconductor packages
-#'
-#' The date from the last modification to the sources is assumed to be the
-#' published date as it is not available in `pkgcache` results.
-#'
-#' The official metadata of the Bioconductor release does not work for the
-#' purpose of this package (`https://bioconductor.org/config.yaml`). As there
-#' might be a edge case where a Bioconductor package was changed and depends
-#' on a newer version of a package. (Actual edge case with `SummarizedExperiment`
-#' and `matrixStats`)
-#'
-#' @keywords internal
-get_bioc_package_release_date <- function(package) {
-  pkg_list <- pkgcache::meta_cache_list(packages = package)
-  tryCatch(
-    {
-      pkg_list <- pkg_list[order(package_version(pkg_list$version)), ][1, ]
-      source_url <- pkg_list$sources[[1]]
-      last_modified <- httr::GET(source_url)$headers$`last-modified`
-      as.POSIXct(strptime(last_modified, format = "%a, %d %b %Y %H:%M:%S"))
-    },
-    error = function(err) {
-      cli::cli_alert_info(paste0(
-        "Couldn't find the release date for ",
-        cli::col_blue("bioc::{{{package}}}"),
-        ". This may cause a failure to install packages as",
-        " min_cohort / min_isolated strategies depend on the release date."
-      ))
-      NA
-    }
-  )
-}
-
 #' Get CRAN/Bioconductor metadata information on packages
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
@@ -465,19 +432,8 @@ get_cran_data <- function(package) {
     "package", "version", "mtime"
   )]
   cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
-    "type", "package", "version", "published"
+    "package", "version", "published"
   )]
-
-  # Bioc custom logic as packages in Bioconductor do not return a published date
-  #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
-  #  note: a date is required for the `min_cohort` strategy
-  bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
-  if (NROW(cran_current[bioc_na_mtime_ix, ]) > 0) {
-    cran_current[bioc_na_mtime_ix, "published"] <- get_bioc_package_release_date(package)
-  }
-
-  # Remove extra columns
-  cran_current <- cran_current[, setdiff(names(cran_current), c("type"))]
 
   cran_current <- setNames(cran_current, names(cran_archive))
   rbind(cran_archive, cran_current)

@@ -41,9 +41,6 @@ get_ppm_snapshot_by_date <- function(date) {
 
 #' @importFrom pkgcache ppm_repo_url
 parse_ppm_url <- function(snapshot = NA) {
-  if (is.na(snapshot)) {
-    return(pkgcache::default_cran_mirror())
-  }
   file.path(pkgcache::ppm_repo_url(), snapshot)
 }
 
@@ -59,10 +56,13 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 
   i_release_date <- get_release_date(i_ref_minver)
 
-  if (all(is.na(i_release_date))) {
+  ppm_snapshot <- get_ppm_snapshot_by_date(i_release_date)
+
+  if (all(is.na(i_release_date)) || is.na(ppm_snapshot)) {
+    # Fallback to latest from CRAN if there are no release dates
     ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
   } else {
-    ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(i_release_date))
+    ppm_repo <- parse_ppm_url(ppm_snapshot)
   }
 
   i_pkg_deps <- pkgdepends::new_pkg_deps(

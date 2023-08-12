@@ -186,22 +186,25 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
       get_release_date(i_ref_ver)
     }
   )
-  max_release_date <- as.character(
-    as.Date(
-      max(
-        unlist(
-          lapply(deps_release_dates, as.Date, origin = "1970-01-01")
-        ),
-        na.rm = TRUE
+
+  max_release_date <- as.Date(
+    max(
+      -Inf,
+      unlist(
+        lapply(deps_release_dates, as.Date, origin = "1970-01-01")
       ),
-      origin = "1970-01-01"
-    )
+      na.rm = TRUE
+    ),
+    origin = "1970-01-01"
   )
-  if (is.na(max_release_date)) {
+
+  if (is.na(max_release_date) || is.infinite(max_release_date)) {
+    # Fallback to latest cran release if no data is available
     ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
   } else {
     ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(max_release_date))
   }
+
   config <- append_config(config, list("cran_mirror" = ppm_repo))
 
   res <- desc_to_ip(d, config)
