@@ -264,3 +264,81 @@ test_that("new_min_isolated_deps_installation_proposal correctly resolves a diff
   x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip = FALSE)
   test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip = FALSE)
 })
+
+# #################################################################
+#
+#   ____  _                           _            _
+#  |  _ \(_)                         | |          | |
+#  | |_) |_  ___   ___ ___  _ __   __| |_   _  ___| |_ ___  _ __
+#  |  _ <| |/ _ \ / __/ _ \| '_ \ / _` | | | |/ __| __/ _ \| '__|
+#  | |_) | | (_) | (_| (_) | | | | (_| | |_| | (__| || (_) | |
+#  |____/|_|\___/ \___\___/|_| |_|\__,_|\__,_|\___|\__\___/|_|
+#
+#
+#
+#  Install Bioconductor single packages
+#
+#  note: until pkgcache or another mechanism can retrieve the published date
+#   of Bioconductor packages some warnings are expected as it uses the current
+#   date instead. Bioconductor packges have their versions bumped every 6 months
+#   with a new Bioc release.
+# ################################################################
+
+
+test_that("new_min_cohort_deps_installation_proposal correctly handles Bioc package", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  d_std_path <- local_description(list(SummarizedExperiment = "Import"))
+
+  expect_warning(
+    x <- new_min_cohort_deps_installation_proposal(d_std_path),
+    "Cannot find PPM snapshot"
+  )
+
+  withr::defer(unlink(x$get_config()$library))
+
+  test_proposal_common_bioc(x, "SummarizedExperiment")
+})
+
+test_that("new_min_isolated_deps_installation_proposal correctly handles Bioc package", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  d_std_path <- local_description(list(SummarizedExperiment = "Import"))
+
+  x <- new_min_isolated_deps_installation_proposal(d_std_path)
+
+  withr::defer(unlink(x$get_config()$library))
+
+  expect_warning(
+    test_proposal_common_bioc(x, "SummarizedExperiment"),
+    "Cannot find PPM snapshot"
+  )
+})
+
+test_that("new_release_deps_installation_proposal correctly handles Bioc package", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  d_std_path <- local_description(list(SummarizedExperiment = "Import"))
+
+  x <- new_release_deps_installation_proposal(d_std_path)
+
+  withr::defer(unlink(x$get_config()$library))
+
+  test_proposal_common_bioc(x, "SummarizedExperiment")
+})
+
+test_that("new_max_deps_installation_proposal correctly handles Bioc package", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  d_std_path <- local_description(list(SummarizedExperiment = "Import"))
+
+  x <- new_max_deps_installation_proposal(d_std_path)
+
+  withr::defer(unlink(x$get_config()$library))
+
+  test_proposal_common_bioc(x, "SummarizedExperiment")
+})

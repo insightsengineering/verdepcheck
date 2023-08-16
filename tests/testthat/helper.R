@@ -58,6 +58,7 @@ test_proposal_common <- function(x,
   )
 
   expect_true(nrow(x_solution_pkg) >= 1)
+  expect_true(any(x_solution_pkg$status == "OK"))
 
   pkg_ver_act <- max(package_version(x_solution_pkg$version))
 
@@ -68,7 +69,7 @@ test_proposal_common <- function(x,
       available.packages(
         repos = pkgcache::default_cran_mirror(),
         filters = list(
-          add = TRUE, function(x) x[x[, "Package"] == "pkgdepends", ]
+          add = TRUE, function(x) x[x[, "Package"] == pkg_name, ]
         )
       )[["Version"]]
     )
@@ -80,5 +81,32 @@ test_proposal_common <- function(x,
   }
 
   expect_identical(pkg_ver_act, package_version(pkg_ver_target))
+
+  invisible(x)
+}
+
+#' @inheritParams test_proposal_common
+#' @keywords internal
+test_proposal_common_bioc <- function(x,
+                                      pkg_name = "pkgdepends",
+                                      platform = "source",
+                                      solve_ip = TRUE) {
+  expect_s3_class(x, "pkg_installation_proposal")
+
+  # Allows to re-use x accross packages without having to solve it again
+  if (solve_ip) solve_ip(x)
+
+  expect_equal(x$get_solution()$status, "OK")
+
+  x_solution <- x$get_resolution()
+
+  x_solution_pkg <- subset(
+    x_solution,
+    package == pkg_name & platform == "source"
+  )
+
+  expect_true(nrow(x_solution_pkg) >= 1)
+  expect_true(any(x_solution_pkg$status == "OK"))
+
   invisible(x)
 }
