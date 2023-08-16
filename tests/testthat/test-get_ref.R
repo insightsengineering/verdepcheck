@@ -33,3 +33,7 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
   expect_length(result, 1)
   expect_true(is.na(result))
 })
+
+test_that("get_cran_data returns date for Bioconductor", {
+  expect_false(any(is.na(get_cran_data("SummarizedExperiment")$mtime)))
+})
