@@ -71,7 +71,6 @@ get_desc_field_pkgs <- function(d) {
 #' )
 #' verdepcheck:::desc_remotes_cleanup(d)
 desc_remotes_cleanup <- function(d) {
-
   # Parse the `Config/Needs/verdepcheck` to retrieve references and extract package names
   desc_field_refs <- pkgdepends::parse_pkg_refs(get_desc_field_pkgs(d))
   desc_field_names <- map_key_character(desc_field_refs, "package")

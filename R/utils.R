@@ -26,7 +26,6 @@ base_pkgs <- function() {
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
 get_ppm_snapshot_by_date <- function(date,
                                      fallback_repo = file.path(pkgcache::ppm_repo_url(), "latest")) {
-
   if (is.na(date) || is.infinite.POSIXlt(date)) {
     return(fallback_repo)
   }
@@ -53,7 +52,9 @@ get_ppm_snapshot_by_date <- function(date,
 #' @examples
 #' parse_ppm_url()
 parse_ppm_url <- function(snapshot = NA) {
-  if (is.na(snapshot)) return(NULL)
+  if (is.na(snapshot)) {
+    return(NULL)
+  }
   file.path(pkgcache::ppm_repo_url(), snapshot)
 }
 
