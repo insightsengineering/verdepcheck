@@ -99,6 +99,7 @@ test_that("get_ppm_snapshot_by_date will accept NA", {
 })
 
 test_that("get_ppm_snapshot_by_date will accept dates in the future", {
+  skip_if_offline()
   auxiliary_fun <- function(days = 0) {
     expect_warning(
       expect_equal(
@@ -112,4 +113,8 @@ test_that("get_ppm_snapshot_by_date will accept dates in the future", {
   auxiliary_fun(0)
   auxiliary_fun(10)
   auxiliary_fun(1)
+
+  expect_false(
+    get_ppm_snapshot_by_date(Sys.Date() - 365, "FALLBACK") == "FALLBACK",
+  )
 })

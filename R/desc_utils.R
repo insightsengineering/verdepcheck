@@ -71,35 +71,37 @@ get_desc_field_pkgs <- function(d) {
 #' )
 #' verdepcheck:::desc_remotes_cleanup(d)
 desc_remotes_cleanup <- function(d) {
+
   # Parse the `Config/Needs/verdepcheck` to retrieve references and extract package names
-  desc_field_pkgs <- pkgdepends::parse_pkg_refs(get_desc_field_pkgs(d))
-  desc_field_pkg_names <- map_key_character(desc_field_pkgs, "package")
+  desc_field_refs <- pkgdepends::parse_pkg_refs(get_desc_field_pkgs(d))
+  desc_field_names <- map_key_character(desc_field_refs, "package")
 
   # Parse the remotes to retrieve the package names
-  remotes <- pkgdepends::parse_pkg_refs(d$get_remotes())
-  remotes_pkg <- map_key_character(remotes, "package")
+  remotes_refs <- pkgdepends::parse_pkg_refs(d$get_remotes())
+  remotes_names <- map_key_character(remotes_refs, "package")
 
   # Add to remotes `Config/Needs/verdepcheck` that resolve to a remote_ref_github
-  desc_field_include_ix <- vapply(desc_field_pkgs, inherits, logical(1), "remote_ref_github")
+  desc_field_include_ix <- vapply(desc_field_refs, inherits, logical(1), "remote_ref_github")
 
   # Only keep previous remotes that are not defined in `Config/Needs/verdepcheck`
-  remotes_include_ix <- remotes_pkg %in% setdiff(remotes_pkg, desc_field_pkg_names)
+  remotes_include_ix <- remotes_names %in% setdiff(remotes_names, desc_field_names)
 
   # Create new list of references that will be used as "Remotes"
   new_remotes <- c(
-    map_key_character(desc_field_pkgs[desc_field_include_ix], "ref"),
-    map_key_character(remotes[remotes_include_ix], "ref")
+    map_key_character(desc_field_refs[desc_field_include_ix], "ref"),
+    map_key_character(remotes_refs[remotes_include_ix], "ref")
   )
 
+  new_d <- d$clone()
   # Remove all remotes and override it
-  d$clear_remotes()
+  new_d$clear_remotes()
 
   # Return clause without Remotes section if none should be kept
   if (is.null(new_remotes) || length(new_remotes) == 0) {
-    return(d)
+    return(new_d)
   }
-  d$set_remotes(new_remotes)
-  d
+  new_d$set_remotes(new_remotes)
+  new_d
 }
 
 #' Set `"Config/Needs/verdepcheck"` section into the `desc` object if not empty else clear this section.
