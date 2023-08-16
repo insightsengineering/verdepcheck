@@ -53,7 +53,10 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
       return(NULL)
     }
 
-    resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"])
+    tryCatch(
+      resolve_ppm_snapshot(deps[i, "ref"], deps[i, "op"], deps[i, "version"]),
+      error = function(err) NULL
+    )
   })
 
   new_res <- do.call(rbind, deps_res)

@@ -37,6 +37,9 @@ get_refs_from_desc <- function(d) {
 #' @return character string
 #' @keywords internal
 get_desc_field_pkgs <- function(d) {
+  if (!d$has_fields(.desc_field)) {
+    return(character(0))
+  }
   trimws(strsplit(d$get_field(.desc_field), ",")[[1]])
 }
 
@@ -71,6 +74,9 @@ get_desc_field_pkgs <- function(d) {
 #' )
 #' verdepcheck:::desc_remotes_cleanup(d)
 desc_remotes_cleanup <- function(d) {
+  if (length(get_desc_field_pkgs(d)) == 0) {
+    return(d)
+  }
   # Parse the `Config/Needs/verdepcheck` to retrieve references and extract package names
   desc_field_refs <- pkgdepends::parse_pkg_refs(get_desc_field_pkgs(d))
   desc_field_names <- map_key_character(desc_field_refs, "package")
@@ -80,7 +86,8 @@ desc_remotes_cleanup <- function(d) {
   remotes_names <- map_key_character(remotes_refs, "package")
 
   # Add to remotes `Config/Needs/verdepcheck` that resolve to a remote_ref_github
-  desc_field_include_ix <- vapply(desc_field_refs, inherits, logical(1), "remote_ref_github")
+  desc_field_include_ix <- vapply(desc_field_refs, inherits, logical(1), "remote_ref_github") &
+    desc_field_names %in% remotes_names
 
   # Only keep previous remotes that are not defined in `Config/Needs/verdepcheck`
   remotes_include_ix <- remotes_names %in% setdiff(remotes_names, desc_field_names)
