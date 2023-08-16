@@ -187,9 +187,10 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     }
   )
 
+  # Obtain the maximum release data of all the dependecies
   max_release_date <- as.Date(
     max(
-      -Inf,
+      -Inf, # Suppress warning when running max() with all NA and `na.rm = TRUE`
       unlist(
         lapply(deps_release_dates, as.Date, origin = "1970-01-01")
       ),
@@ -198,12 +199,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     origin = "1970-01-01"
   )
 
-  if (is.na(max_release_date) || is.infinite(max_release_date)) {
-    # Fallback to latest cran release if no data is available
-    ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-  } else {
-    ppm_repo <- parse_ppm_url(get_ppm_snapshot_by_date(max_release_date))
-  }
+  ppm_repo <- get_ppm_snapshot_by_date(max_release_date)
 
   config <- append_config(config, list("cran_mirror" = ppm_repo))
 

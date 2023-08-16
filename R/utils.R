@@ -20,7 +20,17 @@ base_pkgs <- function() {
 }
 
 #' @importFrom pkgcache ppm_snapshots
-get_ppm_snapshot_by_date <- function(date) {
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_ppm_snapshot_by_date(NA)
+#' get_ppm_snapshot_by_date("2023-08-01")
+#' get_ppm_snapshot_by_date(Sys.Date() + 10)
+get_ppm_snapshot_by_date <- function(date,
+                                     fallback_repo = file.path(pkgcache::ppm_repo_url(), "latest")) {
+
+  if (is.na(date) || is.infinite.POSIXlt(date)) {
+    return(fallback_repo)
+  }
+
   snaps <- pkgcache::ppm_snapshots()
   res <- as.character(as.Date(utils::head(
     snaps[as.Date(snaps$date) > as.Date(date), "date"],
@@ -30,17 +40,20 @@ get_ppm_snapshot_by_date <- function(date) {
     warning(sprintf(
       paste0(
         "Cannot find PPM snapshot for date after %s.",
-        " Will use current CRAN instead."
+        " Will use latest ppm snapshot instead."
       ),
       as.character(date)
     ))
-    return(NA)
+    return(fallback_repo)
   }
-  res
+  parse_ppm_url(res)
 }
 
 #' @importFrom pkgcache ppm_repo_url
+#' @examples
+#' parse_ppm_url()
 parse_ppm_url <- function(snapshot = NA) {
+  if (is.na(snapshot)) return(NULL)
   file.path(pkgcache::ppm_repo_url(), snapshot)
 }
 
@@ -56,14 +69,7 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 
   i_release_date <- get_release_date(i_ref_minver)
 
-  ppm_snapshot <- get_ppm_snapshot_by_date(i_release_date)
-
-  if (all(is.na(i_release_date)) || is.na(ppm_snapshot)) {
-    # Fallback to latest from CRAN if there are no release dates
-    ppm_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-  } else {
-    ppm_repo <- parse_ppm_url(ppm_snapshot)
-  }
+  ppm_repo <- get_ppm_snapshot_by_date(i_release_date)
 
   i_pkg_deps <- pkgdepends::new_pkg_deps(
     ifelse(

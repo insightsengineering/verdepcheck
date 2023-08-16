@@ -93,3 +93,23 @@ test_that("local_description will create a temporary file", {
 
   expect_false(file.exists(result$file_path))
 })
+
+test_that("get_ppm_snapshot_by_date will accept NA", {
+  expect_equal(get_ppm_snapshot_by_date(NA, "FALLBACK"), "FALLBACK")
+})
+
+test_that("get_ppm_snapshot_by_date will accept dates in the future", {
+  auxiliary_fun <- function(days = 0) {
+    expect_warning(
+      expect_equal(
+        get_ppm_snapshot_by_date(Sys.Date() + days, "FALLBACK"),
+        "FALLBACK"
+      ),
+      "Cannot find PPM snapshot for date"
+    )
+  }
+
+  auxiliary_fun(0)
+  auxiliary_fun(10)
+  auxiliary_fun(1)
+})

@@ -432,8 +432,19 @@ get_cran_data <- function(package) {
     "package", "version", "mtime"
   )]
   cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
-    "package", "version", "published"
+    "type", "package", "version", "published"
   )]
+
+  # Bioc custom logic as packages in Bioconductor do not return a published date
+  #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
+  #  note: a date is required for the `min_cohort` strategy
+  bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
+  if (NROW(cran_current[bioc_na_mtime_ix, ]) > 0) {
+    cran_current[bioc_na_mtime_ix, "published"] <- Sys.Date()
+  }
+
+  # Remove extra columns
+  cran_current <- cran_current[, setdiff(names(cran_current), c("type"))]
 
   cran_current <- setNames(cran_current, names(cran_archive))
   rbind(cran_archive, cran_current)
