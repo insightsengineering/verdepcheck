@@ -49,8 +49,6 @@ get_ppm_snapshot_by_date <- function(date,
 }
 
 #' @importFrom pkgcache ppm_repo_url
-#' @examples
-#' parse_ppm_url()
 parse_ppm_url <- function(snapshot = NA) {
   if (is.na(snapshot)) {
     return(NULL)
