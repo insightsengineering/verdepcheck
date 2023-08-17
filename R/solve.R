@@ -27,6 +27,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
   res <- ip$get_resolution()
 
+  # deps clean-up
   deps <- res[1, "deps"][[1]]
   ## copy op and version to Config\Needs\verdepcheck rows
   deps <- split(deps, as.factor(deps$package))
@@ -35,9 +36,16 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
     x$version <- x$version[1]
     x
   })
-
   deps <- do.call(rbind, deps)
+  ## remove non-needed rows (has to be done after copy the data because oftentimes these are the source)
   deps <- deps[tolower(deps$type) %in% tolower(res[1, "dep_types"][[1]]), ]
+  ## remove multiple rows for the same package
+  deps <- split(deps, as.factor(deps$package))
+  deps <- lapply(deps, function(x) {
+    # pick one according to the dependency order in config - assuming that custom filed is the first choice
+    na.omit(x[match(tolower(res[1, "dep_types"][[1]]), tolower(x$type)), ])[1, ]
+  })
+  deps <- do.call(rbind, deps)
 
   # Avoid repeating calls to resolve_ppm_snapshot
   deps <- deps[!duplicated(deps[, c("ref", "op", "version")]), ]
@@ -68,7 +76,8 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   new_res <- new_res[!duplicated(new_res[, c("ref")]), ]
 
   # Keep res at top
-  new_res <- rbind(res[1:2, ], new_res)
+  new_res <- rbind(res[1, ], new_res)
+  new_res[1, "deps"][[1]] <- list(deps)
   ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result <- new_res
   ip$solve()
 
