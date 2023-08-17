@@ -146,7 +146,7 @@ test_that("desc_remotes_cleanup accepts no Config/Need/verdepcheck", {
 
   expect_length(clean_d$get_remotes(), 3)
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
-  expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@*release")
+  expect_contains(clean_d$get_remotes(), "tidyverse/tibble@*release")
   expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@*release")
 })
 
