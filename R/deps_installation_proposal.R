@@ -157,12 +157,17 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   refs <- get_refs_from_desc(d)
   refs_pkg <- vapply(refs, `[[`, character(1), "package")
   deps <- d$get_deps()
+
+  dependencies_config_cache <- tolower(
+    pkgdepends::as_pkg_dependencies(config$dependencies)$direct
+  )
+
   deps_release_dates <- lapply(
     seq_len(nrow(deps)),
     function(i) {
       i_pkg <- deps[i, "package"]
 
-      if (tolower(deps[i, "type"]) %nin% tolower(pkgdepends::as_pkg_dependencies(config$dependencies)$direct)) {
+      if (tolower(deps[i, "type"]) %nin% dependencies_config_cache) {
         return(NA)
       }
       if (i_pkg %in% base_pkgs()) {
@@ -175,13 +180,9 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
       i_ref <- refs[[which(refs_pkg == i_pkg)]]
 
       i_ver <- deps[i, "version"]
-      if (i_ver == "*") {
-        i_ref_ver <- get_ref_min(i_ref)
-      } else {
-        i_op <- strsplit(i_ver, " ")[[1]][1]
-        i_op_ver <- strsplit(i_ver, " ")[[1]][2]
-        i_ref_ver <- get_ref_min(i_ref, i_op, i_op_ver)
-      }
+
+      version <- version_from_desc(i_ref$package, d)
+      i_ref_ver <- get_ref_min(i_ref, version$op, version$op_ver)
 
       get_release_date(i_ref_ver)
     }

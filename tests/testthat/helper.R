@@ -35,6 +35,8 @@ skip_if_empty_gh_token <- function() {
 #' the version that is on the main branch. When both this parameter and
 #' `pkg_ver_target` are `NULL`, then it will compare the version in the proposal
 #' with the latest version in CRAN.
+#' @param solve_ip_flag (optional `logical`) indicates if the installation
+#' proposal should be solved
 #'
 #' @keywords internal
 test_proposal_common <- function(x,
@@ -42,11 +44,11 @@ test_proposal_common <- function(x,
                                  platform = "source",
                                  pkg_ver_target = NULL,
                                  pkg_gh_str = NULL,
-                                 solve_ip = TRUE) {
+                                 solve_ip_flag = TRUE) {
   expect_s3_class(x, "pkg_installation_proposal")
 
   # Allows to re-use x accross packages without having to solve it again
-  if (solve_ip) solve_ip(x)
+  if (solve_ip_flag) solve_ip(x)
 
   expect_equal(x$get_solution()$status, "OK")
 
@@ -90,7 +92,7 @@ test_proposal_common <- function(x,
 test_proposal_common_bioc <- function(x,
                                       pkg_name = "pkgdepends",
                                       platform = "source",
-                                      solve_ip = TRUE) {
+                                      solve_ip_flag = TRUE) {
   expect_s3_class(x, "pkg_installation_proposal")
 
   # Allows to re-use x accross packages without having to solve it again
