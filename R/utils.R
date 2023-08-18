@@ -150,7 +150,7 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
     d_std$set(.desc_field, paste(need_verdepcheck, collapse = ", "))
   }
 
-  path <- tempfile(pattern = "DESCRIPTION")
+  path <- tempfile(pattern = "DESCRIPTION-")
   d_std$write(path)
   withr::defer(unlink(path), envir = .local_envir)
 

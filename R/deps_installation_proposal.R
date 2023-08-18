@@ -130,7 +130,8 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   new_refs <- lapply(
     refs,
     function(x) {
-      if (inherits(x, "remote_ref_github") && check_if_on_cran(x) && x$commitish == "") {
+      version <- version_from_desc(x$package, d)
+      if (inherits(x, "remote_ref_github") && check_if_on_cran(x, version) && x$commitish == "") {
         pkgdepends::parse_pkg_ref(x$package)
       } else {
         x

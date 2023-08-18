@@ -96,7 +96,7 @@ test_proposal_common_bioc <- function(x,
   expect_s3_class(x, "pkg_installation_proposal")
 
   # Allows to re-use x accross packages without having to solve it again
-  if (solve_ip) solve_ip(x)
+  if (solve_ip_flag) solve_ip(x)
 
   expect_equal(x$get_solution()$status, "OK")
 

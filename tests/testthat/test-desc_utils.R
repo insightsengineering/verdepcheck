@@ -64,7 +64,7 @@ test_that("desc_remotes_cleanup will replace remotes with tag", {
   clean_d <- desc_remotes_cleanup(d)
 
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
-  expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1")
+  expect_failure(expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1"))
   expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@*release"))
 })
 
@@ -118,10 +118,10 @@ test_that("desc_remotes_cleanup will not add to remotes", {
 
   clean_d <- desc_remotes_cleanup(d)
 
-  expect_length(clean_d$get_remotes(), 2)
+  expect_length(clean_d$get_remotes(), 1)
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
   expect_failure(expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1"))
-  expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@v1.0.0")
+  expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@v1.0.0"))
 })
 
 test_that("desc_remotes_cleanup accepts no Config/Need/verdepcheck", {

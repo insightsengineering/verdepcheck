@@ -133,10 +133,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<re
   skip_if_empty_gh_token()
 
   remote_str <- "r-lib/pkgdepends"
-  d_std_path <- local_description(
-    list(pkgdepends = "Import"),
-    remotes = c(remote_str)
-  )
+  d_std_path <- local_description(list(pkgdepends = "Import"), remotes = c(remote_str))
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
@@ -151,7 +148,8 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
   desc_str <- "r-lib/pkgdepends"
   d_std_path <- local_description(
     list(pkgdepends = "Import"),
-    remotes = c(remote_str), need_verdepcheck = desc_str
+    remotes = c(remote_str),
+    need_verdepcheck = desc_str
   )
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
