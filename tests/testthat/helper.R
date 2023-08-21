@@ -25,6 +25,17 @@ skip_if_empty_gh_token <- function() {
   if (isFALSE(res)) skip("Not run with empty GH token")
 }
 
+mock_check_if_on_cran <- function(pkg_name, op_ver_cutoff) {
+  # Be aware that this mocking will recognize any other package as available on CRAN
+  function(remote_ref, op = "", op_ver = "") {
+    if (remote_ref$package == pkg_name &&
+      (op_ver == "" || package_version(op_ver) >= package_version(op_ver_cutoff))) {
+      return(FALSE)
+    }
+    TRUE
+  }
+}
+
 #' Aggregator of tests to generally perform on proposals
 #'
 #' @param x (`pkg_installation_proposal` object) Valid proposal created by one

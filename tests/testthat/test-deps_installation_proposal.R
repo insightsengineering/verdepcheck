@@ -340,3 +340,103 @@ test_that("new_max_deps_installation_proposal correctly handles Bioc package", {
 
   test_proposal_common_bioc(x, "SummarizedExperiment")
 })
+
+# ###########################################################
+#
+#   __  __            _       _____ _____            _   _
+#  |  \/  |          | |     / ____|  __ \     /\   | \ | |
+#  | \  / | ___   ___| | __ | |    | |__) |   /  \  |  \| |
+#  | |\/| |/ _ \ / __| |/ / | |    |  _  /   / /\ \ | . ` |
+#  | |  | | (_) | (__|   <  | |____| | \ \  / ____ \| |\  |
+#  |_|  |_|\___/ \___|_|\_\  \_____|_|  \_\/_/    \_\_| \_|
+#
+#
+#
+#  Mock CRAN is behind GitHub in tag release
+#
+# note: using a package with a cutoff which force check_if_on_cran to return false
+# to any version above this cutoff. The tests should use a cutoff of at least 2 versions
+# behind latest so that min_* and release strategies will resolve different versions
+# ##########################################################
+
+test_that(
+  paste(
+    sep = " ",
+    "new_release_deps_installation_proposal resolves GitHub's released version that has not",
+    "been submitted to CRAN"
+  ),
+  {
+    skip_if_offline()
+    skip_if_empty_gh_token()
+
+    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+
+    d_std_path <- local_description(
+      list("pkgdepends (>= 0.5.0)" = "Import"),
+      need_verdepcheck = c("r-lib/pkgdepends")
+    )
+    x <- new_release_deps_installation_proposal(d_std_path)
+    withr::defer(unlink(x$get_config()$library))
+
+    x <- test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
+
+    x_solution <- x$get_solution()$data
+    x_solution <- x_solution[x_solution$package == "pkgdepends", ]
+    expect_true(all(x_solution$type == "github"))
+  }
+)
+
+test_that(
+  paste(
+    sep = " ",
+    "new_min_cohort_installation_proposal resolves GitHub's released version that has not",
+    "been submitted to CRAN"
+  ),
+  {
+    skip_if_offline()
+    skip_if_empty_gh_token()
+
+    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+
+    d_std_path <- local_description(
+      list("pkgdepends (>= 0.5.0)" = "Import"),
+      need_verdepcheck = c("r-lib/pkgdepends")
+    )
+    x <- new_min_cohort_deps_installation_proposal(d_std_path)
+    withr::defer(unlink(x$get_config()$library))
+
+    x <- test_proposal_common(x, "pkgdepends", "source", "0.5.0", NULL)
+
+    x_solution <- x$get_solution()$data
+    x_solution <- x_solution[x_solution$package == "pkgdepends", ]
+    expect_true(all(x_solution$type == "github"))
+  }
+)
+
+
+test_that(
+  paste(
+    sep = " ",
+    "new_min_isolated_installation_proposal resolves GitHub's released version that has not",
+    "been submitted to CRAN"
+  ),
+  {
+    skip_if_offline()
+    skip_if_empty_gh_token()
+
+    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+
+    d_std_path <- local_description(
+      list("pkgdepends (>= 0.5.0)" = "Import"),
+      need_verdepcheck = c("r-lib/pkgdepends")
+    )
+    x <- new_min_isolated_deps_installation_proposal(d_std_path)
+    withr::defer(unlink(x$get_config()$library))
+
+    x <- test_proposal_common(x, "pkgdepends", "source", "0.5.0", NULL)
+
+    x_solution <- x$get_solution()$data
+    x_solution <- x_solution[x_solution$package == "pkgdepends", ]
+    expect_true(all(x_solution$type == "github"))
+  }
+)
