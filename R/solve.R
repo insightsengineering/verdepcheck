@@ -22,6 +22,8 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #'
 #' @keywords internal
 #'
+#' @importFrom stats na.omit
+#'
 #' @exportS3Method solve_ip min_isolated_deps_installation_proposal
 solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
@@ -43,7 +45,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   deps <- split(deps, as.factor(deps$package))
   deps <- lapply(deps, function(x) {
     # pick one according to the dependency order in config - assuming that custom filed is the first choice
-    na.omit(x[match(tolower(res[1, "dep_types"][[1]]), tolower(x$type)), ])[1, ]
+    stats::na.omit(x[match(tolower(res[1, "dep_types"][[1]]), tolower(x$type)), ])[1, ]
   })
   deps <- do.call(rbind, deps)
 
