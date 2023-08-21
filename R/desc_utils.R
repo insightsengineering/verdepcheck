@@ -44,12 +44,14 @@ get_desc_field_pkgs <- function(d) {
 }
 
 #' Replace Remotes in the `desc` that have been resolved to a GitHub tag or are
-#' in CRAN
+#' in CRAN.
 #'
 #' Replaces any existing Remotes entry with the resolved GitHub tag from
 #' `Config/Needs/verdepcheck`.
 #'
 #' @param d (`desc`) DESCRIPTION object
+#'
+#' @importFrom pkgdepends parse_pkg_refs
 #' @keywords internal
 #' @examples
 #' # Example that should replace dplyr & tibble on Remotes but not pkgdepends
@@ -122,7 +124,7 @@ desc_cond_set_refs <- function(d, refs) {
 }
 
 #' Create `installation_plan` object from `desc` object
-#' @importFrom pkgdepends new_pkg_deps new_pkg_installation_proposal
+#' @importFrom pkgdepends new_pkg_installation_proposal
 #' @keywords internal
 desc_to_ip <- function(d, config) {
   temp_desc <- tempfile()

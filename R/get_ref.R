@@ -89,6 +89,7 @@ get_ref_min.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #'
 #' @rdname get_ref_min
 #' @exportS3Method get_ref_min remote_ref_cran
+#' @importFrom cli cli_alert_danger
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom stats setNames

@@ -3,7 +3,7 @@
 \name{desc_remotes_cleanup}
 \alias{desc_remotes_cleanup}
 \title{Replace Remotes in the \code{desc} that have been resolved to a GitHub tag or are
-in CRAN}
+in CRAN.}
 \usage{
 desc_remotes_cleanup(d)
 }

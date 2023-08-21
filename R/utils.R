@@ -4,6 +4,7 @@
 
 .desc_field <- "Config/Needs/verdepcheck"
 
+#' @importFrom pkgdepends as_pkg_dependencies
 default_config <- function() {
   list(
     dependencies = c(.desc_field, pkgdepends::as_pkg_dependencies(TRUE)$direct),
@@ -19,7 +20,9 @@ base_pkgs <- function() {
   c("R", rownames(utils::installed.packages(priority = "base")))
 }
 
-#' @importFrom pkgcache ppm_snapshots
+#' @importFrom pkgcache ppm_repo_url ppm_snapshots
+#' @importFrom utils head
+#'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ppm_snapshot_by_date(NA)
 #' get_ppm_snapshot_by_date("2023-08-01")
@@ -58,9 +61,8 @@ parse_ppm_url <- function(snapshot = NA) {
 
 #' Resolve the dependencies of package based on the release date + 1
 #'
-#' @keywords internal
-#' @importFrom pkgcache ppm_repo_url
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
+#' @keywords internal
 resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_ref <- pkgdepends::parse_pkg_ref(pkg_ref_str)
 
@@ -86,7 +88,8 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
 }
 
 #' Create `cli` progress bar for resolving versions.
-#' @importFrom cli cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra pb_spin pb_total symbol
+#' @importFrom cli col_blue col_yellow cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra
+#' pb_spin pb_total style_bold symbol
 #' @keywords internal
 cli_pb_init <- function(type, total, ...) {
   cli::cli_progress_bar(
@@ -124,6 +127,9 @@ cli_pb_update <- function(package, n = 2L, ...) {
 #' @param need_verdepcheck (`vector`) string vector that contains
 #' `Config/Need/verdepcheck` elements to add to the DESCRIPTION file
 #' @param .local_envir (`envirnoment`) The environment to use for scoping.
+#'
+#' @importFrom desc desc
+#' @importFrom withr defer
 #'
 #' @keywords internal
 #' @examples

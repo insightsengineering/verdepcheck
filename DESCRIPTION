@@ -20,12 +20,12 @@ Imports:
     rcmdcheck,
     remotes (>= 2.2.0),
     stats,
-    utils
+    utils,
+    withr (>= 2.4.3)
 Suggests:
     knitr (>= 1.42),
     pingr,
-    testthat (>= 3.0.4),
-    withr (>= 2.4.3)
+    testthat (>= 3.0.4)
 Config/Needs/verdepcheck:
     r-lib/desc,
     r-lib/gh,
@@ -33,10 +33,10 @@ Config/Needs/verdepcheck:
     r-lib/pkgdepends,
     r-lib/rcmdcheck,
     r-lib/remotes,
+    r-lib/withr,
     yihui/knitr,
     r-lib/pingr,
-    r-lib/testthat,
-    r-lib/withr
+    r-lib/testthat
 VignetteBuilder:
     knitr
 Encoding: UTF-8

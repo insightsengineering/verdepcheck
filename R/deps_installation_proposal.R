@@ -113,7 +113,6 @@ new_release_deps_installation_proposal <- function(path, # nolint
 #' @export
 #' @importFrom desc desc
 #' @importFrom pkgdepends as_pkg_dependencies parse_pkg_ref
-#' @importFrom pkgcache ppm_repo_url
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' x <- new_min_cohort_deps_installation_proposal(".")
 #' solve_ip(x)
