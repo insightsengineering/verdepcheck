@@ -64,7 +64,7 @@ test_that("desc_remotes_cleanup will replace remotes with tag", {
   clean_d <- desc_remotes_cleanup(d)
 
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
-  expect_failure(expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1"))
+  expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1")
   expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@*release"))
 })
 
@@ -89,20 +89,20 @@ test_that("desc_remotes_cleanup will remove Config/Needs/verdepcheck's CRAN refe
 
   clean_d <- desc_remotes_cleanup(d)
 
-  expect_length(clean_d$get_remotes(), 1)
+  expect_length(clean_d$get_remotes(), 2)
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
-  expect_failure(expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1"))
+  expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1")
   expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@*release"))
   expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr"))
   expect_failure(expect_contains(clean_d$get_remotes(), "dplyr"))
 })
 
-test_that("desc_remotes_cleanup will not add to remotes", {
+test_that("desc_remotes_cleanup will add all Config/Needs/verdepcheck GH entries to remotes", {
   d <- desc::desc(
     file = verdepcheck:::local_description(
       list(
         dplyr = "Import",
-        "tibble" = "Import",
+        tibble = "Import",
         pkgdepends = "Import"
       ),
       remotes = c(
@@ -118,10 +118,10 @@ test_that("desc_remotes_cleanup will not add to remotes", {
 
   clean_d <- desc_remotes_cleanup(d)
 
-  expect_length(clean_d$get_remotes(), 1)
+  expect_length(clean_d$get_remotes(), 3)
   expect_contains(clean_d$get_remotes(), "r-lib/pkgdepends@*release")
-  expect_failure(expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1"))
-  expect_failure(expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@v1.0.0"))
+  expect_contains(clean_d$get_remotes(), "tibble=tidyverse/tibble@v3.2.1")
+  expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@v1.0.0")
 })
 
 test_that("desc_remotes_cleanup accepts no Config/Need/verdepcheck", {

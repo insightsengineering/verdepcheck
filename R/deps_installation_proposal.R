@@ -129,7 +129,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   new_refs <- lapply(
     refs,
     function(x) {
-      version <- version_from_desc(x$package, d)
+      version <- version_from_desc(d, x$package)
       if (inherits(x, "remote_ref_github") && check_if_on_cran(x, version) && x$commitish == "") {
         pkgdepends::parse_pkg_ref(x$package)
       } else {
@@ -142,7 +142,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     new_refs,
     function(x) {
       if (inherits(x, "remote_ref_github")) {
-        version <- version_from_desc(x$package, d)
+        version <- version_from_desc(d, x$package)
         get_ref_min(x, version$op, version$op_ver)
       } else {
         x
@@ -181,7 +181,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
 
       i_ver <- deps[i, "version"]
 
-      version <- version_from_desc(i_ref$package, d)
+      version <- version_from_desc(d, i_ref$package)
       i_ref_ver <- get_ref_min(i_ref, version$op, version$op_ver)
 
       get_release_date(i_ref_ver)
@@ -230,7 +230,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   new_refs <- lapply(
     refs,
     function(x) {
-      version <- version_from_desc(x$package, d)
+      version <- version_from_desc(d, x$package)
       if (
         inherits(x, "remote_ref_github") &&
           check_if_on_cran(x, version) &&
@@ -248,7 +248,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
     new_refs,
     function(x) {
       if (inherits(x, "remote_ref_github")) {
-        version <- version_from_desc(x$package, d)
+        version <- version_from_desc(d, x$package)
         get_ref_min(x, version$op, version$op_ver)
       } else {
         x

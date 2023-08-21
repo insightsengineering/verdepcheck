@@ -88,8 +88,7 @@ desc_remotes_cleanup <- function(d) {
   remotes_names <- map_key_character(remotes_refs, "package")
 
   # Add to remotes `Config/Needs/verdepcheck` that resolve to a remote_ref_github
-  desc_field_include_ix <- vapply(desc_field_refs, inherits, logical(1), "remote_ref_github") &
-    desc_field_names %in% remotes_names
+  desc_field_include_ix <- vapply(desc_field_refs, inherits, logical(1), "remote_ref_github")
 
   # Only keep previous remotes that are not defined in `Config/Needs/verdepcheck`
   remotes_include_ix <- remotes_names %in% setdiff(remotes_names, desc_field_names)
@@ -137,19 +136,20 @@ desc_to_ip <- function(d, config) {
 }
 
 #' Get package version from description
-#'
+#' @param d (`desc`) DESCRIPTION object from [desc::description]
+#' @param pkg_name (`character`) Package name
 #' @keywords internal
 #'
 #' @examples
 #' d <- desc::desc(cmd = "!new")
 #'
 #' d$set_dep("magrittr", type = "Imports", version = "*")
-#' verdepcheck:::version_from_desc("magrittr", d)
+#' verdepcheck:::version_from_desc(d, "magrittr")
 #'
 #' d$set_dep("magrittr", type = "Imports", version = ">= 1.5")
-#' verdepcheck:::version_from_desc("magrittr", d)
-version_from_desc <- function(pkg_name, desc) {
-  all_deps <- desc$get_deps()
+#' verdepcheck:::version_from_desc(d, "magrittr")
+version_from_desc <- function(d, pkg_name) {
+  all_deps <- d$get_deps()
 
   version <- (all_deps$version[all_deps$package == pkg_name])[[1]]
   result <- list(

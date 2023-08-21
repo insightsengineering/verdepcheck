@@ -4,7 +4,12 @@
 \alias{version_from_desc}
 \title{Get package version from description}
 \usage{
-version_from_desc(pkg_name, desc)
+version_from_desc(d, pkg_name)
+}
+\arguments{
+\item{d}{(\code{desc}) DESCRIPTION object from \link[desc:description]{desc::description}}
+
+\item{pkg_name}{(\code{character}) Package name}
 }
 \description{
 Get package version from description
@@ -13,9 +18,9 @@ Get package version from description
 d <- desc::desc(cmd = "!new")
 
 d$set_dep("magrittr", type = "Imports", version = "*")
-verdepcheck:::version_from_desc("magrittr", d)
+verdepcheck:::version_from_desc(d, "magrittr")
 
 d$set_dep("magrittr", type = "Imports", version = ">= 1.5")
-verdepcheck:::version_from_desc("magrittr", d)
+verdepcheck:::version_from_desc(d, "magrittr")
 }
 \keyword{internal}
