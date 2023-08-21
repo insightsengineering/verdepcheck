@@ -95,17 +95,14 @@ test_that("local_description will create a temporary file", {
 })
 
 test_that("get_ppm_snapshot_by_date will accept NA", {
-  expect_equal(get_ppm_snapshot_by_date(NA, "FALLBACK"), "FALLBACK")
+  expect_latest_ppm(get_ppm_snapshot_by_date(NA))
 })
 
 test_that("get_ppm_snapshot_by_date will accept dates in the future", {
   skip_if_offline()
   auxiliary_fun <- function(days = 0) {
     expect_warning(
-      expect_equal(
-        get_ppm_snapshot_by_date(Sys.Date() + days, "FALLBACK"),
-        "FALLBACK"
-      ),
+      expect_latest_ppm(get_ppm_snapshot_by_date(Sys.Date())),
       "Cannot find PPM snapshot for date"
     )
   }
@@ -114,7 +111,7 @@ test_that("get_ppm_snapshot_by_date will accept dates in the future", {
   auxiliary_fun(10)
   auxiliary_fun(1)
 
-  expect_false(
-    get_ppm_snapshot_by_date(Sys.Date() - 365, "FALLBACK") == "FALLBACK",
+  expect_failure(
+    expect_latest_ppm(get_ppm_snapshot_by_date(Sys.Date() - 365)),
   )
 })

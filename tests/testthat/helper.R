@@ -1,3 +1,7 @@
+expect_latest_ppm <- function(uri) {
+  expect_no_match(uri, "/[0-9]{4}-[0-9]{2}-[0-9]{2}$")
+}
+
 skip_if_offline <- function() {
   # Using this conditional clause instead of `skip_if_not_installed` to provide
   #  a better message
