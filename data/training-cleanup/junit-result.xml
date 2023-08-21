@@ -1,154 +1,154 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-08-18T16:22:05Z" hostname="e6f6462a2755" tests="21" skipped="21" failures="0" errors="0" time="1.082">
-    <testcase time="0.0680000000000001" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
+  <testsuite name="deps_installation_proposal" timestamp="2023-08-21T08:03:19Z" hostname="524eca4df61f" tests="21" skipped="21" failures="0" errors="0" time="0.841">
+    <testcase time="0.054" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:2:3')"/>
     </testcase>
-    <testcase time="0.158" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.126" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:13:3')"/>
     </testcase>
-    <testcase time="0.0660000000000001" classname="deps_installation_proposal" name="new_min_isolated_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.053" classname="deps_installation_proposal" name="new_min_isolated_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:24:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.0319999999999998" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:35:3')"/>
     </testcase>
-    <testcase time="0.048" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.038" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:60:3')"/>
     </testcase>
-    <testcase time="0.0439999999999998" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_release_reference">
+    <testcase time="0.0309999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_release_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:76:3')"/>
     </testcase>
-    <testcase time="0.0430000000000001" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_tag_ref._particular_remote_tag_">
+    <testcase time="0.0310000000000001" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_tag_ref._particular_remote_tag_">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:92:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_ref._without_Config_Need_verdpcheck_">
+    <testcase time="0.0309999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_ref._without_Config_Need_verdpcheck_">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:108:3')"/>
     </testcase>
-    <testcase time="0.0479999999999998" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.038" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:120:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.0309999999999999" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:132:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.032" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:144:3')"/>
     </testcase>
-    <testcase time="0.046" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_org_repo_ref.">
+    <testcase time="0.0389999999999999" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_org_repo_ref.">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:175:3')"/>
     </testcase>
-    <testcase time="0.0409999999999999" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+    <testcase time="0.032" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:186:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+    <testcase time="0.0310000000000001" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:197:3')"/>
     </testcase>
-    <testcase time="0.0469999999999999" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+    <testcase time="0.0359999999999998" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:208:3')"/>
     </testcase>
-    <testcase time="0.0410000000000001" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_tern_and_rtables">
+    <testcase time="0.03" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_tern_and_rtables">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:219:3')"/>
     </testcase>
-    <testcase time="0.042" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_resolves_a_different_version_from_specifications">
+    <testcase time="0.036" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_resolves_a_different_version_from_specifications">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:248:3')"/>
     </testcase>
-    <testcase time="0.0459999999999998" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_Bioc_package">
+    <testcase time="0.0370000000000001" classname="deps_installation_proposal" name="new_min_cohort_deps_installation_proposal_correctly_handles_Bioc_package">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:287:3')"/>
     </testcase>
-    <testcase time="0.044" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_Bioc_package">
+    <testcase time="0.0319999999999998" classname="deps_installation_proposal" name="new_min_isolated_deps_installation_proposal_correctly_handles_Bioc_package">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:303:3')"/>
     </testcase>
-    <testcase time="0.0409999999999999" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_Bioc_package">
+    <testcase time="0.0330000000000001" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_Bioc_package">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:319:3')"/>
     </testcase>
-    <testcase time="0.0489999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_Bioc_package">
+    <testcase time="0.038" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_Bioc_package">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:332:3')"/>
     </testcase>
   </testsuite>
-  <testsuite name="desc_utils" timestamp="2023-08-18T16:22:06Z" hostname="e6f6462a2755" tests="35" skipped="0" failures="3" errors="0" time="0.562">
-    <testcase time="0.0490000000000004" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00600000000000023" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00600000000000023" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00600000000000023" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.0100000000000002" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
-    <testcase time="0.0129999999999999" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.00600000000000023" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.02" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.00800000000000001" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.00800000000000001" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
-    <testcase time="0.0830000000000002" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag"/>
-    <testcase time="0.00599999999999978" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag">
+  <testsuite name="desc_utils" timestamp="2023-08-21T08:03:19Z" hostname="524eca4df61f" tests="35" skipped="0" failures="3" errors="0" time="0.445">
+    <testcase time="0.038" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00499999999999989" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00499999999999989" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00500000000000012" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.004" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00499999999999989" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.004" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00500000000000012" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00499999999999989" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.00800000000000001" classname="desc_utils" name="filter_valid_version_will_filter_for_valid_versions"/>
+    <testcase time="0.0110000000000001" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.00499999999999989" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.00500000000000012" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.0169999999999999" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.00600000000000001" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.00600000000000001" classname="desc_utils" name="check_valid_version_will_return_vector_of_logicals"/>
+    <testcase time="0.0649999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag"/>
+    <testcase time="0.00500000000000012" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag">
       <failure type="failure" message="Expectation did not fail ('test-desc_utils.R:67:3')">Expectation did not fail</failure>
     </testcase>
-    <testcase time="0.0220000000000002" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag"/>
-    <testcase time="0.0459999999999998" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.00200000000000022" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.0089999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.00999999999999979" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.00900000000000034" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.0089999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
-    <testcase time="0.0499999999999998" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes">
+    <testcase time="0.0169999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_replace_remotes_with_tag"/>
+    <testcase time="0.036" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.00100000000000011" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.0069999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.00700000000000012" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.0069999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.00700000000000012" classname="desc_utils" name="desc_remotes_cleanup_will_remove_Config_Needs_verdepcheck_s_CRAN_reference_from_remotes"/>
+    <testcase time="0.0389999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes">
       <failure type="failure" message="clean_d$get_remotes() has length 2, not length 1. ('test-desc_utils.R:121:3')">clean_d$get_remotes() has length 2, not length 1.</failure>
     </testcase>
-    <testcase time="0.0130000000000003" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes"/>
-    <testcase time="0.00999999999999979" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes"/>
-    <testcase time="0.00700000000000012" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes">
+    <testcase time="0.01" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes"/>
+    <testcase time="0.0069999999999999" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes"/>
+    <testcase time="0.00500000000000012" classname="desc_utils" name="desc_remotes_cleanup_will_not_add_to_remotes">
       <failure type="failure" message="Expectation did not fail ('test-desc_utils.R:124:3')">Expectation did not fail</failure>
     </testcase>
-    <testcase time="0.077" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
+    <testcase time="0.0659999999999998" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
+    <testcase time="0.00100000000000033" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
     <testcase time="0.00199999999999978" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
+    <testcase time="0.00099999999999989" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
     <testcase time="0.00200000000000022" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
-    <testcase time="0.00199999999999978" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
-    <testcase time="0.00200000000000022" classname="desc_utils" name="desc_remotes_cleanup_accepts_no_Config_Need_verdepcheck"/>
-    <testcase time="0.0329999999999999" classname="desc_utils" name="get_desc_field_pkgs_allows_for_no_Config_Needs_verdepcheck"/>
+    <testcase time="0.0259999999999998" classname="desc_utils" name="get_desc_field_pkgs_allows_for_no_Config_Needs_verdepcheck"/>
   </testsuite>
-  <testsuite name="get_ref" timestamp="2023-08-18T16:22:07Z" hostname="e6f6462a2755" tests="4" skipped="3" failures="0" errors="0" time="10.797">
-    <testcase time="0.0449999999999999" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_teal_v0.10.0">
+  <testsuite name="get_ref" timestamp="2023-08-21T08:03:20Z" hostname="524eca4df61f" tests="4" skipped="3" failures="0" errors="0" time="9.08">
+    <testcase time="0.036" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_teal_v0.10.0">
       <skipped message="Reason: No internet connection ('test-get_ref.R:2:3')"/>
     </testcase>
-    <testcase time="0.0489999999999999" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_1.0.0">
+    <testcase time="0.04" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_1.0.0">
       <skipped message="Reason: No internet connection ('test-get_ref.R:14:3')"/>
     </testcase>
-    <testcase time="0.0420000000000003" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_0.0.0">
+    <testcase time="0.0329999999999999" classname="get_ref" name="get_release_date.remote_ref_github_will_only_retrieve_1_date_for_rlang_0.0.0">
       <skipped message="Reason: No internet connection ('test-get_ref.R:26:3')"/>
     </testcase>
-    <testcase time="10.661" classname="get_ref" name="get_cran_data_returns_date_for_Bioconductor"/>
+    <testcase time="8.971" classname="get_ref" name="get_cran_data_returns_date_for_Bioconductor"/>
   </testsuite>
-  <testsuite name="utils" timestamp="2023-08-18T16:22:18Z" hostname="e6f6462a2755" tests="28" skipped="1" failures="0" errors="0" time="0.323">
-    <testcase time="0.0309999999999988" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
-    <testcase time="0.0080000000000009" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
+  <testsuite name="utils" timestamp="2023-08-21T08:03:29Z" hostname="524eca4df61f" tests="28" skipped="1" failures="0" errors="0" time="0.31">
+    <testcase time="0.0240000000000009" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
     <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
     <testcase time="0.00499999999999901" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
-    <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
-    <testcase time="0.0250000000000004" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00699999999999967" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00300000000000011" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
+    <testcase time="0.00500000000000078" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file"/>
+    <testcase time="0.0199999999999996" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
     <testcase time="0.00500000000000078" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00499999999999901" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00699999999999967" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00700000000000145" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.00499999999999901" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
     <testcase time="0.00100000000000122" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Remotes"/>
-    <testcase time="0.0259999999999998" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.00699999999999967" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.00699999999999967" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.00500000000000078" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.0199999999999996" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
     <testcase time="0.00499999999999901" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.0500000000000007" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.0080000000000009" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.00599999999999845" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.00200000000000067" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
-    <testcase time="0.0210000000000008" classname="utils" name="local_description_will_create_a_temporary_file"/>
-    <testcase time="0.0109999999999992" classname="utils" name="local_description_will_create_a_temporary_file"/>
-    <testcase time="0.00500000000000078" classname="utils" name="local_description_will_create_a_temporary_file"/>
-    <testcase time="0.0129999999999999" classname="utils" name="get_ppm_snapshot_by_date_will_accept_NA"/>
-    <testcase time="0.0329999999999995" classname="utils" name="get_ppm_snapshot_by_date_will_accept_dates_in_the_future">
+    <testcase time="0.00500000000000078" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.101000000000001" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.00600000000000023" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.00499999999999901" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.00100000000000122" classname="utils" name="local_description_will_create_a_valid_DESCRIPTION_file_with_Config_Need_verdepcheck"/>
+    <testcase time="0.016" classname="utils" name="local_description_will_create_a_temporary_file"/>
+    <testcase time="0.00699999999999967" classname="utils" name="local_description_will_create_a_temporary_file"/>
+    <testcase time="0.00399999999999956" classname="utils" name="local_description_will_create_a_temporary_file"/>
+    <testcase time="0.0100000000000016" classname="utils" name="get_ppm_snapshot_by_date_will_accept_NA"/>
+    <testcase time="0.0249999999999986" classname="utils" name="get_ppm_snapshot_by_date_will_accept_dates_in_the_future">
       <skipped message="Reason: No internet connection ('test-utils.R:102:3')"/>
     </testcase>
   </testsuite>
