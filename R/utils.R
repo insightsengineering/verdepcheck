@@ -48,9 +48,6 @@ get_ppm_snapshot_by_date <- function(date) {
     ))
     return(fallback_repo)
   }
-  if (is.na(res)) {
-    return(NULL)
-  }
   parse_ppm_url(res)
 }
 

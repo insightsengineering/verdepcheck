@@ -392,7 +392,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
     return(result %||% NA_character_)
   }
 
-  max(result, na.rm = TRUE)
+  max(result, -Inf, na.rm = TRUE)
 }
 
 #' Get release date from GitHub references
