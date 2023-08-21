@@ -59,7 +59,7 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = "<", op_ver = "0.0.0"))
 check_if_on_cran <- function(remote_ref, version = NULL) {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
-  if (is.null(version) || NROW(cran_listings) == 0) {
+  if (is.null(version)) {
     return(NROW(cran_listings) > 0)
   }
   # Check if minimum version exists on CRAN
@@ -114,7 +114,7 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
       cli::cli_alert_danger(
         paste(
           sep = " ",
-          "Possible problem finding release for:",
+          "Problem with finding CRAN release meeting following criteria:",
           "`{remote_ref$package} ({op} {op_ver})`.",
           "The package name or version might be invalid."
         )
