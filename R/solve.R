@@ -74,7 +74,7 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   # Keep only top versions in calculated resolution (new_res).
   #  Very large resolution tables can become problematic and take a long to
   #  converge to a solution.
-  new_res <- new_res[order(new_res$ref, package_version(new_res$version), decreasing = TRUE), ]
+  new_res <- new_res[order(new_res$ref, package_version(new_res$version, strict = FALSE), decreasing = TRUE), ]
   new_res <- new_res[!duplicated(new_res[, c("ref")]), ]
 
   # Keep res at top
