@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testsuites>
-  <testsuite name="deps_installation_proposal" timestamp="2023-08-18T08:24:08Z" hostname="6cae59c8b8de" tests="8" skipped="8" failures="0" errors="0" time="0.419">
-    <testcase time="0.0609999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
+  <testsuite name="deps_installation_proposal" timestamp="2023-08-21T15:36:34Z" hostname="af8ac5942089" tests="8" skipped="8" failures="0" errors="0" time="0.514">
+    <testcase time="0.072" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:8:3')"/>
     </testcase>
-    <testcase time="0.124" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.145" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:36:3')"/>
     </testcase>
-    <testcase time="0.051" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_standard_reference">
+    <testcase time="0.0600000000000001" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:64:3')"/>
     </testcase>
-    <testcase time="0.0429999999999999" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.054" classname="deps_installation_proposal" name="new_max_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:97:3')"/>
     </testcase>
-    <testcase time="0.0370000000000001" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.0519999999999998" classname="deps_installation_proposal" name="new_release_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:119:3')"/>
     </testcase>
-    <testcase time="0.0329999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
+    <testcase time="0.0430000000000001" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:146:3')"/>
     </testcase>
-    <testcase time="0.0329999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
+    <testcase time="0.044" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_org_repo_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:171:3')"/>
     </testcase>
-    <testcase time="0.0369999999999999" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
+    <testcase time="0.0439999999999998" classname="deps_installation_proposal" name="new_min_deps_installation_proposal_correctly_handles_dependency_for_standard_reference">
       <skipped message="Reason: No internet connection ('test-deps_installation_proposal.R:200:3')"/>
     </testcase>
   </testsuite>
