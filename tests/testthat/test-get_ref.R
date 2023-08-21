@@ -35,5 +35,47 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
 })
 
 test_that("get_cran_data returns date for Bioconductor", {
+  skip_if_offline()
+
   expect_false(any(is.na(get_cran_data("SummarizedExperiment")$mtime)))
+})
+
+test_that("get_ref_release returns a CRAN remote_reference if package exists", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  test_refs <- c(
+    "dplyr",
+    "dplyr@1.1.0",
+    "tidyverse/dplyr",
+    "tidyverse/dplyr@v1.1.0",
+    "tidyverse/dplyr@c48230c13"
+  )
+
+  for (el_ref in test_refs) {
+    remote_ref <- pkgdepends::parse_pkg_ref(el_ref)
+    expect_s3_class(get_ref_release(remote_ref), "remote_ref_standard")
+  }
+})
+
+test_that("get_ref_release returns a CRAN remote_reference if package exists", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  testthat::local_mocked_bindings(
+    check_if_on_cran = function(remote_ref, op = "", op_ver = "") FALSE
+  )
+
+  test_refs <- c(
+    "tidyverse/dplyr", # github format
+    "tidyverse/dplyr@c48230c13", # commit format
+    "tidyverse/dplyr#681", # pull request format
+    "tidyverse/dplyr@v1.1.0", # tag format
+    "tidyverse/dplyr@*release" # release format
+  )
+
+  for (el_ref in test_refs) {
+    remote_ref <- pkgdepends::parse_pkg_ref(el_ref)
+    expect_s3_class(get_ref_release(remote_ref), "remote_ref_github")
+  }
 })

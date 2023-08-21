@@ -29,7 +29,7 @@ get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
-  if (check_if_on_cran(remote_ref, list(op = op, op_ver = op_ver))) {
+  if (check_if_on_cran(remote_ref, op = op, op_ver = op_ver)) {
     gh_res <- get_ref_min(remote_ref, op, op_ver)
     gh_desc <- get_desc_from_gh(gh_res$username, gh_res$repo, gh_res$commitish)
     gh_ver <- gh_desc$get_version()
@@ -54,16 +54,16 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::check_if_on_cran(list(package = "dplyr"))
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = ">=", op_ver = "1.1.0"))
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = ">=", op_ver = "9999.9.99"))
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), list(op = "<", op_ver = "0.0.0"))
-check_if_on_cran <- function(remote_ref, version = NULL) {
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "1.1.0")
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "9999.9.99")
+#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = "<", op_ver = "0.0.0")
+check_if_on_cran <- function(remote_ref, op = "", op_ver = "") {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
-  if (is.null(version)) {
+  if (op == "" || op_ver == "") {
     return(NROW(cran_listings) > 0)
   }
   # Check if minimum version exists on CRAN
-  NROW(filter_valid_version(cran_listings$version, version$op, version$op_ver)) > 0
+  NROW(filter_valid_version(cran_listings$version, op, op_ver)) > 0
 }
 
 #' Get reference to the minimal version of the package.
