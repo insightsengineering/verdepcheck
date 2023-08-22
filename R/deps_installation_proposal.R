@@ -190,10 +190,10 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     }
   )
 
-  # Obtain the maximum release data of all the dependecies
+  # Obtain the maximum release data of all the dependencies
   max_release_date <- as.Date(
     max(
-      -Inf, # Suppress warning when running max() with all NA and `na.rm = TRUE`
+      as.Date(-Inf), # Suppress warning when running max() with all NA and `na.rm = TRUE`
       unlist(
         lapply(deps_release_dates, as.Date, origin = "1970-01-01")
       ),

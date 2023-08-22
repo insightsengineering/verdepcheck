@@ -373,26 +373,28 @@ get_release_date.remote_ref_github <- function(remote_ref) {
   }", remote_ref$username, remote_ref$repo, remote_ref$commitish)
 
   resp <- try(gh::gh_gql(gql_query), silent = TRUE)
-  if (inherits(resp, "try-error")) {
-    return(character(0))
+  if (inherits(resp, "try-error") || is.null(resp$data$repository$refs$edges)) {
+    return(as.Date(NA_real_))
   }
 
   result <- vapply(
     resp$data$repository$refs$edges,
     function(x) {
       if (x$node$name != remote_ref$commitish) {
-        return(NA_character_)
+        return(NA_real_)
       }
-      x$node$target$committedDate
+      as.Date(x$node$target$committedDate)
     },
-    character(1)
+    double(1)
   )
 
-  if (length(result) <= 1) {
-    return(result %||% NA_character_)
+  result <- Filter(function(el) !is.na(el) && !is.null(el), result)
+
+  if (length(result) == 0) {
+    return(as.Date(NA_real_))
   }
 
-  max(result, -Inf, na.rm = TRUE)
+  max(as.Date(result))
 }
 
 #' Get release date from GitHub references
@@ -404,11 +406,12 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 #' remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
 #' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
-  subset(
+  result <- subset(
     get_cran_data(remote_ref$package),
     package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
     select = "mtime"
   )[[1]][1]
+  as.Date(result)
 }
 
 #' @export
@@ -418,7 +421,7 @@ get_release_date.remote_ref_standard <- function(remote_ref) {
 
 #' @export
 get_release_date.remote_ref <- function(remote_ref) {
-  NA
+  as.Date(NA_real_)
 }
 
 #' Get CRAN/Bioconductor metadata information on packages

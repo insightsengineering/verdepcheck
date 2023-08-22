@@ -7,6 +7,7 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for teal
   result <- get_release_date.remote_ref_github(remote_ref)
 
   expect_length(result, 1)
+  expect_s3_class(result, "Date")
   expect_identical(as.Date(result), as.Date("2021-10-08T15:10:35Z"))
 })
 
@@ -19,10 +20,11 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
   result <- get_release_date.remote_ref_github(remote_ref)
 
   expect_length(result, 1)
+  expect_s3_class(result, "Date")
   expect_identical(as.Date(result), as.Date("2022-01-20T16:47:02Z"))
 })
 
-test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlang@0.0.0", {
+test_that("get_release_date.remote_ref_github will retrieve missing date (NA) for rlang@0.0.0", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -32,6 +34,32 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
 
   expect_length(result, 1)
   expect_true(is.na(result))
+  expect_s3_class(result, "Date")
+})
+
+test_that("get_release_date.remote_ref_cran will retrieve missing date (NA) for rlang@0.0.0", {
+  skip_if_offline()
+  skip_if_empty_gh_token()
+
+  remote_ref <- pkgdepends::parse_pkg_ref("package.does.not.exist@1.1.0")
+  result <- get_release_date.remote_ref_cran(remote_ref)
+
+  expect_length(result, 1)
+  expect_true(is.na(result))
+  expect_s3_class(result, "Date")
+})
+
+test_that("get_release_date with any class other than remote_ref.{github,cran,standard} returns missing", {
+  remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
+  class(remote_ref) <- Filter(
+    function(el) !grepl("remote_ref_(cran|github|standard)", el),
+    class(remote_ref)
+  )
+  result <- get_release_date.remote_ref(remote_ref)
+
+  expect_length(result, 1)
+  expect_true(is.na(result))
+  expect_s3_class(result, "Date")
 })
 
 test_that("get_cran_data returns date for Bioconductor", {
