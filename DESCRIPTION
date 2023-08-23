@@ -28,7 +28,7 @@ Imports:
 Suggests:
     knitr (>= 1.42),
     pingr,
-    testthat (>= 3.0.4)
+    testthat (>= 3.1.7)
 Config/Needs/verdepcheck:
     r-lib/desc,
     r-lib/gh,
