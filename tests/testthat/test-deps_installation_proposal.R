@@ -369,7 +369,11 @@ test_that(
     skip_if_offline()
     skip_if_empty_gh_token()
 
-    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+    testthat::local_mocked_bindings(
+      check_if_on_cran = mock_check_if_on_cran(
+        "pkgdepends", "0.5.0", check_if_on_cran
+      )
+    )
 
     d_std_path <- local_description(
       list("pkgdepends (>= 0.5.0)" = "Import"),
@@ -396,7 +400,11 @@ test_that(
     skip_if_offline()
     skip_if_empty_gh_token()
 
-    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+    testthat::local_mocked_bindings(
+      check_if_on_cran = mock_check_if_on_cran(
+        "pkgdepends", "0.5.0", check_if_on_cran
+      )
+    )
 
     d_std_path <- local_description(
       list("pkgdepends (>= 0.5.0)" = "Import"),
@@ -424,7 +432,11 @@ test_that(
     skip_if_offline()
     skip_if_empty_gh_token()
 
-    testthat::local_mocked_bindings(check_if_on_cran = mock_check_if_on_cran("pkgdepends", "0.5.0"))
+    testthat::local_mocked_bindings(
+      check_if_on_cran = mock_check_if_on_cran(
+        "pkgdepends", "0.5.0", check_if_on_cran
+      )
+    )
 
     d_std_path <- local_description(
       list("pkgdepends (>= 0.5.0)" = "Import"),
