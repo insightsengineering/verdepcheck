@@ -4,7 +4,9 @@ Title: Check Package using Various Versions of Dependencies
 Version: 0.0.0.9000
 Date: 2023-02-14
 Authors@R:
-    person("Pawel Rucki", , , "pawel.rucki@roche.com", role = c("aut", "cre"))
+    person("Pawel Rucki", , , "pawel.rucki@roche.com", role = c("aut", "cre")),
+    person("Andre Verissimo", , , "andre.verissimo@roche.com", role = "aut"),
+    person("F. Hoffmann-La Roche AG", role = c("cph", "fnd"))
 Description: Derive package dependencies from DESCRIPTION file using various strategies and run "R CMD CHECK" to validate package compatibility.
 License: Apache License 2.0 | file LICENSE
 URL: https://github.com/insightsengineering/verdepcheck/
