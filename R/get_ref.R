@@ -217,7 +217,7 @@ get_gh_releases <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.
     function(x) isFALSE(x$isPrerelease) & x$createdAt > min_date & x$createdAt < max_date,
     resp$data$repository$releases$nodes
   )
-  vapply(res, `[[`, character(1), "tagName")
+  map_key_character(res, "tagName")
 }
 
 #' @importFrom gh gh_gql
@@ -245,7 +245,7 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
     function(x) as.Date(x$target$committedDate) > min_date & as.Date(x$target$committedDate) < max_date,
     resp$data$repository$refs$nodes
   )
-  vapply(res, `[[`, character(1), "name")
+  map_key_character(res, "name")
 }
 
 #' Get DESCRIPTION from GitHub Repository
@@ -381,7 +381,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
     resp$data$repository$refs$edges,
     function(x) {
       if (x$node$name != remote_ref$commitish) {
-        return(NA_real_)
+        return(as.Date(NA_real_))
       }
       as.Date(x$node$target$committedDate)
     },

@@ -68,7 +68,7 @@ new_max_deps_installation_proposal <- function(path, # nolint
     cli_pb_update(refs[[i]]$package)
     new_refs <- c(new_refs, list(get_ref_max(refs[[i]])))
   }
-  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
 
@@ -99,7 +99,7 @@ new_release_deps_installation_proposal <- function(path, # nolint
     cli_pb_update(refs[[i]]$package)
     new_refs <- c(new_refs, list(get_ref_release(refs[[i]])))
   }
-  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
   d <- desc_remotes_cleanup(d)
@@ -151,13 +151,13 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
       }
     }
   )
-  new_refs_str <- vapply(new_refs, `[[`, character(1), "ref")
+  new_refs_str <- map_key_character(new_refs, "ref")
   d <- desc_cond_set_refs(d, new_refs_str)
   d <- desc_remotes_cleanup(d)
 
   # find PPM snapshot
   refs <- get_refs_from_desc(d)
-  refs_pkg <- vapply(refs, `[[`, character(1), "package")
+  refs_pkg <- map_key_character(refs, "package")
   deps <- d$get_deps()
 
   dependencies_config_cache <- tolower(
