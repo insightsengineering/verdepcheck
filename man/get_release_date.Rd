@@ -2,9 +2,15 @@
 % Please edit documentation in R/get_ref.R
 \name{get_release_date}
 \alias{get_release_date}
+\alias{get_release_date.remote_ref_github}
+\alias{get_release_date.remote_ref_cran}
 \title{Get release date.}
 \usage{
 get_release_date(remote_ref)
+
+\method{get_release_date}{remote_ref_github}(remote_ref)
+
+\method{get_release_date}{remote_ref_cran}(remote_ref)
 }
 \arguments{
 \item{remote_ref}{(\code{remote_ref}) object created with \code{\link[pkgdepends:parse_pkg_refs]{pkgdepends::parse_pkg_ref()}}}
@@ -14,4 +20,18 @@ get_release_date(remote_ref)
 }
 \description{
 Get release date.
+
+Get release date from GitHub references
+
+Get release date from GitHub references
+}
+\examples{
+\dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+remote_ref <- pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0")
+get_release_date(remote_ref)
+\dontshow{\}) # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
+get_release_date.remote_ref_cran(remote_ref)
+\dontshow{\}) # examplesIf}
 }

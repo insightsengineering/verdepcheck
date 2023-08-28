@@ -347,10 +347,10 @@ get_release_date <- function(remote_ref) {
 
 #' Get release date from GitHub references
 #'
-#' @inheritParams get_release_date
-#'
+#' @rdname get_release_date
+#' @exportS3Method get_release_date remote_ref_github
 #' @importFrom gh gh_gql
-#' @export
+#'
 #' @examplesIf gh::gh_token() != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0")
 #' get_release_date(remote_ref)
@@ -399,9 +399,9 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 
 #' Get release date from GitHub references
 #'
-#' @inheritParams get_release_date
+#' @rdname get_release_date
+#' @exportS3Method get_release_date remote_ref_cran
 #'
-#' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
 #' get_release_date.remote_ref_cran(remote_ref)
