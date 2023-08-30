@@ -42,12 +42,6 @@
 <li class="nav-item">
   <a class="nav-link" href="news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://insightsengineering.github.io/verdepcheck/main">main</a> </div></li>
-<!-- end dropdown for versions -->
       </ul>
 <form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="search.json" id="search-input" placeholder="Search for" autocomplete="off">
@@ -89,13 +83,14 @@
 <p>Supported strategies are:</p>
 <ul>
 <li>
-<code>max</code> - use the greatest (development) versions of dependencies</li>
+<code>max</code> - use the greatest version of dependent packages. Please note that using development version is not guaranteed to be stable.</li>
 <li>
-<code>release</code> - use the latest release - using <code>@*release</code> reference of the <code>remotes</code> package</li>
+<code>release</code> - use the released version of dependent packages. It will try use CRAN if possible else if GitHub release is available then use it else fail.</li>
 <li>
-<code>min</code> - use the minimal version of dependencies</li>
+<code>min_cohort</code> - find maximum date of directly dependent packages release dates and use that as PPM snapshot date for dependency resolve.</li>
+<li>
+<code>min_isolated</code> - for each direct dependency: find its release date and use it as PPM snapshot for resolving itself. Next, combine all the individual resolutions and resolve it altogether again.</li>
 </ul>
-<p>Please note that this is applicable only for direct dependencies of your package. Indirect dependencies are being installed using default installation process.</p>
 <p>The main functions are:</p>
 <ul>
 <li>
@@ -166,6 +161,8 @@
 <h2 data-toc-skip>Developers</h2>
 <ul class="list-unstyled">
 <li>Pawel Rucki <br><small class="roles"> Author, maintainer </small>  </li>
+<li>Andre Verissimo <br><small class="roles"> Author </small>  </li>
+<li>F. Hoffmann-La Roche AG <br><small class="roles"> Copyright holder, funder </small>  </li>
 </ul>
 </div>
 

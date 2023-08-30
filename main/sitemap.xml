@@ -1,78 +1,123 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/404.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/404.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/CODE_OF_CONDUCT.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/CODE_OF_CONDUCT.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/CONTRIBUTING.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/CONTRIBUTING.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/LICENSE-text.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/LICENSE-text.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/PULL_REQUEST_TEMPLATE.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/PULL_REQUEST_TEMPLATE.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/SECURITY.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/SECURITY.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/authors.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/authors.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/index.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/index.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/news/index.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/news/index.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/check_if_on_cran.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/check_if_on_cran.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/check_ip.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/check_ip.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/deps_check.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/check_valid_version.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/deps_check_internal.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/cli_pb_init.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/deps_installation_proposal.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/deps_check.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/desc_cond_set_refs.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/deps_installation_proposal.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/desc_to_ip.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/desc_cond_set_refs.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_max.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/desc_remotes_cleanup.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_min.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/desc_to_ip.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_min_incl_cran.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/download_ip.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_ref_release.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/execute_ip.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/get_refs_from_desc.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/filter_valid_version.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/index.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_cran_data.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/install_ip.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_desc_field_pkgs.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/solve_ignore_remotes_release.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_desc_from_gh.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/main/reference/solve_ip.html</loc>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_ref_max.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_ref_min.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_ref_min_incl_cran.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_ref_release.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_refs_from_desc.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_release_date.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/index.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/install_ip.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/local_description.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/map_key_character.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/resolve_ignoring_release_remote.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/resolve_ppm_snapshot.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/solve_ip.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/solve_ip.min_isolated_deps_installation_proposal.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/solve_ip_ignore_remotes_release.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/version_from_desc.html</loc>
   </url>
 </urlset>

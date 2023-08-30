@@ -24,12 +24,6 @@
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://insightsengineering.github.io/verdepcheck/main">main</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -62,7 +56,7 @@
 
       <dl><dt>
           
-          <code><a href="deps_check.html">max_deps_check()</a></code> <code><a href="deps_check.html">release_deps_check()</a></code> <code><a href="deps_check.html">min_deps_check()</a></code> 
+          <code><a href="deps_check.html">max_deps_check()</a></code> <code><a href="deps_check.html">release_deps_check()</a></code> <code><a href="deps_check.html">min_cohort_deps_check()</a></code> <code><a href="deps_check.html">min_isolated_deps_check()</a></code> 
         </dt>
         <dd>Execute <code>R CMD CHECK</code> on a local package with all dependencies pre-installed using various strategies.</dd>
       </dl></div><div class="section level2">
@@ -78,9 +72,45 @@
 
       <dl><dt>
           
-          <code><a href="deps_installation_proposal.html">new_max_deps_installation_proposal()</a></code> <code><a href="deps_installation_proposal.html">new_release_deps_installation_proposal()</a></code> <code><a href="deps_installation_proposal.html">new_min_deps_installation_proposal()</a></code> 
+          <code><a href="deps_installation_proposal.html">new_max_deps_installation_proposal()</a></code> <code><a href="deps_installation_proposal.html">new_release_deps_installation_proposal()</a></code> <code><a href="deps_installation_proposal.html">new_min_cohort_deps_installation_proposal()</a></code> <code><a href="deps_installation_proposal.html">new_min_isolated_deps_installation_proposal()</a></code> 
         </dt>
         <dd>Create installation proposal using various dependency strategies</dd>
+      </dl></div><div class="section level2">
+      <h2 id="installation-plan-methods">Installation Plan methods<a class="anchor" aria-label="anchor" href="#installation-plan-methods"></a></h2>
+      
+      <p class="section-desc"></p><p>Methods on the installation plan objects</p>
+
+      
+    </div><div id="" class="section level2">
+      
+      
+      
+
+      <dl><dt>
+          
+          <code><a href="check_ip.html">check_ip()</a></code> 
+        </dt>
+        <dd>Executes <code><a href="http://r-lib.github.io/rcmdcheck/reference/rcmdcheck.html" class="external-link">rcmdcheck::rcmdcheck()</a></code> on a local package using <code>libpath</code> from the installation plan.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="download_ip.html">download_ip()</a></code> 
+        </dt>
+        <dd>Solve installation plan ignoring entries with "@*release" remote refs for detected conflicts.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="execute_ip.html">execute_ip()</a></code> 
+        </dt>
+        <dd>Executes installation plan and <code><a href="http://r-lib.github.io/rcmdcheck/reference/rcmdcheck.html" class="external-link">rcmdcheck::rcmdcheck()</a></code> in "try mode" to always return.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="install_ip.html">install_ip()</a></code> 
+        </dt>
+        <dd>Executes installation plan.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="solve_ip.html">solve_ip()</a></code> 
+        </dt>
+        <dd>Try to solve using standard method. If error - use resolve_ignoring_release_remote.</dd>
       </dl></div><div class="section level2">
       <h2 id="find-package-reference">Find package reference<a class="anchor" aria-label="anchor" href="#find-package-reference"></a></h2>
       
@@ -99,9 +129,24 @@
         <dd>Get reference to the maximal version of the package.</dd>
       </dl><dl><dt>
           
+          <code><a href="get_ref_min.html">get_ref_min()</a></code> 
+        </dt>
+        <dd>Get reference to the minimal version of the package.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_ref_min_incl_cran.html">get_ref_min_incl_cran()</a></code> 
+        </dt>
+        <dd>Get reference to the minimal version of the package including also check in CRAN repository.</dd>
+      </dl><dl><dt>
+          
           <code><a href="get_ref_release.html">get_ref_release()</a></code> 
         </dt>
         <dd>Get reference to the release version of the package.</dd>
+      </dl><dl><dt>
+          
+          <code><a href="get_release_date.html">get_release_date()</a></code> 
+        </dt>
+        <dd>Get release date.</dd>
       </dl></div>
   </main><aside class="col-md-3"><nav id="toc"><h2>On this page</h2>
     </nav></aside></div>
