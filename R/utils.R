@@ -29,7 +29,7 @@ base_pkgs <- function() {
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
 get_ppm_snapshot_by_date <- function(date) {
   fallback_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-  if (is.na(date) || is.infinite.POSIXlt(date)) {
+  if (is.na(date) || is.infinite(date)) {
     return(fallback_repo)
   }
 
