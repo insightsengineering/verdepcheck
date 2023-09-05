@@ -25,6 +25,28 @@ skip_if_empty_gh_token <- function() {
   if (isFALSE(res)) skip("Not run with empty GH token")
 }
 
+#' Mocking of the `check_if_on_cran` function that will hide CRAN releases of a
+#' package above a version
+#'
+#' @param pkg_name (`character`) Name of a package.
+#' @param op_ver_cuttof (`character`) Version of a package in character format
+#' (such as "1.0.0"0).
+#' @param fallback_fun (`function`) Fallback function to be called when condition
+#' for package is not met. This parameter should take the original function that
+#' it is mocking.
+#'
+#' @keywords internal
+mock_check_if_on_cran <- function(pkg_name, op_ver_cutoff, fallback_fun) {
+  op_ver_cutoff <- package_version(op_ver_cutoff)
+  function(remote_ref, op = "", op_ver = "") {
+    if (remote_ref$package == pkg_name &&
+      (op_ver == "" || package_version(op_ver) >= op_ver_cutoff)) {
+      return(FALSE)
+    }
+    fallback_fun(remote_ref, op, op_ver)
+  }
+}
+
 #' Aggregator of tests to generally perform on proposals
 #'
 #' @param x (`pkg_installation_proposal` object) Valid proposal created by one
