@@ -17,3 +17,4 @@ coverage.*
 init.sh
 workflows.md
 images
+^pkgdown$
