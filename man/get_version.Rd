@@ -7,14 +7,10 @@
 \usage{
 get_version(remote_ref)
 
-\method{get_version}{remote_ref}(remote_ref, op = "", op_ver = "")
+\method{get_version}{remote_ref}(remote_ref)
 }
 \arguments{
 \item{remote_ref}{(\code{remote_ref}) object created with \code{\link[pkgdepends:parse_pkg_refs]{pkgdepends::parse_pkg_ref()}}}
-
-\item{op}{(\code{character(1)}) optional, version condition comparison operator (e.g. \code{">"}, \code{">="})}
-
-\item{op_ver}{(\code{character(1)}) optional, version number against which \code{op} argument is applied}
 }
 \value{
 Package version created with \code{package_version}.

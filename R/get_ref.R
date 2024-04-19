@@ -374,13 +374,13 @@ get_version <- function(remote_ref) {
 }
 
 #' @rdname get_version
-#' @importFrom pkgdepends::new_pkg_deps
+#' @importFrom pkgdepends new_pkg_deps
 #' @exportS3Method get_version remote_ref
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_version(pkgdepends::parse_pkg_ref("dplyr"))
 #' get_version(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 #' get_version(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
-get_version.remote_ref <- function(remote_ref, op = "", op_ver = "") {
+get_version.remote_ref <- function(remote_ref) {
   x <- pkgdepends::new_pkg_deps(remote_ref$ref, config = list(dependencies = FALSE))
   x$solve()
   if (x$get_solution()$status == "FAILED") {
@@ -483,7 +483,7 @@ get_cran_data <- function(package) {
     if (is.null(pkgenv$cache_db)) {
       pkgenv$cache_db <- tools::CRAN_package_db()
     }
-    db <- subset(pkgenv$cache_db, Package == package)
+    db <- subset(pkgenv$cache_db, pkgenv$cache_db$Package == package)
     cran_current <- data.frame(
       type = "cran",
       package = package,
