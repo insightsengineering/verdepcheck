@@ -22,6 +22,7 @@ Imports:
     pkgdepends (>= 0.5.0),
     rcmdcheck,
     remotes (>= 2.2.0),
+    rvest,
     stats,
     utils,
     withr (>= 2.4.3)
@@ -36,6 +37,7 @@ Config/Needs/verdepcheck:
     r-lib/pkgdepends,
     r-lib/rcmdcheck,
     r-lib/remotes,
+    tidyverse/rvest,
     r-lib/withr,
     yihui/knitr,
     r-lib/pingr,

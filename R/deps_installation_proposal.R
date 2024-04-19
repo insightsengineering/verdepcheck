@@ -202,7 +202,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     origin = "1970-01-01"
   )
 
-  ppm_repo <- get_ppm_snapshot_by_date(max_release_date)
+  ppm_repo <- get_ppm_snapshot_by_date(max_release_date + 1)
 
   config <- append_config(config, list("cran_mirror" = ppm_repo))
 
