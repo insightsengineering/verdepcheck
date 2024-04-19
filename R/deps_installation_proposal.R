@@ -130,9 +130,11 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     refs,
     function(x) {
       version <- version_from_desc(d, x$package)
-      if (inherits(x, "remote_ref_github") &&
-        check_if_on_cran(x, version$op, version$op_ver) &&
-        x$commitish == "") {
+      if (
+        inherits(x, "remote_ref_github") &&
+          check_if_on_cran(x, version$op, version$op_ver) &&
+          x$commitish == ""
+      ) {
         pkgdepends::parse_pkg_ref(x$package)
       } else {
         x
@@ -202,7 +204,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
     origin = "1970-01-01"
   )
 
-  ppm_repo <- get_ppm_snapshot_by_date(max_release_date)
+  ppm_repo <- get_ppm_snapshot_by_date(max_release_date + 1)
 
   config <- append_config(config, list("cran_mirror" = ppm_repo))
 

@@ -438,6 +438,19 @@ get_cran_data <- function(package) {
   cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
     "type", "package", "version", "published"
   )]
+  if (all(is.na(cran_current$published))) {
+    # workaround of https://github.com/r-lib/pkgcache/issues/109
+    if (is.null(pkgenv$cache_db)) {
+      pkgenv$cache_db <- tools::CRAN_package_db()
+    }
+    db <- subset(pkgenv$cache_db, Package == package)
+    cran_current <- data.frame(
+      type = "cran",
+      package = package,
+      version = db$Version,
+      published = as.POSIXct(db$`Date/Publication`)
+    )
+  }
 
   # Bioc custom logic as packages in Bioconductor do not return a published date
   #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
