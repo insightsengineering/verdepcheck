@@ -128,6 +128,7 @@ desc_cond_set_refs <- function(d, refs) {
 desc_to_ip <- function(d, config) {
   temp_desc <- tempfile()
   d$write(temp_desc)
+  cli::cli_alert_info(paste0("Creating temporary DESCRIPTION file: ", cli::col_blue(temp_desc)))
 
   pkgdepends::new_pkg_installation_proposal(
     refs = paste0("deps::", temp_desc),

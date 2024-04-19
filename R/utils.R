@@ -86,7 +86,7 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res
 }
 
-#' Create `cli` progress bar for resolving versions.
+#' Create `cli` progress bar to print status to the console.
 #' @importFrom cli col_blue col_yellow cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra
 #' pb_spin pb_total style_bold symbol
 #' @keywords internal

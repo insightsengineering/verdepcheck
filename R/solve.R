@@ -71,6 +71,11 @@ solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
 
   new_res <- do.call(rbind, deps_res)
 
+  if (is.null(new_res)) {
+    ip$solve()
+    return(invisible(ip))
+  }
+
   # Keep only top versions in calculated resolution (new_res).
   #  Very large resolution tables can become problematic and take a long to
   #  converge to a solution.
