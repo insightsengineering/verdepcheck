@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0.07085346215781" branch-rate="0" lines-covered="44" lines-valid="621" branches-covered="0" branches-valid="0" complexity="0" version="3.6.4" timestamp="2024-04-19 12:00:02.157762">
+<coverage line-rate="0.0717781402936378" branch-rate="0" lines-covered="44" lines-valid="613" branches-covered="0" branches-valid="0" complexity="0" version="3.6.4" timestamp="2024-04-19 13:03:29.345101">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
   <packages>
-    <package name="verdepcheck" line-rate="0.07085346215781" branch-rate="0" complexity="0">
+    <package name="verdepcheck" line-rate="0.0717781402936378" branch-rate="0" complexity="0">
       <classes>
         <class name="check.R" filename="R/check.R" line-rate="0" branch-rate="0" complexity="0">
           <methods>
@@ -597,7 +597,7 @@
             <line number="209" hits="102" branch="false"/>
           </lines>
         </class>
-        <class name="get_ref.R" filename="R/get_ref.R" line-rate="0.00446428571428571" branch-rate="0" complexity="0">
+        <class name="get_ref.R" filename="R/get_ref.R" line-rate="0.00462962962962963" branch-rate="0" complexity="0">
           <methods>
             <method name="get_ref_min_incl_cran" signature="" line-rate="0" branch-rate="0" complexity="0">
               <lines>
@@ -888,27 +888,19 @@
                 <line number="439" hits="0" branch="false"/>
                 <line number="440" hits="0" branch="false"/>
                 <line number="441" hits="0" branch="false"/>
+                <line number="443" hits="0" branch="false"/>
                 <line number="444" hits="0" branch="false"/>
                 <line number="445" hits="0" branch="false"/>
                 <line number="446" hits="0" branch="false"/>
                 <line number="447" hits="0" branch="false"/>
                 <line number="448" hits="0" branch="false"/>
                 <line number="449" hits="0" branch="false"/>
-                <line number="450" hits="0" branch="false"/>
-                <line number="451" hits="0" branch="false"/>
-                <line number="452" hits="0" branch="false"/>
-                <line number="453" hits="0" branch="false"/>
-                <line number="454" hits="0" branch="false"/>
                 <line number="455" hits="0" branch="false"/>
                 <line number="456" hits="0" branch="false"/>
                 <line number="457" hits="0" branch="false"/>
-                <line number="458" hits="0" branch="false"/>
+                <line number="461" hits="0" branch="false"/>
+                <line number="463" hits="0" branch="false"/>
                 <line number="464" hits="0" branch="false"/>
-                <line number="465" hits="0" branch="false"/>
-                <line number="466" hits="0" branch="false"/>
-                <line number="470" hits="0" branch="false"/>
-                <line number="472" hits="0" branch="false"/>
-                <line number="473" hits="0" branch="false"/>
               </lines>
             </method>
           </methods>
@@ -1116,27 +1108,19 @@
             <line number="439" hits="0" branch="false"/>
             <line number="440" hits="0" branch="false"/>
             <line number="441" hits="0" branch="false"/>
+            <line number="443" hits="0" branch="false"/>
             <line number="444" hits="0" branch="false"/>
             <line number="445" hits="0" branch="false"/>
             <line number="446" hits="0" branch="false"/>
             <line number="447" hits="0" branch="false"/>
             <line number="448" hits="0" branch="false"/>
             <line number="449" hits="0" branch="false"/>
-            <line number="450" hits="0" branch="false"/>
-            <line number="451" hits="0" branch="false"/>
-            <line number="452" hits="0" branch="false"/>
-            <line number="453" hits="0" branch="false"/>
-            <line number="454" hits="0" branch="false"/>
             <line number="455" hits="0" branch="false"/>
             <line number="456" hits="0" branch="false"/>
             <line number="457" hits="0" branch="false"/>
-            <line number="458" hits="0" branch="false"/>
+            <line number="461" hits="0" branch="false"/>
+            <line number="463" hits="0" branch="false"/>
             <line number="464" hits="0" branch="false"/>
-            <line number="465" hits="0" branch="false"/>
-            <line number="466" hits="0" branch="false"/>
-            <line number="470" hits="0" branch="false"/>
-            <line number="472" hits="0" branch="false"/>
-            <line number="473" hits="0" branch="false"/>
           </lines>
         </class>
         <class name="solve.R" filename="R/solve.R" line-rate="0" branch-rate="0" complexity="0">
