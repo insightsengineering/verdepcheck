@@ -440,7 +440,10 @@ get_cran_data <- function(package) {
   )]
   if (all(is.na(cran_current$published))) {
     # workaround of https://github.com/r-lib/pkgcache/issues/109
-    db <- subset(tools::CRAN_package_db(), Package == package)
+    if (is.null(pkgenv$cache_db)) {
+      pkgenv$cache_db <- tools::CRAN_package_db()
+    }
+    db <- subset(pkgenv$cache_db, Package == package)
     cran_current <- data.frame(
       type = "cran",
       package = package,
