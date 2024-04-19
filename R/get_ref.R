@@ -440,21 +440,12 @@ get_cran_data <- function(package) {
   )]
   if (all(is.na(cran_current$published))) {
     # workaround of https://github.com/r-lib/pkgcache/issues/109
-    # if fixed - please investigate removing `rvest` dependency
-    scrapped_table <- head(
-      rvest::html_table(
-        rvest::html_element(
-          rvest::read_html(sprintf("https://CRAN.R-project.org/package=%s", package)),
-          "table"
-        )
-      ),
-      5
-    )
+    db <- subset(tools::CRAN_package_db(), Package == package)
     cran_current <- data.frame(
       type = "cran",
       package = package,
-      version = scrapped_table[scrapped_table$X1 == "Version:", "X2"][[1]],
-      published = scrapped_table[scrapped_table$X1 == "Published:", "X2"][[1]]
+      version = db$Version,
+      published = as.POSIXct(db$`Date/Publication`)
     )
   }
 
