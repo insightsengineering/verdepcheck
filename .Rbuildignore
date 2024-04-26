@@ -18,6 +18,6 @@ init.sh
 workflows.md
 images
 ^pkgdown$
-^revdeprefs\.yaml$
+^.revdeprefs\.yaml$
 ^revdep$
 ^\.covrignore$
