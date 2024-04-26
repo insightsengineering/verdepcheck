@@ -31,3 +31,5 @@ coverage.*
 node_modules/
 package-lock.json
 package.json
+tests/testthat/_snaps/**/*.new.md
+tests/testthat/_snaps/**/*.new.svg
