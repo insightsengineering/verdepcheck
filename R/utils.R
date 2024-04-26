@@ -4,6 +4,8 @@
 
 .desc_field <- "Config/Needs/verdepcheck"
 
+pkgenv <- new.env(parent = emptyenv())
+
 #' @importFrom pkgdepends as_pkg_dependencies
 default_config <- function() {
   list(
