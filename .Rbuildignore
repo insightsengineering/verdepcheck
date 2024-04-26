@@ -20,3 +20,4 @@ images
 ^pkgdown$
 ^revdeprefs\.yaml$
 ^revdep$
+^\.covrignore$
