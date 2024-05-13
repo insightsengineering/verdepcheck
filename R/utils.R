@@ -10,7 +10,7 @@ pkgenv <- new.env(parent = emptyenv())
 default_config <- function() {
   list(
     dependencies = c(.desc_field, pkgdepends::as_pkg_dependencies(TRUE)$direct),
-    cran_mirror = pak::repo_resolve("PPM@latest"),
+    cran_mirror = pkgcache::repo_resolve("PPM@latest"),
     library = tempfile()
   )
 }
@@ -169,7 +169,7 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
 #' Support function to reduce repetitive code
 #'
 #' @param x (`list`) list of lists where each internal list contain the same key
-#' @param field (`character(1)`) key of field to retrieve
+#' @param key (`character(1)`) key of field to retrieve
 #'
 #' @keywords internal
 #'
