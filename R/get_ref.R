@@ -296,8 +296,10 @@ get_ref_release <- function(remote_ref) {
   }
   if (inherits(remote_ref, "remote_ref_github")) {
     gh_release_ref <- cond_parse_pkg_ref_release(remote_ref)
-    gh_release_ver <- get_version(gh_release_ref)
-    ref_candidates <- c(ref_candidates, setNames(list(gh_release_ver), gh_release_ref$ref))
+    if (!is.null(gh_release_ref)) {
+      gh_release_ver <- get_version(gh_release_ref)
+      ref_candidates <- c(ref_candidates, setNames(list(gh_release_ver), gh_release_ref$ref))
+    }
 
     if (!is.null(remote_ref$commitish) && remote_ref$commitish != "") {
       gh_commitish_ref <- remote_ref
@@ -320,7 +322,7 @@ get_ref_release <- function(remote_ref) {
   } else {
     max_ver <- ref_candidates[[1]]
     max_ref <- names(ref_candidates[1])
-    for (i in 2:length(ref_candidates)) {
+    for (i in seq_along(ref_candidates)) {
       i_ver <- ref_candidates[[i]]
       i_ref <- names(ref_candidates[i])
       if (!is.na(i_ver) && i_ver > max_ver) {
@@ -337,7 +339,7 @@ get_ref_release <- function(remote_ref) {
 cond_parse_pkg_ref_release <- function(remote_ref) {
   has_release <- function(remote_ref) {
     isFALSE(inherits(
-      try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),
+      try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo)), silent = TRUE),
       "try-error"
     ))
   }
