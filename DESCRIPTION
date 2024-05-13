@@ -31,6 +31,7 @@ Suggests:
     pingr,
     testthat (>= 3.0.4)
 Config/Needs/verdepcheck:
+    r-lib/cli,
     r-lib/desc,
     r-lib/gh,
     r-lib/pkgcache,
