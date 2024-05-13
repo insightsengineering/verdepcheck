@@ -10,6 +10,7 @@ pkgenv <- new.env(parent = emptyenv())
 default_config <- function() {
   list(
     dependencies = c(.desc_field, pkgdepends::as_pkg_dependencies(TRUE)$direct),
+    cran_mirror = pak::repo_resolve("PPM@latest"),
     library = tempfile()
   )
 }
