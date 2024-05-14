@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE coverage SYSTEM "https://raw.githubusercontent.com/cobertura/cobertura/master/cobertura/src/site/htdocs/xml/coverage-04.dtd">
-<coverage line-rate="0.0843949044585987" branch-rate="0" lines-covered="53" lines-valid="628" branches-covered="0" branches-valid="0" complexity="0" version="3.6.4" timestamp="2024-05-14 16:44:27.86673">
+<coverage line-rate="0.0843949044585987" branch-rate="0" lines-covered="53" lines-valid="628" branches-covered="0" branches-valid="0" complexity="0" version="3.6.4" timestamp="2024-05-14 16:54:44.634318">
   <sources>
     <source>/__w/verdepcheck/verdepcheck/verdepcheck</source>
   </sources>
