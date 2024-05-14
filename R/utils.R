@@ -31,19 +31,22 @@ base_pkgs <- function() {
 #' get_ppm_snapshot_by_date("2023-08-01")
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
 get_ppm_snapshot_by_date <- function(date) {
-  tryCatch({
-    # https://github.com/r-lib/pkgcache/issues/110
-    # pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
-    snaps <- pkgcache::ppm_snapshots()
-    date_snap <- as.character(snaps[as.Date(snaps$date) > as.Date(date), "date"][1])
-    if (length(date_snap) == 0) {
-      stop("No PPM snapshot found for the given date.")
+  tryCatch(
+    {
+      # https://github.com/r-lib/pkgcache/issues/110
+      # pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
+      snaps <- pkgcache::ppm_snapshots()
+      date_snap <- as.character(snaps[as.Date(snaps$date) > as.Date(date), "date"][1])
+      if (length(date_snap) == 0) {
+        stop("No PPM snapshot found for the given date.")
+      }
+      file.path(pkgcache::ppm_repo_url(), date_snap)
+      gsub("latest", date_snap, pkgcache::repo_resolve("PPM@latest"))
+    },
+    error = function(err) {
+      pkgcache::repo_resolve("PPM@latest")
     }
-    file.path(pkgcache::ppm_repo_url(), date_snap)
-    gsub("latest", date_snap, pkgcache::repo_resolve("PPM@latest"))
-  }, error = function(err) {
-    pkgcache::repo_resolve("PPM@latest")
-  })
+  )
 }
 
 #' Resolve the dependencies of a package based on its release date + 1.
