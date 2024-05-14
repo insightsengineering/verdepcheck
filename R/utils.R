@@ -34,7 +34,7 @@ get_ppm_snapshot_by_date <- function(date) {
   tryCatch(
     {
       # https://github.com/r-lib/pkgcache/issues/110
-      # pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
+      # uncomment this: pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
       snaps <- pkgcache::ppm_snapshots()
       date_snap <- as.character(snaps[as.Date(snaps$date) > as.Date(date), "date"][1])
       if (length(date_snap) == 0) {
