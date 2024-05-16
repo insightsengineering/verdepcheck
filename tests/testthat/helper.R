@@ -30,8 +30,6 @@ skip_if_empty_gh_token <- function() {
 #' @param x (`pkg_installation_proposal` object) Valid proposal created by one
 #' of the available methods.
 #' @param pkg_name (`string`) Name of package that is being tested for version.
-#' @param platform (optional `string`) Name of the platform, should be 'source' in
-#' most cases.
 #' @param pkg_ver_target (optional `string`) version that is expected to be in the
 #' proposal. A `NULL` value indicates to use the latest version on CRAN or a
 #' GitHub repository reference
@@ -45,7 +43,6 @@ skip_if_empty_gh_token <- function() {
 #' @keywords internal
 test_proposal_common <- function(x,
                                  pkg_name = "pkgdepends",
-                                 platform = "source",
                                  pkg_ver_target = NULL,
                                  pkg_gh_str = NULL,
                                  solve_ip_flag = TRUE) {
@@ -60,7 +57,7 @@ test_proposal_common <- function(x,
 
   x_solution_pkg <- subset(
     x_solution,
-    package == pkg_name & platform == "source"
+    package == pkg_name
   )
 
   expect_true(nrow(x_solution_pkg) >= 1)
@@ -95,7 +92,6 @@ test_proposal_common <- function(x,
 #' @keywords internal
 test_proposal_common_bioc <- function(x,
                                       pkg_name = "pkgdepends",
-                                      platform = "source",
                                       solve_ip_flag = TRUE) {
   expect_s3_class(x, "pkg_installation_proposal")
 
@@ -108,7 +104,7 @@ test_proposal_common_bioc <- function(x,
 
   x_solution_pkg <- subset(
     x_solution,
-    package == pkg_name & platform == "source"
+    package == pkg_name
   )
 
   expect_true(nrow(x_solution_pkg) >= 1)

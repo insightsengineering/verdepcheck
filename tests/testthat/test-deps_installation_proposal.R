@@ -6,7 +6,7 @@ test_that("new_max_deps_installation_proposal correctly handles standard referen
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
+  test_proposal_common(x, "pkgdepends", NULL, NULL)
 })
 
 test_that("new_release_deps_installation_proposal correctly handles standard reference", {
@@ -17,7 +17,7 @@ test_that("new_release_deps_installation_proposal correctly handles standard ref
   x <- new_release_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
+  test_proposal_common(x, "pkgdepends", NULL, NULL)
 })
 
 test_that("new_min_isolated_installation_proposal correctly handles standard reference", {
@@ -28,7 +28,7 @@ test_that("new_min_isolated_installation_proposal correctly handles standard ref
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.1.0", NULL)
 })
 
 test_that("new_min_cohort_deps_installation_proposal correctly handles standard reference", {
@@ -39,7 +39,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles standard 
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.1.0", NULL)
 })
 
 # #################################################################
@@ -69,7 +69,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
+  test_proposal_common(x, "pkgdepends", NULL, remote_str)
 })
 
 test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@*release reference", {
@@ -85,7 +85,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@*re
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
+  test_proposal_common(x, "pkgdepends", NULL, remote_str)
 })
 
 test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@<tag> ref. (particular remote tag)", {
@@ -101,7 +101,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@<ta
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.3.2", remote_str)
+  test_proposal_common(x, "pkgdepends", "0.3.2", remote_str)
 })
 
 test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref. (without Config/Need/verdpcheck)", {
@@ -113,7 +113,7 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo> ref
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, remote_str)
+  test_proposal_common(x, "pkgdepends", NULL, remote_str)
 })
 
 test_that("new_release_deps_installation_proposal correctly handles <org>/<repo> reference", {
@@ -125,7 +125,7 @@ test_that("new_release_deps_installation_proposal correctly handles <org>/<repo>
   x <- new_release_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", NULL, NULL)
+  test_proposal_common(x, "pkgdepends", NULL, NULL)
 })
 
 test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<repo> reference", {
@@ -137,7 +137,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles <org>/<re
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.1.0", NULL)
 })
 
 test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> reference", {
@@ -154,7 +154,7 @@ test_that("new_min_deps_installation_proposal correctly handles <org>/<repo> ref
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.1.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.1.0", NULL)
 })
 
 # ################################################################
@@ -179,7 +179,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" 
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.2.0", NULL)
 })
 
 test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" dependency for standard reference", {
@@ -190,7 +190,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles \">=\" 
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.2.0", NULL)
 })
 
 test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" dependency for <org>/<repo> reference", {
@@ -201,7 +201,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" de
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.2.0", NULL)
 })
 
 test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" dependency for standard reference", {
@@ -212,7 +212,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles \">=\" de
   x <- new_min_cohort_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common(x, "pkgdepends", "source", "0.2.0", NULL)
+  test_proposal_common(x, "pkgdepends", "0.2.0", NULL)
 })
 
 test_that("new_min_isolated_deps_installation_proposal correctly handles tern and rtables", {
@@ -234,9 +234,9 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)
-  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip_flag = FALSE)
-  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "tern", "0.8.3", NULL)
+  test_proposal_common(x, "rtables", "0.6.1", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "formatters", "0.5.0", NULL, solve_ip_flag = FALSE)
 })
 
 # Test for encapsulation isssue where another dependency (primary or in the tree)
@@ -258,9 +258,9 @@ test_that("new_min_isolated_deps_installation_proposal correctly resolves a diff
   x <- new_min_isolated_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
 
-  x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)
-  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip_flag = FALSE)
-  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "tern", "0.8.3", NULL)
+  test_proposal_common(x, "rtables", "0.6.1", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "formatters", "0.5.0", NULL, solve_ip_flag = FALSE)
 })
 
 # #################################################################
