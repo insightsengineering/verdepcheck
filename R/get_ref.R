@@ -327,6 +327,7 @@ get_ref_release <- function(remote_ref) {
       i_ref <- names(ref_candidates[i])
       if (!is.na(i_ver) && i_ver > max_ver) {
         max_ref <- i_ref
+        max_ver <- i_ver
       }
     }
     return(pkgdepends::parse_pkg_ref(max_ref))
