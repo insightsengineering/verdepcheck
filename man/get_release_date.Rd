@@ -24,7 +24,7 @@ Get release date.
 Get release date from GitHub references
 }
 \examples{
-\dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "" && gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 get_release_date(pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}

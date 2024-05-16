@@ -9,7 +9,7 @@ solve_ip <- function(ip) {
   UseMethod("solve_ip", ip)
 }
 
-#' @exportS3Method solve_ip deps_installation_proposal
+#' @export
 solve_ip.deps_installation_proposal <- function(ip) {
   ip$solve()
   resolve_ignoring_release_remote(ip)
@@ -24,7 +24,7 @@ solve_ip.deps_installation_proposal <- function(ip) {
 #'
 #' @importFrom stats na.omit
 #'
-#' @exportS3Method solve_ip min_isolated_deps_installation_proposal
+#' @export
 solve_ip.min_isolated_deps_installation_proposal <- function(ip) { # nolint
   ip$resolve()
   res <- ip$get_resolution()

@@ -235,8 +235,8 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
   withr::defer(unlink(x$get_config()$library))
 
   x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)
-  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip = FALSE)
-  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip = FALSE)
+  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip_flag = FALSE)
 })
 
 # Test for encapsulation isssue where another dependency (primary or in the tree)
@@ -259,8 +259,8 @@ test_that("new_min_isolated_deps_installation_proposal correctly resolves a diff
   withr::defer(unlink(x$get_config()$library))
 
   x <- test_proposal_common(x, "tern", "source", "0.8.3", NULL)
-  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip = FALSE)
-  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip = FALSE)
+  x <- test_proposal_common(x, "rtables", "source", "0.6.1", NULL, solve_ip_flag = FALSE)
+  test_proposal_common(x, "formatters", "source", "0.5.0", NULL, solve_ip_flag = FALSE)
 })
 
 # #################################################################

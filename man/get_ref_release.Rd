@@ -15,3 +15,9 @@ get_ref_release(remote_ref)
 \description{
 Get reference to the release version of the package.
 }
+\examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+get_ref_release(pkgdepends::parse_pkg_ref("dplyr"))
+get_ref_release(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+\dontshow{\}) # examplesIf}
+}

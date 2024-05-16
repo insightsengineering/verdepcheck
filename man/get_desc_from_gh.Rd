@@ -10,7 +10,9 @@ get_desc_from_gh(org, repo, ref = "")
 Get DESCRIPTION from GitHub Repository
 }
 \examples{
+\dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 verdepcheck:::get_desc_from_gh("tidyverse", "dplyr")
 verdepcheck:::get_desc_from_gh("tidyverse", "dplyr", "v1.1.0")
+\dontshow{\}) # examplesIf}
 }
 \keyword{internal}
