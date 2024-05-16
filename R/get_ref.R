@@ -292,7 +292,7 @@ get_ref_release <- function(remote_ref) {
   if (check_if_on_cran(remote_ref)) {
     cran_ref <- remote_ref$package
     cran_ver <- get_version(pkgdepends::parse_pkg_ref(cran_ref))
-    ref_candidates <- append(ref_candidates, setNames(list(cran_ver), cran_ref))
+    ref_candidates <- c(ref_candidates, setNames(list(cran_ver), cran_ref))
   }
   if (inherits(remote_ref, "remote_ref_github")) {
     gh_release_ref <- cond_parse_pkg_ref_release(remote_ref)
