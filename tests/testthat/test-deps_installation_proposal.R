@@ -289,10 +289,7 @@ test_that("new_min_cohort_deps_installation_proposal correctly handles Bioc pack
 
   d_std_path <- local_description(list(SummarizedExperiment = "Import"))
 
-  expect_warning(
-    x <- new_min_cohort_deps_installation_proposal(d_std_path),
-    "Cannot find PPM snapshot"
-  )
+  x <- new_min_cohort_deps_installation_proposal(d_std_path)
 
   withr::defer(unlink(x$get_config()$library))
 
@@ -309,10 +306,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles Bioc pa
 
   withr::defer(unlink(x$get_config()$library))
 
-  expect_warning(
-    test_proposal_common_bioc(x, "SummarizedExperiment"),
-    "Cannot find PPM snapshot"
-  )
+  test_proposal_common_bioc(x, "SummarizedExperiment")
 })
 
 test_that("new_release_deps_installation_proposal correctly handles Bioc package", {

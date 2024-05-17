@@ -468,32 +468,37 @@ get_release_date.remote_ref <- function(remote_ref) {
 #' verdepcheck:::get_cran_data("dplyr")
 #' verdepcheck:::get_cran_data("SummarizedExperiment")
 get_cran_data <- function(package) {
-  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c(
-    "package", "version", "mtime"
-  )]
-  cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
-    "type", "package", "version", "published"
-  )]
-  if (all(is.na(cran_current$published))) {
-    # workaround of https://github.com/r-lib/pkgcache/issues/109
-    if (is.null(pkgenv$cache_db)) {
-      pkgenv$cache_db <- tools::CRAN_package_db()
-    }
-    db <- subset(pkgenv$cache_db, pkgenv$cache_db$Package == package)
-    cran_current <- data.frame(
-      type = "cran",
-      package = package,
-      version = db$Version,
-      published = as.POSIXct(db$`Date/Publication`)
-    )
-  }
+  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
+  cran_current <- head(
+    pkgcache::meta_cache_list(packages = package)[, c("type", "package", "version", "published")],
+    1
+  )
 
-  # Bioc custom logic as packages in Bioconductor do not return a published date
-  #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
-  #  note: a date is required for the `min_cohort` strategy
-  bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
-  if (NROW(cran_current[bioc_na_mtime_ix, ]) > 0) {
-    cran_current[bioc_na_mtime_ix, "published"] <- Sys.Date()
+  # handle missing dates
+  if (nrow(cran_current > 0)) {
+    if (is.na(cran_current$published)) {
+      if (cran_current$type == "cran") {
+        # in general, this should not happen for cran - https://github.com/r-lib/pkgcache/issues/109
+        # this is a temporary workaround
+        if (is.null(pkgenv$cache_db)) {
+          pkgenv$cache_db <- tools::CRAN_package_db()
+        }
+        db <- subset(pkgenv$cache_db, pkgenv$cache_db$Package == package)
+        cran_current <- data.frame(
+          type = "cran",
+          package = package,
+          version = db$Version[1],
+          published = as.POSIXct(db$`Date/Publication`[1])
+        )
+      } else if (cran_current$type == "bioc") {
+        cran_current <- data.frame(
+          type = "bioc",
+          package = package,
+          version = cran_current$version,
+          published = Sys.Date()
+        )
+      }
+    }
   }
 
   # Remove extra columns

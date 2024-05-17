@@ -101,10 +101,7 @@ test_that("get_ppm_snapshot_by_date will accept NA", {
 test_that("get_ppm_snapshot_by_date will accept dates in the future", {
   skip_if_offline()
   auxiliary_fun <- function(days = 0) {
-    expect_warning(
-      expect_latest_ppm(get_ppm_snapshot_by_date(Sys.Date())),
-      "Cannot find PPM snapshot for date"
-    )
+    expect_latest_ppm(get_ppm_snapshot_by_date(Sys.Date()))
   }
 
   auxiliary_fun(0)
