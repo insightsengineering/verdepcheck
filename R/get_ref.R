@@ -443,7 +443,7 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 #' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
   result <- subset(
-    get_cran_data(remote_ref$package),
+    get_release_data(remote_ref$package),
     package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
     select = "mtime"
   )[[1]][1]
@@ -460,14 +460,16 @@ get_release_date.remote_ref <- function(remote_ref) {
   as.Date(NA_real_)
 }
 
-#' Get CRAN/Bioconductor metadata information on packages
+#' Get data for CRAN/Bioconductor package releases
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
+#' @importFrom jsonlite fromJSON
+#'
 #' @keywords internal
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_cran_data("dplyr")
-#' verdepcheck:::get_cran_data("SummarizedExperiment")
-get_cran_data <- function(package) {
+#' verdepcheck:::get_release_data("dplyr")
+#' verdepcheck:::get_release_data("SummarizedExperiment")
+get_release_data <- function(package) {
   cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
   cran_current <- head(
     pkgcache::meta_cache_list(packages = package)[, c("type", "package", "version", "published")],
@@ -491,11 +493,13 @@ get_cran_data <- function(package) {
           published = as.POSIXct(db$`Date/Publication`[1])
         )
       } else if (cran_current$type == "bioc") {
+        url <- sprintf("https://packagemanager.posit.co/__api__/repos/4/packages/%s?bioc_version=%s", package, pkgcache::bioc_version())
+        release_date <- as.POSIXct(jsonlite::fromJSON(readLines(url, warn = FALSE))$occurred)
         cran_current <- data.frame(
           type = "bioc",
           package = package,
           version = cran_current$version,
-          published = Sys.Date()
+          published = release_date
         )
       }
     }
