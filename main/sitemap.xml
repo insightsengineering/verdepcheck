@@ -64,9 +64,6 @@
     <loc>https://insightsengineering.github.io/verdepcheck/reference/filter_valid_version.html</loc>
   </url>
   <url>
-    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_cran_data.html</loc>
-  </url>
-  <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/get_desc_field_pkgs.html</loc>
   </url>
   <url>
@@ -88,7 +85,13 @@
     <loc>https://insightsengineering.github.io/verdepcheck/reference/get_refs_from_desc.html</loc>
   </url>
   <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_release_data.html</loc>
+  </url>
+  <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/get_release_date.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/get_version.html</loc>
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/index.html</loc>
