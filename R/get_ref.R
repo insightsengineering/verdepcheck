@@ -493,7 +493,11 @@ get_release_data <- function(package) {
           published = as.POSIXct(db$`Date/Publication`[1])
         )
       } else if (cran_current$type == "bioc") {
-        url <- sprintf("https://packagemanager.posit.co/__api__/repos/4/packages/%s?bioc_version=%s", package, pkgcache::bioc_version())
+        url <- sprintf(
+          "https://packagemanager.posit.co/__api__/repos/4/packages/%s?bioc_version=%s",
+          package,
+          pkgcache::bioc_version()
+        )
         release_date <- as.POSIXct(jsonlite::fromJSON(readLines(url, warn = FALSE))$occurred)
         cran_current <- data.frame(
           type = "bioc",
