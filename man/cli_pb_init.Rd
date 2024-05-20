@@ -2,11 +2,11 @@
 % Please edit documentation in R/utils.R
 \name{cli_pb_init}
 \alias{cli_pb_init}
-\title{Create \code{cli} progress bar for resolving versions.}
+\title{Create \code{cli} progress bar to print status to the console.}
 \usage{
 cli_pb_init(type, total, ...)
 }
 \description{
-Create \code{cli} progress bar for resolving versions.
+Create \code{cli} progress bar to print status to the console.
 }
 \keyword{internal}

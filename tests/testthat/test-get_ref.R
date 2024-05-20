@@ -24,7 +24,7 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
   expect_identical(as.Date(result), as.Date("2022-01-20T16:47:02Z"))
 })
 
-test_that("get_release_date.remote_ref_github will retrieve missing date (NA) for rlang@0.0.0", {
+test_that("get_release_date.remote_ref_github will retrieve missing date (NA) for r-lib/rlang@v0.0.0", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -37,7 +37,7 @@ test_that("get_release_date.remote_ref_github will retrieve missing date (NA) fo
   expect_s3_class(result, "Date")
 })
 
-test_that("get_release_date.remote_ref_cran will retrieve missing date (NA) for rlang@0.0.0", {
+test_that("get_release_date.remote_ref_cran will retrieve missing date (NA) for package.does.not.exist@1.1.0", {
   skip_if_offline()
   skip_if_empty_gh_token()
 
@@ -62,10 +62,10 @@ test_that("get_release_date with any class other than remote_ref.{github,cran,st
   expect_s3_class(result, "Date")
 })
 
-test_that("get_cran_data returns date for Bioconductor", {
+test_that("get_release_data returns date for Bioconductor", {
   skip_if_offline()
 
-  expect_false(any(is.na(get_cran_data("SummarizedExperiment")$mtime)))
+  expect_false(any(is.na(get_release_data("SummarizedExperiment")$mtime)))
 })
 
 test_that("get_ref_release returns a CRAN remote_reference if package exists", {

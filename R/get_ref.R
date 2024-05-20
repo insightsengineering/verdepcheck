@@ -14,7 +14,7 @@ get_ref_min_incl_cran <- function(remote_ref, op = "", op_ver = "") {
 }
 
 #' @rdname get_ref_min_incl_cran
-#' @exportS3Method get_ref_min_incl_cran remote_ref
+#' @export
 #' @examples
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
@@ -25,7 +25,7 @@ get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 
 #' @rdname get_ref_min_incl_cran
 #' @importFrom pkgdepends parse_pkg_ref
-#' @exportS3Method get_ref_min_incl_cran remote_ref_github
+#' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
@@ -77,9 +77,9 @@ get_ref_min <- function(remote_ref, op = "", op_ver = "") {
 }
 
 #' @rdname get_ref_min
-#' @exportS3Method get_ref_min remote_ref
+#' @export
 #' @examples
-#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' get_ref_min(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_ref_min.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   remote_ref
 }
@@ -88,26 +88,26 @@ get_ref_min.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' to obtain historical data.
 #'
 #' @rdname get_ref_min
-#' @exportS3Method get_ref_min remote_ref_cran
+#' @export
 #' @importFrom cli cli_alert_danger
 #' @importFrom pkgcache cran_archive_list meta_cache_list
 #' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom stats setNames
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("cran::dplyr"))
+#' get_ref_min(pkgdepends::parse_pkg_ref("cran::dplyr"))
 get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
-  if (remote_ref$atleast == "" && remote_ref$version != "") {
+  if (remote_ref$version != "") {
     return(remote_ref)
   }
 
   x_pkg_cache <- pkgcache::meta_cache_list(remote_ref$package)
-  x_pkg_cache_archive <- pkgcache::cran_archive_list(package = remote_ref$package)
+  x_pkg_cache_archive <- pkgcache::cran_archive_list(packages = remote_ref$package)
   pv <- unique(c(x_pkg_cache_archive$version, x_pkg_cache$version))
   pv <- stats::setNames(package_version(pv), pv)
   pv <- filter_valid_version(pv, op, op_ver)
   min_ver <- Filter(function(x) x == min(pv), pv)
 
-  new_ref <- sprintf("%s@%s", remote_ref$ref, names(min_ver)) # @TODO deparse, add ver, parse again
+  new_ref <- sprintf("%s@%s", remote_ref$package, names(min_ver))
   tryCatch(
     pkgdepends::parse_pkg_ref(new_ref),
     error = function(err) {
@@ -125,9 +125,9 @@ get_ref_min.remote_ref_cran <- function(remote_ref, op = "", op_ver = "") {
 }
 
 #' @rdname get_ref_min
-#' @exportS3Method get_ref_min remote_ref_standard
+#' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_ref_min(pkgdepends::parse_pkg_ref("dplyr"))
 get_ref_min.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
   get_ref_min.remote_ref_cran(remote_ref, op, op_ver)
 }
@@ -136,11 +136,11 @@ get_ref_min.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
 #' and then [`gh::gh()`] to download `DESCRIPTION` file and then read package version.
 #'
 #' @rdname get_ref_min
-#' @exportS3Method get_ref_min remote_ref_github
+#' @export
 #' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf gh::gh_token() != ""
-#' verdepcheck:::get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
+#' get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
 get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {
     return(remote_ref)
@@ -254,7 +254,7 @@ get_gh_tags <- function(org, repo, max_date = Sys.Date() + 1, min_date = as.Date
 #' @importFrom gh gh
 #' @keywords internal
 #'
-#' @examples
+#' @examplesIf gh::gh_token() != ""
 #' verdepcheck:::get_desc_from_gh("tidyverse", "dplyr")
 #' verdepcheck:::get_desc_from_gh("tidyverse", "dplyr", "v1.1.0")
 get_desc_from_gh <- function(org, repo, ref = "") {
@@ -284,48 +284,72 @@ get_ref_max <- function(remote_ref) {
 #'
 #' @importFrom pkgdepends parse_pkg_ref
 #' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_ref_release(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_ref_release(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_release <- function(remote_ref) {
+  # create list of ref candidates to check
+  # return the one of the highest version
+  # this is a named list of character with version values and refs names
+  ref_candidates <- list()
   if (check_if_on_cran(remote_ref)) {
-    return(pkgdepends::parse_pkg_ref(remote_ref$package))
+    cran_ref <- remote_ref$package
+    cran_ver <- get_version(pkgdepends::parse_pkg_ref(cran_ref))
+    ref_candidates <- c(ref_candidates, setNames(list(cran_ver), cran_ref))
   }
   if (inherits(remote_ref, "remote_ref_github")) {
-    if (!is.null(remote_ref$commitish) && remote_ref$commitish != "") {
-      return(remote_ref)
+    gh_release_ref <- cond_parse_pkg_ref_release(remote_ref)
+    if (!is.null(gh_release_ref)) {
+      gh_release_ver <- get_version(gh_release_ref)
+      ref_candidates <- c(ref_candidates, setNames(list(gh_release_ver), gh_release_ref$ref))
     }
-    if (!is.null(remote_ref$pull) && remote_ref$pull != "") {
-      return(remote_ref)
+
+    if (
+      (!is.null(remote_ref$commitish) && remote_ref$commitish != "") ||
+        (!is.null(remote_ref$pull) && remote_ref$pull != "")
+    ) {
+      gh_ref <- remote_ref
+      gh_ver <- get_version(gh_ref)
+      ref_candidates <- c(ref_candidates, setNames(list(gh_ver), gh_ref$ref))
     }
-    if (!is.null(remote_ref$release) && remote_ref$release != "") {
-      return(cond_parse_pkg_ref_release(remote_ref))
-    }
-    return(cond_parse_pkg_ref_release(remote_ref))
+  } else {
+    input_ref <- remote_ref$ref
+    input_ver <- get_version(remote_ref)
+    ref_candidates <- c(ref_candidates, setNames(list(input_ver), input_ref))
   }
-  return(remote_ref)
+
+  if (length(ref_candidates) == 0 || all(is.na(ref_candidates))) {
+    return(remote_ref)
+  } else {
+    max_ver <- ref_candidates[[1]]
+    max_ref <- names(ref_candidates[1])
+    for (i in seq_along(ref_candidates)) {
+      i_ver <- ref_candidates[[i]]
+      i_ref <- names(ref_candidates[i])
+      if (!is.na(i_ver) && i_ver > max_ver) {
+        max_ref <- i_ref
+        max_ver <- i_ver
+      }
+    }
+    return(pkgdepends::parse_pkg_ref(max_ref))
+  }
 }
 
 #' @importFrom pkgdepends parse_pkg_ref
 #' @importFrom remotes github_remote
 #' @keywords internal
 cond_parse_pkg_ref_release <- function(remote_ref) {
+  stopifnot(inherits(remote_ref, "remote_ref_github"))
+
   has_release <- function(remote_ref) {
     isFALSE(inherits(
-      try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))),
+      try(remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo)), silent = TRUE),
       "try-error"
     ))
   }
   parse_pkg_ref_remote <- function(remote_ref) {
-    # temporary fix for https://github.com/r-lib/pkgdepends/issues/275#issuecomment-1461787363
-    # @TODO: replace it with below one-liner if fixed
-    # parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo)) # nolint
-    pkgdepends::parse_pkg_ref(
-      sprintf(
-        "%s=%s/%s@%s",
-        remote_ref$package,
-        remote_ref$username,
-        remote_ref$repo,
-        remotes::github_remote(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo))$ref
-      )
-    )
+    parse_pkg_ref(sprintf("%s/%s@*release", remote_ref$username, remote_ref$repo)) # nolint
   }
 
   if (has_release(remote_ref)) {
@@ -335,79 +359,91 @@ cond_parse_pkg_ref_release <- function(remote_ref) {
   }
 }
 
+#' Get package version.
+#'
+#' @inheritParams get_ref_min
+#' @returns Package version created with `package_version`.
+#'
+#' @export
+get_version <- function(remote_ref) {
+  UseMethod("get_version", remote_ref)
+}
+
+#' @rdname get_version
+#' @importFrom pkgdepends new_pkg_deps
+#' @export
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_version(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_version(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+#' get_version(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+get_version.remote_ref <- function(remote_ref) {
+  x <- pkgdepends::new_pkg_deps(remote_ref$ref, config = list(dependencies = FALSE))
+  x$solve()
+  if (x$get_solution()$status == "FAILED") {
+    return(NA)
+  } else {
+    as.package_version(x$get_resolution()[1, "version"])
+  }
+}
+
+
 #' Get release date.
 #'
 #' @inheritParams get_ref_min
-#' @inherit get_ref_min return
+#' @returns Date
 #'
 #' @export
 get_release_date <- function(remote_ref) {
   UseMethod("get_release_date", remote_ref)
 }
 
-#' Get release date from GitHub references
-#'
 #' @rdname get_release_date
-#' @exportS3Method get_release_date remote_ref_github
+#' @export
 #' @importFrom gh gh_gql
 #'
-#' @examplesIf gh::gh_token() != ""
-#' remote_ref <- pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0")
-#' get_release_date(remote_ref)
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != "" && gh::gh_token() != ""
+#' get_release_date(pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0"))
 get_release_date.remote_ref_github <- function(remote_ref) {
+  x <- pkgdepends::new_pkg_deps(remote_ref$ref, config = list(dependencies = FALSE))
+  x$solve()
+  if (x$get_solution()$status == "FAILED") {
+    return(as.Date(NA))
+  }
+
+  sha <- x$get_resolution()[1, "extra"][[1]]$remotesha
+  if (is.null(sha)) {
+    return(as.Date(NA))
+  }
+
   gql_query <- sprintf("{
     repository(owner: \"%s\", name: \"%s\") {
-      refs(refPrefix: \"refs/tags/\", query: \"%s\", first: 100) {
-        edges {
-        	node {
-          	name
-            target {
-              ... on Commit {
-                committedDate
-              }
-            }
-          }
+      object(oid: \"%s\") {
+        ... on Commit {
+          committedDate
         }
       }
     }
-  }", remote_ref$username, remote_ref$repo, remote_ref$commitish)
+  }", remote_ref$username, remote_ref$repo, sha)
 
   resp <- try(gh::gh_gql(gql_query), silent = TRUE)
-  if (inherits(resp, "try-error") || is.null(resp$data$repository$refs$edges)) {
-    return(as.Date(NA_real_))
+  if (inherits(resp, "try-error") || is.null(resp$data$repository$object$committedDate)) {
+    return(as.Date(NA))
   }
 
-  result <- vapply(
-    resp$data$repository$refs$edges,
-    function(x) {
-      if (x$node$name != remote_ref$commitish) {
-        return(as.Date(NA_real_))
-      }
-      as.Date(x$node$target$committedDate)
-    },
-    double(1)
-  )
-
-  result <- Filter(function(el) !is.na(el) && !is.null(el), result)
-
-  if (length(result) == 0) {
-    return(as.Date(NA_real_))
-  }
-
-  max(as.Date(result))
+  as.Date(resp$data$repository$object$committedDate)
 }
 
 #' Get release date from GitHub references
 #'
 #' @rdname get_release_date
-#' @exportS3Method get_release_date remote_ref_cran
+#' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
 #' get_release_date.remote_ref_cran(remote_ref)
 get_release_date.remote_ref_cran <- function(remote_ref) {
   result <- subset(
-    get_cran_data(remote_ref$package),
+    get_release_data(remote_ref$package),
     package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
     select = "mtime"
   )[[1]][1]
@@ -424,40 +460,53 @@ get_release_date.remote_ref <- function(remote_ref) {
   as.Date(NA_real_)
 }
 
-#' Get CRAN/Bioconductor metadata information on packages
+#' Get data for CRAN/Bioconductor package releases
 #'
 #' @importFrom pkgcache cran_archive_list meta_cache_list
+#' @importFrom jsonlite fromJSON
+#'
 #' @keywords internal
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_cran_data("dplyr")
-#' verdepcheck:::get_cran_data("SummarizedExperiment")
-get_cran_data <- function(package) {
-  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c(
-    "package", "version", "mtime"
-  )]
-  cran_current <- pkgcache::meta_cache_list(packages = package)[, c(
-    "type", "package", "version", "published"
-  )]
-  if (all(is.na(cran_current$published))) {
-    # workaround of https://github.com/r-lib/pkgcache/issues/109
-    if (is.null(pkgenv$cache_db)) {
-      pkgenv$cache_db <- tools::CRAN_package_db()
-    }
-    db <- subset(pkgenv$cache_db, Package == package)
-    cran_current <- data.frame(
-      type = "cran",
-      package = package,
-      version = db$Version,
-      published = as.POSIXct(db$`Date/Publication`)
-    )
-  }
+#' verdepcheck:::get_release_data("dplyr")
+#' verdepcheck:::get_release_data("SummarizedExperiment")
+get_release_data <- function(package) {
+  cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
+  cran_current <- head(
+    pkgcache::meta_cache_list(packages = package)[, c("type", "package", "version", "published")],
+    1
+  )
 
-  # Bioc custom logic as packages in Bioconductor do not return a published date
-  #  this will be immediately obsolete if {pkgcache} starts to return a non-NA value
-  #  note: a date is required for the `min_cohort` strategy
-  bioc_na_mtime_ix <- is.na(cran_current$published) & cran_current$type == "bioc"
-  if (NROW(cran_current[bioc_na_mtime_ix, ]) > 0) {
-    cran_current[bioc_na_mtime_ix, "published"] <- Sys.Date()
+  # handle missing dates
+  if (nrow(cran_current > 0)) {
+    if (is.na(cran_current$published)) {
+      if (cran_current$type == "cran") {
+        # in general, this should not happen for cran - https://github.com/r-lib/pkgcache/issues/109
+        # this is a temporary workaround
+        if (is.null(pkgenv$cache_db)) {
+          pkgenv$cache_db <- tools::CRAN_package_db()
+        }
+        db <- subset(pkgenv$cache_db, pkgenv$cache_db$Package == package)
+        cran_current <- data.frame(
+          type = "cran",
+          package = package,
+          version = db$Version[1],
+          published = as.POSIXct(db$`Date/Publication`[1])
+        )
+      } else if (cran_current$type == "bioc") {
+        url <- sprintf(
+          "https://packagemanager.posit.co/__api__/repos/4/packages/%s?bioc_version=%s",
+          package,
+          pkgcache::bioc_version()
+        )
+        release_date <- as.POSIXct(jsonlite::fromJSON(readLines(url, warn = FALSE))$occurred)
+        cran_current <- data.frame(
+          type = "bioc",
+          package = package,
+          version = cran_current$version,
+          published = release_date
+        )
+      }
+    }
   }
 
   # Remove extra columns

@@ -2,11 +2,11 @@
 % Please edit documentation in R/utils.R
 \name{resolve_ppm_snapshot}
 \alias{resolve_ppm_snapshot}
-\title{Resolve the dependencies of package based on the release date + 1}
+\title{Resolve the dependencies of a package based on its release date + 1.}
 \usage{
 resolve_ppm_snapshot(pkg_ref_str, operator, pkg_version)
 }
 \description{
-Resolve the dependencies of package based on the release date + 1
+Resolve the dependencies of a package based on its release date + 1.
 }
 \keyword{internal}

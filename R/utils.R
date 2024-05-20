@@ -10,11 +10,12 @@ pkgenv <- new.env(parent = emptyenv())
 default_config <- function() {
   list(
     dependencies = c(.desc_field, pkgdepends::as_pkg_dependencies(TRUE)$direct),
+    cran_mirror = pkgcache::repo_resolve("PPM@latest"),
     library = tempfile()
   )
 }
 append_config <- function(x1, x2) {
-  append(x1, x2)[unique(c(names(x1), names(x2)))]
+  modifyList(x1, x2)
 }
 
 #' @importFrom utils installed.packages
@@ -30,35 +31,25 @@ base_pkgs <- function() {
 #' get_ppm_snapshot_by_date("2023-08-01")
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
 get_ppm_snapshot_by_date <- function(date) {
-  fallback_repo <- file.path(pkgcache::ppm_repo_url(), "latest")
-  if (is.na(date) || is.infinite(date)) {
-    return(fallback_repo)
-  }
-
-  snaps <- pkgcache::ppm_snapshots()
-  res <- as.character(as.Date(utils::head(
-    snaps[as.Date(snaps$date) > as.Date(date), "date"],
-    1
-  )))
-  if (length(res) == 0) {
-    warning(sprintf(
-      paste0(
-        "Cannot find PPM snapshot for date after %s.",
-        " Will use latest ppm snapshot instead."
-      ),
-      as.character(date)
-    ))
-    return(fallback_repo)
-  }
-  parse_ppm_url(res)
+  tryCatch(
+    {
+      # https://github.com/r-lib/pkgcache/issues/110
+      # uncomment this: pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
+      snaps <- pkgcache::ppm_snapshots()
+      date_snap <- as.character(head(snaps[as.Date(snaps$date) > as.Date(date), "date"], 1))
+      if (length(date_snap) == 0) {
+        stop("No PPM snapshot found for the given date.")
+      }
+      file.path(pkgcache::ppm_repo_url(), date_snap)
+      gsub("latest", date_snap, pkgcache::repo_resolve("PPM@latest"))
+    },
+    error = function(err) {
+      pkgcache::repo_resolve("PPM@latest")
+    }
+  )
 }
 
-#' @importFrom pkgcache ppm_repo_url
-parse_ppm_url <- function(snapshot) {
-  file.path(pkgcache::ppm_repo_url(), snapshot)
-}
-
-#' Resolve the dependencies of package based on the release date + 1
+#' Resolve the dependencies of a package based on its release date + 1.
 #'
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
 #' @keywords internal
@@ -86,7 +77,7 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_res
 }
 
-#' Create `cli` progress bar for resolving versions.
+#' Create `cli` progress bar to print status to the console.
 #' @importFrom cli col_blue col_yellow cli_progress_bar col_green pb_current pb_elapsed pb_eta pb_extra
 #' pb_spin pb_total style_bold symbol
 #' @keywords internal
@@ -168,7 +159,7 @@ local_description <- function(pkg_list = c(pkgdepends = "Import"),
 #' Support function to reduce repetitive code
 #'
 #' @param x (`list`) list of lists where each internal list contain the same key
-#' @param field (`character(1)`) key of field to retrieve
+#' @param key (`character(1)`) key of field to retrieve
 #'
 #' @keywords internal
 #'
