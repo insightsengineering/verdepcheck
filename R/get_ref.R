@@ -447,7 +447,7 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
     idx <- do.call(
       remote_ref$atleast,
       list(
-        rel_data$version,
+        package_version(rel_data$version, strict = FALSE),
         package_version(remote_ref$version, strict = FALSE)
       )
     )
