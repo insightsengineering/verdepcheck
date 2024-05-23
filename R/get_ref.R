@@ -439,22 +439,41 @@ get_release_date.remote_ref_github <- function(remote_ref) {
 #' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' remote_ref <- pkgdepends::parse_pkg_ref("dplyr@1.1.0")
-#' get_release_date.remote_ref_cran(remote_ref)
+#' get_release_date(pkgdepends::parse_pkg_ref("dplyr@1.1.0"))
 get_release_date.remote_ref_cran <- function(remote_ref) {
-  result <- subset(
-    get_release_data(remote_ref$package),
-    package_version(version, strict = FALSE) == package_version(remote_ref$version, strict = FALSE),
-    select = "mtime"
-  )[[1]][1]
-  as.Date(result)
+  rel_data <- get_release_data(remote_ref$package)
+
+  if (remote_ref$atleast != "") {
+    idx <- do.call(
+      remote_ref$atleast,
+      list(
+        rel_data$version,
+        package_version(remote_ref$version, strict = FALSE)
+      )
+    )
+    as.Date(tail(rel_data[idx, "mtime"], 1))
+  } else {
+    as.Date(tail(rel_data$mtime, 1))
+  }
 }
 
+#' @rdname get_release_date
 #' @export
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_release_date(pkgdepends::parse_pkg_ref("dplyr"))
 get_release_date.remote_ref_standard <- function(remote_ref) {
   get_release_date.remote_ref_cran(remote_ref)
 }
 
+#' @rdname get_release_date
+#' @export
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_release_date(pkgdepends::parse_pkg_ref("MultiAssayExperiment"))
+get_release_date.remote_ref_bioc <- function(remote_ref) {
+  get_release_date.remote_ref_cran(remote_ref)
+}
+
+#' @rdname get_release_date
 #' @export
 get_release_date.remote_ref <- function(remote_ref) {
   as.Date(NA_real_)
