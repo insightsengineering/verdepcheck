@@ -105,6 +105,22 @@ execute_ip <- function(ip, path, build_args, check_args, ...) {
 #'
 #' @export
 download_ip <- function(ip) {
+  res <- ip$get_resolution()
+
+  # Prevent downloads of non-binary files by removing source that has "Archive" in the URL
+  ix <- res$platform == pkgdepends::current_r_platform()
+  new_sources <- lapply(
+    res$sources[ix],
+    function(x) {
+      if (length(x) > 1 && any(grepl("src/contrib/Archive", x))) {
+        x[!grepl("src/contrib/Archive", x)]
+      } else {
+        x
+      }
+    }
+  )
+  ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result$sources[ix] <- new_sources
+
   ip$download()
   ip$stop_for_download_error()
 
