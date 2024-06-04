@@ -139,6 +139,7 @@ download_ip <- function(ip) {
           pkgdepends:::verify_extracted_package(res$package[ix_el], "./")
         }, error = function(error) {
           cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
+          print(res[ix_el, ])
           cli::cli_warn(error)
           # Attempts to download again using curl::curl_download
           async_fun <- asNamespace("pkgcache")$async(function() {
