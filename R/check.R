@@ -108,6 +108,7 @@ download_ip <- function(ip) {
   res <- ip$get_resolution()
 
   # Prevent downloads of non-binary files by removing source that has "Archive" in the URL
+  # Track issue: https://github.com/r-lib/pkgdepends/issues/367
   ix <- res$platform == pkgdepends::current_r_platform()
   new_sources <- lapply(
     res$sources[ix],
@@ -124,6 +125,10 @@ download_ip <- function(ip) {
   ip$download()
   ip$stop_for_download_error()
 
+  # Safety fallback that will try to download the binary again.
+  #
+  # note: that binary must be downloaded with relevant user agent with supported
+  # platform and R version.
   for (ix_el in which(ix)) {
     withr::with_tempdir(
       code = {
@@ -139,9 +144,7 @@ download_ip <- function(ip) {
           pkgdepends:::verify_extracted_package(res$package[ix_el], "./")
         }, error = function(error) {
           cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
-          print(res[ix_el, ])
-          cli::cli_warn(error)
-          # Attempts to download again using curl::curl_download
+          # Attempts to download again using pkgcache/pkgdepends methods
           async_fun <- asNamespace("pkgcache")$async(function() {
             asNamespace("pkgcache")$download_file(
               url = file.path(res$mirror[ix_el], "src/contrib", basename(tar_file)),
