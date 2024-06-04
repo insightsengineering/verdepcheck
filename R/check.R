@@ -134,25 +134,26 @@ download_ip <- function(ip) {
       code = {
         tar_file <- file.path(ip$get_config()$get("cache_dir"), res$target[ix_el])
 
-        # Only do this for files that actually exist (Recommended are not )
+        # Only do this for files that actually exist
         if (!file.exists(tar_file)) next
-        untar(
-          tarfile = tar_file,
-          exdir = "./"
+        utils::untar(tarfile = tar_file, exdir = "./")
+        tryCatch(
+          {
+            asNamespace("pkgdepends")$verify_extracted_package(res$package[ix_el], "./")
+          },
+          error = function(error) {
+            cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
+            # Attempts to download again using {pkgcache} / {pkgdepends} http methods
+            async_fun <- asNamespace("pkgcache")$async(function() {
+              asNamespace("pkgcache")$download_file(
+                # Builds URL manually from mirror
+                url = file.path(res$mirror[ix_el], "src/contrib", basename(tar_file)),
+                destfile = tar_file
+              )
+            })
+            asNamespace("pkgcache")$synchronise(async_fun())
+          }
         )
-        tryCatch({
-          pkgdepends:::verify_extracted_package(res$package[ix_el], "./")
-        }, error = function(error) {
-          cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
-          # Attempts to download again using pkgcache/pkgdepends methods
-          async_fun <- asNamespace("pkgcache")$async(function() {
-            asNamespace("pkgcache")$download_file(
-              url = file.path(res$mirror[ix_el], "src/contrib", basename(tar_file)),
-              destfile = tar_file
-            )
-          })
-          asNamespace("pkgcache")$synchronise(async_fun())
-        })
       }
     )
   }

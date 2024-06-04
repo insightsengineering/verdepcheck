@@ -15,7 +15,7 @@ default_config <- function() {
   )
 }
 append_config <- function(x1, x2) {
-  modifyList(x1, x2)
+  utils::modifyList(x1, x2)
 }
 
 #' @importFrom utils installed.packages
