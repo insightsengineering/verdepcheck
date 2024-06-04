@@ -124,6 +124,35 @@ download_ip <- function(ip) {
   ip$download()
   ip$stop_for_download_error()
 
+  for (ix_el in which(ix)) {
+    withr::with_tempdir(
+      code = {
+        tar_file <- file.path(ip$get_config()$get("cache_dir"), res$target[ix_el])
+
+        # Only do this for files that actually exist (Recommended are not )
+        if (!file.exists(tar_file)) next
+        untar(
+          tarfile = tar_file,
+          exdir = "./"
+        )
+        tryCatch({
+          pkgdepends:::verify_extracted_package(res$package[ix_el], "./")
+        }, error = function(error) {
+          cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
+          cli::cli_warn(error)
+          # Attempts to download again using curl::curl_download
+          async_fun <- asNamespace("pkgcache")$async(function() {
+            asNamespace("pkgcache")$download_file(
+              url = file.path(res$mirror[ix_el], "src/contrib", basename(tar_file)),
+              destfile = tar_file
+            )
+          })
+          asNamespace("pkgcache")$synchronise(async_fun())
+        })
+      }
+    )
+  }
+
   return(invisible(ip))
 }
 
