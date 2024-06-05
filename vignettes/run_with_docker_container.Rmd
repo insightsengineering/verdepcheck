@@ -1,10 +1,11 @@
 ---
-title: "Run {verdepcheck} strategies from a docker container"
+title: "Guide to run {verdepcheck} strategies from a docker container"
+author: "NEST CoreDev"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Run {verdepcheck} from a docker container}
-  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteIndexEntry{Guide to run {verdepcheck} strategies from a docker container}
   %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, include = FALSE}
