@@ -73,11 +73,11 @@ system2(
   "git",
   args = list(
     "clone", 
-    sprintf("https://github.com/%s", github_id), 
     depth,
     ref,
+    sprintf("https://github.com/%s", github_id), 
     repo_path
-  ) |> purrr::compact()
+  ) |> purrr::compact() # remove empty arguments if they are NULL
 )
 
 setwd(repo_path)
