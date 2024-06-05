@@ -49,9 +49,9 @@ renv::install("insightsengineering/verdepcheck@fix-random-download%40main", prom
 
 # Parameters -------------------------------------------------------------------
 
-github_id <- "insightsengineering/teal.modules.clinical"
-ref <- "--branch 546-fix-verdepcheck@main" # branch, tag or NULL
-depth <- "--depth 1" # or NULL
+github_id <- "insightsengineering/teal.code"
+ref <- NULL # --branch <name>, tag or NULL
+depth <- "--depth 1" # --depth <depth number> or NULL
 build_args <- " " # When empty it should have 1 space
 r_cmd_check_args <- " " # When empty it should have 1 space
 strategy <- "min_isolated"
