@@ -40,6 +40,18 @@ docker run --rm -p 8787:8787 -e PASSWORD=test -v ./:/workspace/project ghcr.io/i
 
 Navigate to [http://localhost:8787](http://localhost:8788) and login with the username `rstudio` and password `test`.
 
+### Clean `pkgcache` cache before repeated runs
+
+In order to avoid using cached downloads from the previous run, it is recommend to clean the `pkgcache` directory.
+
+```bash
+# This command should be run inside the container
+rm -rf /home/rstudio/.cache/R/pkgcache
+```
+
+_note_: The location of the pkgcache directory may vary depending on the operation system.
+Use the R command `pkgcache::pkg_cache_summary()` to find its location in your system.
+
 ### Run the code below inside the container
 
 ```{r, eval=FALSE}
