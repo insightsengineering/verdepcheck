@@ -54,7 +54,7 @@ ref <- NULL # --branch <name>, tag or NULL
 depth <- "--depth 1" # --depth <depth number> or NULL
 build_args <- " " # When empty it should have 1 space
 r_cmd_check_args <- " " # When empty it should have 1 space
-strategy <- "min_isolated"
+strategy <- "min_isolated" # one of min_isolated, min_cohort, release or max
 
 # Logic to run action (don't change) -------------------------------------------
 
@@ -65,6 +65,7 @@ checkmate::assert_string(depth, null.ok = TRUE, pattern = "--depth [0-9]+")
 checkmate::assert_string(ref, null.ok = TRUE, pattern = "--branch .+")
 checkmate::assert_string(build_args)
 checkmate::assert_string(r_cmd_check_args)
+checkmate::assert_choice(strategy, c("min_isolated", "min_cohort", "release", "max"))
 
 # Clone repository
 system2(
