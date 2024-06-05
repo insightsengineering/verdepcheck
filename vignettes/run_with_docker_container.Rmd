@@ -1,5 +1,5 @@
 ---
-title: "How to run {verdepcheck} from a docker container"
+title: "Run {verdepcheck} strategies from a docker container"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Run {verdepcheck} from a docker container}
