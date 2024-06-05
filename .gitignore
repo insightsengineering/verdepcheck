@@ -33,3 +33,4 @@ package-lock.json
 package.json
 tests/testthat/_snaps/**/*.new.md
 tests/testthat/_snaps/**/*.new.svg
+inst/doc
