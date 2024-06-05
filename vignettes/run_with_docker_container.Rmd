@@ -45,7 +45,7 @@ Navigate to [http://localhost:8787](http://localhost:8788) and login with the us
 # Dependencies -----------------------------------------------------------------
 
 renv::install(c("checkmate", "withr", "testthat"), prompt = FALSE)
-renv::install("insightsengineering/verdepcheck@fix-random-download%40main", prompt = FALSE)
+renv::install("insightsengineering/verdepcheck", prompt = FALSE)
 
 # Parameters -------------------------------------------------------------------
 
