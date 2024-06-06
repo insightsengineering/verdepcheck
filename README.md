@@ -35,7 +35,7 @@ The main functions are:
 - `new_<strategy>_deps_installation_proposal` for creating `installation_proposal` objects
 - `<strategy>_deps_check` that creates and executes `installation_proposal` and then run `"R CMD CHECK"`
 
-This package is heavily based on [`pkgdepends`](https://r-lib.github.io/pkgdepends/) for dependency resolution and [`rcmdcheck`](https://r-lib.github.io/rcmdcheck/) for executing `"R CMD CHECK"`.
+This package is heavily based on [`pkgdepends`](https://r-lib.github.io/pkgdepends/) for dependency resolution and [`rcmdcheck`](https://rcmdcheck.r-lib.org/) for executing `"R CMD CHECK"`.
 
 ## Install
 
