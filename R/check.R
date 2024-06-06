@@ -105,8 +105,58 @@ execute_ip <- function(ip, path, build_args, check_args, ...) {
 #'
 #' @export
 download_ip <- function(ip) {
+  res <- ip$get_resolution()
+
+  # Prevent downloads of non-binary files by removing source that has "Archive" in the URL
+  # Track issue: https://github.com/r-lib/pkgdepends/issues/367
+  ix <- res$platform == pkgdepends::current_r_platform()
+  new_sources <- lapply(
+    res$sources[ix],
+    function(x) {
+      if (length(x) > 1 && any(grepl("src/contrib/Archive", x))) {
+        x[!grepl("src/contrib/Archive", x)]
+      } else {
+        x
+      }
+    }
+  )
+  ip$.__enclos_env__$private$plan$.__enclos_env__$private$resolution$result$sources[ix] <- new_sources
+
   ip$download()
   ip$stop_for_download_error()
+
+  # Safety fallback that will try to download the binary again.
+  #
+  # note: that binary must be downloaded with relevant user agent with supported
+  # platform and R version.
+  for (ix_el in which(ix)) {
+    withr::with_tempdir(
+      code = {
+        tar_file <- file.path(ip$get_config()$get("cache_dir"), res$target[ix_el])
+
+        # Only do this for files that actually exist
+        if (!file.exists(tar_file)) next
+        utils::untar(tarfile = tar_file, exdir = "./")
+        tryCatch(
+          {
+            asNamespace("pkgdepends")$verify_extracted_package(res$package[ix_el], "./")
+          },
+          error = function(error) {
+            cli::cli_warn("{res$package[ix_el]} binary is not valid, trying to re-download.")
+            # Attempts to download again using {pkgcache} / {pkgdepends} http methods
+            async_fun <- asNamespace("pkgcache")$async(function() {
+              asNamespace("pkgcache")$download_file(
+                # Builds URL manually from mirror
+                url = file.path(res$mirror[ix_el], "src/contrib", basename(tar_file)),
+                destfile = tar_file
+              )
+            })
+            asNamespace("pkgcache")$synchronise(async_fun())
+          }
+        )
+      }
+    )
+  }
 
   return(invisible(ip))
 }

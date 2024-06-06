@@ -451,9 +451,9 @@ get_release_date.remote_ref_cran <- function(remote_ref) {
         package_version(remote_ref$version, strict = FALSE)
       )
     )
-    as.Date(tail(rel_data[idx, "mtime"], 1))
+    as.Date(utils::tail(rel_data[idx, "mtime"], 1))
   } else {
-    as.Date(tail(rel_data$mtime, 1))
+    as.Date(utils::tail(rel_data$mtime, 1))
   }
 }
 
