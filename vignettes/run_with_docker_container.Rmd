@@ -84,10 +84,10 @@ checkmate::assert_choice(strategy, c("min_isolated", "min_cohort", "release", "m
 system2(
   "git",
   args = list(
-    "clone", 
+    "clone",
     depth,
     ref,
-    sprintf("https://github.com/%s", github_id), 
+    sprintf("https://github.com/%s", github_id),
     repo_path
   ) |> purrr::compact() # remove empty arguments if they are NULL
 )
@@ -104,7 +104,7 @@ args[4] <- strategy # strategy
 # Mock the function inside the script
 testthat::with_mocked_bindings(
   code = source("https://raw.githubusercontent.com/insightsengineering/r-verdepcheck-action/main/script.R"),
-  commandArgs = function(...) args, 
+  commandArgs = function(...) args,
   .package = "base"
 )
 ```
