@@ -30,6 +30,7 @@ Imports:
 Suggests:
     knitr (>= 1.42),
     pingr,
+    rmarkdown (>= 2.23),
     testthat (>= 3.0.4)
 Config/Needs/verdepcheck:
     r-lib/cli,

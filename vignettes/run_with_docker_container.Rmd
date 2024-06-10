@@ -1,0 +1,111 @@
+---
+title: "Guide to run {verdepcheck} strategies from a docker container"
+author: "NEST CoreDev"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Guide to run {verdepcheck} strategies from a docker container}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteEngine{knitr::rmarkdown}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+`verdepcheck` can be used within a docker container to consistently check the version dependencies of an R package.
+This vignette demonstrates how to run the [`r-verdepcheck-action`](https://github.com/insightsengineering/r-verdepcheck-action) Github workflow locally with a minimal setup.
+
+1. Download the docker image
+1. Run the docker container
+1. Open RStudio in the browser
+1. Run the code below by changing the `github_id` to the repository you want to check
+
+It assumes that you have `docker` installed on your machine.
+
+_Note_: that you can skip the container setup and run the code below in your local R session.
+
+### Pull and run the docker image
+
+The docker image used in this vignette is available on the Github Container Registry (ghcr.io) and is being used by the Insights Engineering R packages (such as `teal` and `tern`).
+
+```bash
+docker pull ghcr.io/insightsengineering/rstudio:latest
+docker run --rm -p 8787:8787 -e PASSWORD=test -v ./:/workspace/project ghcr.io/insightsengineering/rstudio
+```
+
+### Open the RStudio in the browser
+
+Navigate to [http://localhost:8787](http://localhost:8788) and login with the username `rstudio` and password `test`.
+
+### Clean `pkgcache` cache before repeated runs
+
+In order to avoid using cached downloads from the previous run, it is recommend to clean the `pkgcache` directory.
+
+```bash
+# This command should be run inside the container
+rm -rf /home/rstudio/.cache/R/pkgcache
+```
+
+_note_: The location of the pkgcache directory may vary depending on the operation system.
+Use the R command `pkgcache::pkg_cache_summary()` to find its location in your system.
+
+### Run the code below inside the container
+
+```{r, eval=FALSE}
+# Dependencies -----------------------------------------------------------------
+
+renv::install(c("checkmate", "withr", "testthat"), prompt = FALSE)
+renv::install("insightsengineering/verdepcheck", prompt = FALSE)
+
+# Parameters -------------------------------------------------------------------
+
+github_id <- "insightsengineering/teal.code"
+ref <- NULL # --branch <name>, tag or NULL
+depth <- "--depth 1" # --depth <depth number> or NULL
+build_args <- " " # When empty it should have 1 space
+r_cmd_check_args <- " " # When empty it should have 1 space
+strategy <- "min_isolated" # one of min_isolated, min_cohort, release or max
+
+# Logic to run action (don't change) -------------------------------------------
+
+repo_path <- withr::local_tempfile(pattern = "repo")
+
+checkmate::assert_string(github_id)
+checkmate::assert_string(depth, null.ok = TRUE, pattern = "--depth [0-9]+")
+checkmate::assert_string(ref, null.ok = TRUE, pattern = "--branch .+")
+checkmate::assert_string(build_args)
+checkmate::assert_string(r_cmd_check_args)
+checkmate::assert_choice(strategy, c("min_isolated", "min_cohort", "release", "max"))
+
+# Clone repository
+system2(
+  "git",
+  args = list(
+    "clone",
+    depth,
+    ref,
+    sprintf("https://github.com/%s", github_id),
+    repo_path
+  ) |> purrr::compact() # remove empty arguments if they are NULL
+)
+
+setwd(repo_path)
+
+# Prepare arguments for script call
+args <- c()
+args[1] <- "" # path to file (should be empty for current directory)
+args[2] <- build_args # build_args
+args[3] <- r_cmd_check_args # check_args
+args[4] <- strategy # strategy
+
+# Mock the function inside the script
+testthat::with_mocked_bindings(
+  code = source("https://raw.githubusercontent.com/insightsengineering/r-verdepcheck-action/main/script.R"),
+  commandArgs = function(...) args,
+  .package = "base"
+)
+```
+
