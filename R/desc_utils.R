@@ -141,24 +141,8 @@ desc_cond_set_refs <- function(d, refs) {
 #' d <- verdepcheck:::desc_add_extra_deps(d, "bar (>= 2.3.4); baz (>= 3.4.5)")
 #' d$get_deps()
 desc_add_extra_deps <- function(d, x) {
-  cat("desc_add_extra_deps: \n")
-  print(x)
-  cat("strsplit:\n")
-  print(strsplit(x, "\\;"))
-  cat("strsplit (fixed):\n")
-  print(strsplit(x, "\\;", fixed = TRUE))
-  cat("strsplit (perl):\n")
-  print(strsplit(x, "\\;", perl = TRUE))
-  cat("strsplit (useBytes):\n")
-  print(strsplit(x, "\\;", useBytes = TRUE))
-  cat("\n")
-
   if (length(x)) {
     for (x_i in trimws(strsplit(x, "\\;")[[1]])) {
-      cat("x_i: \n")
-      cat(x_i)
-      cat("\n")
-
       x_i_deparsed <- deparse_dep_str(x_i)
       d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
     }
@@ -178,10 +162,6 @@ desc_add_extra_deps <- function(d, x) {
 #' verdepcheck:::deparse_dep_str("foo")
 #' verdepcheck:::deparse_dep_str("foo (>= 1.2.3)")
 deparse_dep_str <- function(x) {
-  cat("deparse_dep_str: \n")
-  cat(x)
-  cat("\n")
-
   x <- trimws(strsplit(x, "\\(")[[1]])
   package <- x[1]
   ver_str <- gsub("\\)$", "", x[2])
@@ -207,10 +187,6 @@ deparse_dep_str <- function(x) {
 #' @examples
 #' verdepcheck:::deparse_ver_str(">= 1.2.3")
 deparse_ver_str <- function(x) {
-  cat("deparse_ver_str: \n")
-  cat(x)
-  cat("\n")
-
   x <- trimws(x)
   if (is.na(x) || length(x) == 0 || x == "*" || x == "") {
     return(list(op = "", op_ver = ""))
