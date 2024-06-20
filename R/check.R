@@ -19,11 +19,12 @@
 #' x$ip
 #' x$check
 max_deps_check <- function(path,
+                           extra_deps = character(),
                            config = list(),
                            build_args = character(),
                            check_args = character(),
                            ...) {
-  ip <- new_max_deps_installation_proposal(path, config)
+  ip <- new_max_deps_installation_proposal(path, extra_deps, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 
@@ -35,11 +36,12 @@ max_deps_check <- function(path,
 #' x$ip
 #' x$check
 release_deps_check <- function(path,
+                               extra_deps = character(),
                                config = list(),
                                build_args = character(),
                                check_args = character(),
                                ...) {
-  ip <- new_release_deps_installation_proposal(path, config)
+  ip <- new_release_deps_installation_proposal(path, extra_deps, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 
@@ -51,11 +53,12 @@ release_deps_check <- function(path,
 #' x$ip
 #' x$check
 min_cohort_deps_check <- function(path,
+                                  extra_deps = character(),
                                   config = list(),
                                   build_args = character(),
                                   check_args = character(),
                                   ...) {
-  ip <- new_min_cohort_deps_installation_proposal(path, config)
+  ip <- new_min_cohort_deps_installation_proposal(path, extra_deps, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 
@@ -67,11 +70,12 @@ min_cohort_deps_check <- function(path,
 #' x$ip
 #' x$check
 min_isolated_deps_check <- function(path,
+                                    extra_deps = character(),
                                     config = list(),
                                     build_args = character(),
                                     check_args = character(),
                                     ...) {
-  ip <- new_min_isolated_deps_installation_proposal(path, config)
+  ip <- new_min_isolated_deps_installation_proposal(path, extra_deps, config)
   execute_ip(ip, path, check_args, build_args, ...)
 }
 

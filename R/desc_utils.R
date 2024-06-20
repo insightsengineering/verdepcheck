@@ -122,6 +122,78 @@ desc_cond_set_refs <- function(d, refs) {
   return(invisible(d))
 }
 
+#' Adds extra dependencies to the `desc` object.
+#'
+#' This will add dependencies to the `Imports` field.
+#'
+#' @param d (`desc`) DESCRIPTION object from [desc::desc]
+#' @param x (`character(1)`) Extra dependencies specified similarly to the `DESCRIPTION` file, i.e.
+#' `"<package name> (<operator> <version>)"` where both `<operator>` and `<version>` are optional.
+#' Multiple entries are possible separated by `";"`.
+#'
+#' @return `desc` object with added dependencies.
+#'
+#' @keywords internal
+#'
+#' @examples
+#' d <- desc::desc(cmd = "!new")
+#' d <- verdepcheck:::desc_add_extra_deps(d, "foo (>= 1.2.3); bar (== 2.3.4)")
+#' d$get_deps()
+desc_add_extra_deps <- function(d, x) {
+  if (length(x)) {
+    for (x_i in strsplit(x, ";")[[1]]) {
+      x_i_deparsed <- deparse_dep_str(trimws(x_i))
+      d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
+    }
+  }
+  return(invisible(d))
+}
+
+#' Deparse a dependency string
+#'
+#' @param x (`character`) Dependency string in form of `<package name> (<operator> <version>)`. See examples.
+#'
+#' @return `list` with `package`, `op`, `op_ver` and `ver_str` fields.
+#'
+#' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::deparse_dep_str("foo")
+#' verdepcheck:::deparse_dep_str("foo (>= 1.2.3)")
+deparse_dep_str <- function(x) {
+  x <- trimws(strsplit(x, "\\(")[[1]])
+  package <- x[1]
+  ver_str <- gsub("\\)$", "", x[2])
+  ver_str_deparsed <- deparse_ver_str(ver_str)
+  list(
+    package = x[1],
+    op = ver_str_deparsed$op,
+    op_ver = ver_str_deparsed$op_ver,
+    ver_str = ver_str
+  )
+}
+#' Deparse a version string
+#'
+#' @param x (`character`) Version string in form of `<operator> <version>`. See examples.
+#'
+#' @return `list` with `op` and `op_ver` fields.
+#'
+#' @keywords internal
+#'
+#' @examples
+#' verdepcheck:::deparse_ver_str(">= 1.2.3")
+deparse_ver_str <- function(x) {
+  x <- trimws(x)
+  if (x == "*" || x == "") {
+    return(list(op = "", op_ver = ""))
+  }
+  split_vec <- strsplit(x, " ")[[1]]
+  list(
+    op = split_vec[1],
+    op_ver = split_vec[2]
+  )
+}
+
 #' Create `installation_plan` object from `desc` object
 #' @importFrom pkgdepends new_pkg_installation_proposal
 #' @keywords internal
@@ -137,7 +209,7 @@ desc_to_ip <- function(d, config) {
 }
 
 #' Get package version from description
-#' @param d (`desc`) DESCRIPTION object from [desc::description]
+#' @param d (`desc`) DESCRIPTION object from [desc::desc]
 #' @param pkg_name (`character`) Package name
 #' @keywords internal
 #'
@@ -152,20 +224,20 @@ desc_to_ip <- function(d, config) {
 version_from_desc <- function(d, pkg_name) {
   all_deps <- d$get_deps()
 
-  version <- (all_deps$version[all_deps$package == pkg_name])[[1]]
-  result <- list(
+  ver_str <- (all_deps$version[all_deps$package == pkg_name])[[1]]
+
+  res <- list(
     package = pkg_name,
-    version_str = version,
+    ver_str = ver_str,
     op = "",
     op_ver = ""
   )
-  if (version == "*" || trimws(version) == "") {
-    return(result)
-  }
-  split_vec <- strsplit(version, " ")[[1]]
-  result$op <- split_vec[1]
-  result$op_ver <- split_vec[2]
-  result
+
+  ver_str_deparsed <- deparse_ver_str(ver_str)
+  res$op <- ver_str_deparsed$op
+  res$op_ver <- ver_str_deparsed$op_ver
+
+  res
 }
 
 #' Filter for package versions that comply with an operator and version

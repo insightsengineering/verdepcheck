@@ -39,6 +39,9 @@
 #' Please see also [`pkgdepends::pkg_config`] and [`pak::pak-config`] for other configuration possibilities.
 #'
 #' @param path (`string`) path to the package sources
+#' @param extra_deps (`character(1)`) Extra dependencies specified similarly to the `DESCRIPTION` file, i.e.
+#' `"<package name> (<operator> <version>)"` where both `<operator>` and `<version>` are optional.
+#' Multiple entries are possible separated by `";"`.
 #' @param config (`list`) configuration options. See [`pkgdepends::pkg_config`] for details.
 #' `"dependencies"` and `"library"` elements are overwritten by package level defaults.
 #'
@@ -54,6 +57,7 @@
 #' x$solve()
 #' x$get_solution()
 new_max_deps_installation_proposal <- function(path, # nolint
+                                               extra_deps = character(0L),
                                                config = list()) {
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
@@ -71,6 +75,7 @@ new_max_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_add_extra_deps(d, extra_deps)
 
   res <- desc_to_ip(d, config)
   class(res) <- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))
@@ -85,6 +90,7 @@ new_max_deps_installation_proposal <- function(path, # nolint
 #' x$solve()
 #' x$get_solution()
 new_release_deps_installation_proposal <- function(path, # nolint
+                                                   extra_deps = character(0L),
                                                    config = list()) {
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
@@ -102,6 +108,7 @@ new_release_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
@@ -118,6 +125,7 @@ new_release_deps_installation_proposal <- function(path, # nolint
 #' solve_ip(x)
 #' x$get_solution()
 new_min_cohort_deps_installation_proposal <- function(path, # nolint
+                                                      extra_deps = character(0L),
                                                       config = list()) {
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
@@ -155,6 +163,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   )
   new_refs_str <- map_key_character(new_refs, "ref")
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   # find PPM snapshot
@@ -222,6 +231,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
 #' solve_ip(x)
 #' x$get_solution()
 new_min_isolated_deps_installation_proposal <- function(path, # nolint
+                                                        extra_deps = character(0L),
                                                         config = list()) {
   path <- normalizePath(path)
   config <- append_config(default_config(), config)
@@ -262,6 +272,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
+  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
