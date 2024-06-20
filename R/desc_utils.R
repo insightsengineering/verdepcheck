@@ -145,20 +145,20 @@ desc_add_extra_deps <- function(d, x) {
   cat(x)
   cat("\n")
   cat("strsplit:\n")
-  cat(strsplit(x, ";")[[1]])
+  cat(strsplit(x, "\\;")[[1]])
   cat("\n")
   cat("strsplit (fixed):\n")
-  cat(strsplit(x, ";", fixed = TRUE)[[1]])
+  cat(strsplit(x, "\\;", fixed = TRUE)[[1]])
   cat("\n")
   cat("strsplit (perl):\n")
-  cat(strsplit(x, ";", perl = TRUE)[[1]])
+  cat(strsplit(x, "\\;", perl = TRUE)[[1]])
   cat("\n")
   cat("strsplit (useBytes):\n")
-  cat(strsplit(x, ";", useBytes = TRUE)[[1]])
+  cat(strsplit(x, "\\;", useBytes = TRUE)[[1]])
   cat("\n")
 
   if (length(x)) {
-    for (x_i in trimws(strsplit(x, ";")[[1]])) {
+    for (x_i in trimws(strsplit(x, "\\;")[[1]])) {
       cat("x_i: \n")
       cat(x_i)
       cat("\n")
