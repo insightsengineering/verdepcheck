@@ -164,6 +164,9 @@ deparse_dep_str <- function(x) {
   x <- trimws(strsplit(x, "\\(")[[1]])
   package <- x[1]
   ver_str <- gsub("\\)$", "", x[2])
+  if (is.na(ver_str)) {
+    ver_str <- ""
+  }
   ver_str_deparsed <- deparse_ver_str(ver_str)
   list(
     package = x[1],
@@ -184,7 +187,7 @@ deparse_dep_str <- function(x) {
 #' verdepcheck:::deparse_ver_str(">= 1.2.3")
 deparse_ver_str <- function(x) {
   x <- trimws(x)
-  if (x == "*" || x == "") {
+  if (is.na(x) || length(x) == 0 || x == "*" || x == "") {
     return(list(op = "", op_ver = ""))
   }
   split_vec <- strsplit(x, " ")[[1]]
