@@ -143,11 +143,24 @@ desc_cond_set_refs <- function(d, refs) {
 desc_add_extra_deps <- function(d, x) {
   cat("desc_add_extra_deps: \n")
   cat(x)
+  cat("strsplit:\n")
+  cat(strsplit(x, ";")[[1]])
+  cat("\n")
+  cat(trimws(strsplit(x, ";")[[1]]))
   cat("\n")
 
   if (length(x)) {
     for (x_i in trimws(strsplit(x, ";")[[1]])) {
-      x_i_deparsed <- deparse_dep_str(trimws(x_i))
+      cat("x_i: \n")
+      cat(x_i)
+      cat("\n")
+
+      x_i_deparsed <- deparse_dep_str(x_i)
+
+      cat("x_i_deparsed: \n")
+      cat(x_i_deparsed)
+      cat("\n")
+
       d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
     }
   }
