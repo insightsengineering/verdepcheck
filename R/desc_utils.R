@@ -137,11 +137,12 @@ desc_cond_set_refs <- function(d, refs) {
 #'
 #' @examples
 #' d <- desc::desc(cmd = "!new")
-#' d <- verdepcheck:::desc_add_extra_deps(d, "foo (>= 1.2.3); bar (== 2.3.4)")
+#' d <- verdepcheck:::desc_add_extra_deps(d, "foo (>= 1.2.3)")
+#' d <- verdepcheck:::desc_add_extra_deps(d, "bar (>= 2.3.4); baz (>= 3.4.5)")
 #' d$get_deps()
 desc_add_extra_deps <- function(d, x) {
   if (length(x)) {
-    for (x_i in strsplit(x, ";")[[1]]) {
+    for (x_i in trimws(strsplit(x, ";")[[1]])) {
       x_i_deparsed <- deparse_dep_str(trimws(x_i))
       d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
     }
@@ -165,7 +166,7 @@ deparse_dep_str <- function(x) {
   package <- x[1]
   ver_str <- gsub("\\)$", "", x[2])
   if (is.na(ver_str)) {
-    ver_str <- ""
+    ver_str <- "*"
   }
   ver_str_deparsed <- deparse_ver_str(ver_str)
   list(

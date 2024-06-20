@@ -9,8 +9,8 @@ desc_add_extra_deps(d, x)
 \arguments{
 \item{d}{(\code{desc}) DESCRIPTION object from \link[desc:desc]{desc::desc}}
 
-\item{x}{(\code{character(1)}) Extra dependencies specified similarly to the \code{DESCRIPTION} file, e.g.
-\code{"<package name> (<operator> <version>)"} where both \code{operator} and \code{version} are optional.
+\item{x}{(\code{character(1)}) Extra dependencies specified similarly to the \code{DESCRIPTION} file, i.e.
+\code{"<package name> (<operator> <version>)"} where both \verb{<operator>} and \verb{<version>} are optional.
 Multiple entries are possible separated by \code{";"}.}
 }
 \value{
@@ -21,7 +21,8 @@ This will add dependencies to the \code{Imports} field.
 }
 \examples{
 d <- desc::desc(cmd = "!new")
-d <- verdepcheck:::desc_add_extra_deps(d, "foo (>= 1.2.3); bar (== 2.3.4)")
+d <- verdepcheck:::desc_add_extra_deps(d, "foo (>= 1.2.3)")
+d <- verdepcheck:::desc_add_extra_deps(d, "bar (>= 2.3.4); baz (>= 3.4.5)")
 d$get_deps()
 }
 \keyword{internal}
