@@ -9,7 +9,7 @@ desc_add_extra_deps(d, x)
 \arguments{
 \item{d}{(\code{desc}) DESCRIPTION object from \link[desc:desc]{desc::desc}}
 
-\item{x}{(\code{character(1)}) Extra dependencies specified similarly to the \code{DESCRIPTION} file, i.e.
+\item{x}{(\code{character(1)}) Extra dependencies specified similarly as in the \code{DESCRIPTION} file, i.e.
 \code{"<package name> (<operator> <version>)"} where both \verb{<operator>} and \verb{<version>} are optional.
 Multiple entries are possible separated by \code{";"}.}
 }
