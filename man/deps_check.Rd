@@ -46,7 +46,7 @@ min_isolated_deps_check(
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
 
-\item{extra_deps}{(\code{character(1)}) Extra dependencies specified similarly to the \code{DESCRIPTION} file, i.e.
+\item{extra_deps}{(\code{character(1)}) Extra dependencies specified similarly as in the \code{DESCRIPTION} file, i.e.
 \code{"<package name> (<operator> <version>)"} where both \verb{<operator>} and \verb{<version>} are optional.
 Multiple entries are possible separated by \code{";"}.}
 

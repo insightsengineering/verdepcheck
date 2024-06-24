@@ -39,7 +39,7 @@
 #' Please see also [`pkgdepends::pkg_config`] and [`pak::pak-config`] for other configuration possibilities.
 #'
 #' @param path (`string`) path to the package sources
-#' @param extra_deps (`character(1)`) Extra dependencies specified similarly to the `DESCRIPTION` file, i.e.
+#' @param extra_deps (`character(1)`) Extra dependencies specified similarly as in the `DESCRIPTION` file, i.e.
 #' `"<package name> (<operator> <version>)"` where both `<operator>` and `<version>` are optional.
 #' Multiple entries are possible separated by `";"`.
 #' @param config (`list`) configuration options. See [`pkgdepends::pkg_config`] for details.
