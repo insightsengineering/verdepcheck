@@ -144,6 +144,9 @@ desc_add_extra_deps <- function(d, x) {
   if (length(x)) {
     for (x_i in trimws(strsplit(x, "\\;")[[1]])) {
       x_i_deparsed <- deparse_dep_str(x_i)
+      if (any(d$get_deps()$package == x_i_deparsed$package)) {
+        stop("Cannot add extra dependency '", x_i_deparsed$package, "' as it already exists in DESCRIPTION file.")
+      }
       d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
     }
   }

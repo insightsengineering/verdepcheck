@@ -150,6 +150,18 @@ test_that("desc_remotes_cleanup accepts no Config/Need/verdepcheck", {
   expect_contains(clean_d$get_remotes(), "tidyverse/dplyr@*release")
 })
 
+test_that("desc_add_extra_deps will add extra dependencies", {
+  d <- desc::desc("!new")
+  d <- desc_add_extra_deps(d, "foo (>= 1.2.3)")
+  expect_contains(d$get_deps(), data.frame(type = "Imports", package = "foo", version = ">= 1.2.3"))
+})
+
+test_that("desc_add_extra_deps raises error for already existing package", {
+  d <- desc::desc("!new")
+  d$set_dep("foo", "Imports", ">= 1.2.3")
+  expect_error(desc_add_extra_deps(d, "foo (>= 1.2.3)"), "already exists")
+})
+
 test_that("get_desc_field_pkgs allows for no Config/Needs/verdepcheck", {
   d <- desc::desc(
     file = verdepcheck:::local_description(
