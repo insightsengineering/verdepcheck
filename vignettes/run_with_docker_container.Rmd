@@ -16,7 +16,7 @@ knitr::opts_chunk$set(
 ```
 
 `verdepcheck` can be used within a docker container to consistently check the version dependencies of an R package.
-This vignette demonstrates how to run the [`r-verdepcheck-action`](https://github.com/insightsengineering/r-verdepcheck-action) Github workflow locally with a minimal setup.
+This vignette demonstrates how to run the [`r-verdepcheck-action`](https://github.com/insightsengineering/r-verdepcheck-action) GitHub workflow locally with a minimal setup.
 
 1. Download the docker image
 1. Run the docker container
@@ -29,7 +29,7 @@ _Note_: that you can skip the container setup and run the code below in your loc
 
 ### Pull and run the docker image
 
-The docker image used in this vignette is available on the Github Container Registry (ghcr.io) and is being used by the Insights Engineering R packages (such as `teal` and `tern`).
+The docker image used in this vignette is available on the GitHub Container Registry ([`ghcr.io`](https://ghcr.io)) and is being used by the Insights Engineering R packages (such as `teal` and `tern`).
 
 ```bash
 docker pull ghcr.io/insightsengineering/rstudio:latest
@@ -38,7 +38,7 @@ docker run --rm -p 8787:8787 -e PASSWORD=test -v ./:/workspace/project ghcr.io/i
 
 ### Open the RStudio in the browser
 
-Navigate to [http://localhost:8787](http://localhost:8788) and login with the username `rstudio` and password `test`.
+Navigate to [`http://localhost:8787`] and login with the username `rstudio` and password `test`.
 
 ### Clean `pkgcache` cache before repeated runs
 
@@ -49,7 +49,7 @@ In order to avoid using cached downloads from the previous run, it is recommend 
 rm -rf /home/rstudio/.cache/R/pkgcache
 ```
 
-_note_: The location of the pkgcache directory may vary depending on the operation system.
+_note_: The location of the `pkgcache` directory may vary depending on the operation system.
 Use the R command `pkgcache::pkg_cache_summary()` to find its location in your system.
 
 ### Run the code below inside the container
@@ -87,7 +87,7 @@ system2(
     "clone",
     depth,
     ref,
-    sprintf("https://github.com/%s", github_id),
+    paste0("https://github.com/", github_id),
     repo_path
   ) |> purrr::compact() # remove empty arguments if they are NULL
 )

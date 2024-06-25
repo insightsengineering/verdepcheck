@@ -9,6 +9,7 @@
 \usage{
 max_deps_check(
   path,
+  extra_deps = character(),
   config = list(),
   build_args = character(),
   check_args = character(),
@@ -17,6 +18,7 @@ max_deps_check(
 
 release_deps_check(
   path,
+  extra_deps = character(),
   config = list(),
   build_args = character(),
   check_args = character(),
@@ -25,6 +27,7 @@ release_deps_check(
 
 min_cohort_deps_check(
   path,
+  extra_deps = character(),
   config = list(),
   build_args = character(),
   check_args = character(),
@@ -33,6 +36,7 @@ min_cohort_deps_check(
 
 min_isolated_deps_check(
   path,
+  extra_deps = character(),
   config = list(),
   build_args = character(),
   check_args = character(),
@@ -41,6 +45,10 @@ min_isolated_deps_check(
 }
 \arguments{
 \item{path}{(\code{string}) path to the package sources}
+
+\item{extra_deps}{(\code{character(1)}) Extra dependencies specified similarly as in the \code{DESCRIPTION} file, i.e.
+\code{"<package name> (<operator> <version>)"} where both \verb{<operator>} and \verb{<version>} are optional.
+Multiple entries are possible separated by \code{";"}.}
 
 \item{config}{(\code{list}) configuration options. See \code{\link[pkgdepends:pkg_config]{pkgdepends::pkg_config}} for details.
 \code{"dependencies"} and \code{"library"} elements are overwritten by package level defaults.}

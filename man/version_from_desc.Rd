@@ -7,7 +7,7 @@
 version_from_desc(d, pkg_name)
 }
 \arguments{
-\item{d}{(\code{desc}) DESCRIPTION object from \link[desc:description]{desc::description}}
+\item{d}{(\code{desc}) DESCRIPTION object from \link[desc:desc]{desc::desc}}
 
 \item{pkg_name}{(\code{character}) Package name}
 }

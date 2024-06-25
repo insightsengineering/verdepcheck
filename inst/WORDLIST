@@ -1,7 +1,3 @@
-behaviour
 CMD
-cran
-deps
+RStudio
 pre
-ver
-verdepcheck
