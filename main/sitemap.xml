@@ -19,6 +19,12 @@
     <loc>https://insightsengineering.github.io/verdepcheck/SECURITY.html</loc>
   </url>
   <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/articles/index.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/articles/run_with_docker_container.html</loc>
+  </url>
+  <url>
     <loc>https://insightsengineering.github.io/verdepcheck/authors.html</loc>
   </url>
   <url>
@@ -40,10 +46,19 @@
     <loc>https://insightsengineering.github.io/verdepcheck/reference/cli_pb_init.html</loc>
   </url>
   <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/deparse_dep_str.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/deparse_ver_str.html</loc>
+  </url>
+  <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/deps_check.html</loc>
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/deps_installation_proposal.html</loc>
+  </url>
+  <url>
+    <loc>https://insightsengineering.github.io/verdepcheck/reference/desc_add_extra_deps.html</loc>
   </url>
   <url>
     <loc>https://insightsengineering.github.io/verdepcheck/reference/desc_cond_set_refs.html</loc>

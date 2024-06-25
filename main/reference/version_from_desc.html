@@ -21,15 +21,15 @@
       <ul class="navbar-nav me-auto"><li class="active nav-item">
   <a class="nav-link" href="../reference/index.html">Reference</a>
 </li>
+<li class="nav-item dropdown">
+  <a href="#" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" role="button" aria-expanded="false" aria-haspopup="true" id="dropdown-articles">Articles</a>
+  <div class="dropdown-menu" aria-labelledby="dropdown-articles">
+    <a class="dropdown-item" href="../articles/run_with_docker_container.html">Guide to run {verdepcheck} strategies from a docker container</a>
+  </div>
+</li>
 <li class="nav-item">
   <a class="nav-link" href="../news/index.html">Changelog</a>
 </li>
-<!-- start dropdown for versions --> <li class="nav-item dropdown">
-        <a href="#" class="nav-link dropdown-toggle"
-          data-bs-toggle="dropdown" role="button"
-          aria-expanded="false" aria-haspopup="true"
-          id="dropdown-versions">Versions</a> <div class="dropdown-menu" aria-labelledby="dropdown-versions"> <a class="dropdown-item" data-toggle="tooltip" title="" href="https://insightsengineering.github.io/verdepcheck/main">main</a> </div></li>
-<!-- end dropdown for versions -->
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
@@ -63,7 +63,7 @@
     <div class="section level2">
     <h2 id="arguments">Arguments<a class="anchor" aria-label="anchor" href="#arguments"></a></h2>
     <dl><dt>d</dt>
-<dd><p>(<code>desc</code>) DESCRIPTION object from <a href="https://desc.r-lib.org/reference/description.html" class="external-link">desc::description</a></p></dd>
+<dd><p>(<code>desc</code>) DESCRIPTION object from <a href="https://desc.r-lib.org/reference/desc.html" class="external-link">desc::desc</a></p></dd>
 
 
 <dt>pkg_name</dt>
@@ -80,7 +80,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $package</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "magrittr"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $version_str</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ver_str</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "*"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $op</span>
@@ -95,7 +95,7 @@
 <span class="r-out co"><span class="r-pr">#&gt;</span> $package</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "magrittr"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> $version_str</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> $ver_str</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "&gt;= 1.5"</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> </span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> $op</span>
