@@ -63,6 +63,7 @@ new_max_deps_installation_proposal <- function(path, # nolint
   config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
+  d <- desc_add_extra_deps(d, extra_deps)
 
   refs <- get_refs_from_desc(d)
   new_refs <- list()
@@ -75,7 +76,6 @@ new_max_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
-  d <- desc_add_extra_deps(d, extra_deps)
 
   res <- desc_to_ip(d, config)
   class(res) <- c("max_deps_installation_proposal", "deps_installation_proposal", class(res))
@@ -96,6 +96,7 @@ new_release_deps_installation_proposal <- function(path, # nolint
   config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
+  d <- desc_add_extra_deps(d, extra_deps)
 
   refs <- get_refs_from_desc(d)
   new_refs <- list()
@@ -108,7 +109,6 @@ new_release_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
-  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
@@ -131,6 +131,7 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
+  d <- desc_add_extra_deps(d, extra_deps)
 
   refs <- get_refs_from_desc(d)
   # convert github to standard if possible
@@ -163,7 +164,6 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
   )
   new_refs_str <- map_key_character(new_refs, "ref")
   d <- desc_cond_set_refs(d, new_refs_str)
-  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   # find PPM snapshot
@@ -237,6 +237,7 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   config <- append_config(default_config(), config)
 
   d <- desc::desc(path)
+  d <- desc_add_extra_deps(d, extra_deps)
 
   refs <- get_refs_from_desc(d)
 
@@ -272,7 +273,6 @@ new_min_isolated_deps_installation_proposal <- function(path, # nolint
   new_refs_str <- map_key_character(new_refs, "ref")
 
   d <- desc_cond_set_refs(d, new_refs_str)
-  d <- desc_add_extra_deps(d, extra_deps)
   d <- desc_remotes_cleanup(d)
 
   res <- desc_to_ip(d, config)
