@@ -334,3 +334,31 @@ test_that("new_max_deps_installation_proposal correctly handles Bioc package", {
 
   test_proposal_common_bioc(x, "SummarizedExperiment")
 })
+
+# ################################################################
+
+test_that("indirect dependencies in the config field - ignore on default", {
+  skip_if_offline()
+
+  d_std_path <- local_description(list(dplyr = "Import"), need_verdepcheck = c("tidyverse/dplyr", "r-lib/rlang"))
+
+  x <- new_max_deps_installation_proposal(d_std_path)
+
+  withr::defer(unlink(x$get_config()$library))
+
+  d_new <- desc::desc(gsub("^deps::", "", x$get_refs()))
+  expect_false("r-lib/rlang" %in% d_new$get_list("Config/Needs/verdepcheck"))
+})
+
+test_that("indirect dependencies in the config field - include on match with `extra_deps`", {
+  skip_if_offline()
+
+  d_std_path <- local_description(list(dplyr = "Import"), need_verdepcheck = c("tidyverse/dplyr", "r-lib/rlang"))
+
+  x <- new_max_deps_installation_proposal(d_std_path, extra_deps = "rlang")
+
+  withr::defer(unlink(x$get_config()$library))
+
+  d_new <- desc::desc(gsub("^deps::", "", x$get_refs()))
+  expect_true("r-lib/rlang" %in% d_new$get_list("Config/Needs/verdepcheck"))
+})
