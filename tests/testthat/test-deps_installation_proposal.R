@@ -347,7 +347,7 @@ test_that("indirect dependencies in the config field - ignore on default", {
   withr::defer(unlink(x$get_config()$library))
 
   d_new <- desc::desc(gsub("^deps::", "", x$get_refs()))
-  expect_false("r-lib/rlang" %in% d_new$get_field("Config/Needs/verdepcheck"))
+  expect_false("r-lib/rlang" %in% d_new$get_list("Config/Needs/verdepcheck"))
 })
 
 test_that("indirect dependencies in the config field - include on match with `extra_deps`", {
@@ -360,5 +360,5 @@ test_that("indirect dependencies in the config field - include on match with `ex
   withr::defer(unlink(x$get_config()$library))
 
   d_new <- desc::desc(gsub("^deps::", "", x$get_refs()))
-  expect_false("r-lib/rlang" %in% d_new$get_field("Config/Needs/verdepcheck"))
+  expect_true("r-lib/rlang" %in% d_new$get_list("Config/Needs/verdepcheck"))
 })
