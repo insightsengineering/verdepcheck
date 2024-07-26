@@ -107,8 +107,8 @@ table.table-condensed {
       </ul>
       <div class="tab-content" data-tabsetid="covr">
         <div class="tab-pane active" title="Files" data-value="Files" id="tab-covr-1">
-          <div class="datatables html-widget html-fill-item" id="htmlwidget-ac6241289a80206a9804" style="width:100%;height:500px;"></div>
-          <script type="application/json" data-for="htmlwidget-ac6241289a80206a9804">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/deps_installation_proposal.R<\/a>","<a href=\"#\">R/solve.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/utils.R<\/a>","<a href=\"#\">R/desc_utils.R<\/a>"],[281,171,225,536,173,290],[116,72,56,212,54,89],[0,0,0,1,19,50],[116,72,56,211,35,39],["0","0","0","0","2","6"],["0.00%","0.00%","0.00%","0.47%","35.19%","56.18%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
+          <div class="datatables html-widget html-fill-item" id="htmlwidget-c652b52efeffd100957e" style="width:100%;height:500px;"></div>
+          <script type="application/json" data-for="htmlwidget-c652b52efeffd100957e">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/deps_installation_proposal.R<\/a>","<a href=\"#\">R/solve.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/utils.R<\/a>","<a href=\"#\">R/desc_utils.R<\/a>"],[281,171,225,536,173,290],[116,72,56,212,54,89],[0,0,0,1,19,50],[116,72,56,211,35,39],["0","0","0","0","2","6"],["0.00%","0.00%","0.00%","0.47%","35.19%","56.18%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
         </div>
         <div class="tab-pane" title="Source" data-value="Source" id="tab-covr-2">
           <div id="files">
@@ -10365,95 +10365,95 @@ table.table-condensed {
                       <pre class="language-r">  d &lt;- desc::desc(path)</pre>
                     </td>
                   </tr>
-                  <tr class="never">
+                  <tr class="missed">
                     <td class="num">66</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">67</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">67</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">68</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">69</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">  new_refs &lt;- list()</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">69</td>
+                    <td class="num">70</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">70</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  cli_pb_init("max", length(refs))</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">71</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  for (i in seq_along(refs)) {</pre>
+                      <pre class="language-r">  cli_pb_init("max", length(refs))</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">72</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    cli_pb_update(refs[[i]]$package)</pre>
+                      <pre class="language-r">  for (i in seq_along(refs)) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">73</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">    cli_pb_update(refs[[i]]$package)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">74</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">    new_refs &lt;- c(new_refs, list(get_ref_max(refs[[i]])))</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">74</td>
+                    <td class="num">75</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  }</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">75</td>
+                    <td class="num">76</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  new_refs_str &lt;- map_key_character(new_refs, "ref")</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">76</td>
+                    <td class="num">77</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">77</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">78</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
                     </td>
                   </tr>
                   <tr class="never">
@@ -10596,95 +10596,95 @@ table.table-condensed {
                       <pre class="language-r">  d &lt;- desc::desc(path)</pre>
                     </td>
                   </tr>
-                  <tr class="never">
+                  <tr class="missed">
                     <td class="num">99</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">100</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">100</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">101</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">102</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">  new_refs &lt;- list()</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">102</td>
+                    <td class="num">103</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
-                    <td class="num">103</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  cli_pb_init("release", length(refs))</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">104</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  for (i in seq_along(refs)) {</pre>
+                      <pre class="language-r">  cli_pb_init("release", length(refs))</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">105</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    cli_pb_update(refs[[i]]$package)</pre>
+                      <pre class="language-r">  for (i in seq_along(refs)) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">106</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">    cli_pb_update(refs[[i]]$package)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">107</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">    new_refs &lt;- c(new_refs, list(get_ref_release(refs[[i]])))</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">107</td>
+                    <td class="num">108</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  }</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">108</td>
+                    <td class="num">109</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  new_refs_str &lt;- map_key_character(new_refs, "ref")</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">109</td>
+                    <td class="num">110</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">110</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">111</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -10841,235 +10841,235 @@ table.table-condensed {
                       <pre class="language-r">  d &lt;- desc::desc(path)</pre>
                     </td>
                   </tr>
-                  <tr class="never">
+                  <tr class="missed">
                     <td class="num">134</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">135</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">135</td>
+                    <td class="num">136</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">136</td>
+                    <td class="num">137</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  # convert github to standard if possible</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">137</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">138</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    refs,</pre>
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">139</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    function(x) {</pre>
+                      <pre class="language-r">    refs,</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">140</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      version &lt;- version_from_desc(d, x$package)</pre>
+                      <pre class="language-r">    function(x) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">141</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      if (</pre>
+                      <pre class="language-r">      version &lt;- version_from_desc(d, x$package)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">142</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">        inherits(x, "remote_ref_github") &amp;&amp;</pre>
+                      <pre class="language-r">      if (</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">143</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">          check_if_on_cran(x, version$op, version$op_ver) &amp;&amp;</pre>
+                      <pre class="language-r">        inherits(x, "remote_ref_github") &amp;&amp;</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">144</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">          check_if_on_cran(x, version$op, version$op_ver) &amp;&amp;</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">145</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">          x$commitish == ""</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">145</td>
+                    <td class="num">146</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      ) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">146</td>
+                    <td class="num">147</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        pkgdepends::parse_pkg_ref(x$package)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">147</td>
+                    <td class="num">148</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      } else {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">148</td>
+                    <td class="num">149</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        x</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">149</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">150</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    }</pre>
+                      <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">151</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
+                      <pre class="language-r">    }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">152</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  # for github type - find ref for min version and add it to the GH ref</pre>
+                      <pre class="language-r">  )</pre>
                     </td>
                   </tr>
-                  <tr class="missed">
+                  <tr class="never">
                     <td class="num">153</td>
-                    <td class="coverage">!</td>
+                    <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
+                      <pre class="language-r">  # for github type - find ref for min version and add it to the GH ref</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">154</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    new_refs,</pre>
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">155</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    function(x) {</pre>
+                      <pre class="language-r">    new_refs,</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">156</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      if (inherits(x, "remote_ref_github")) {</pre>
+                      <pre class="language-r">    function(x) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">157</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">        version &lt;- version_from_desc(d, x$package)</pre>
+                      <pre class="language-r">      if (inherits(x, "remote_ref_github")) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">158</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">        version &lt;- version_from_desc(d, x$package)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">159</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">        get_ref_min(x, version$op, version$op_ver)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">159</td>
+                    <td class="num">160</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      } else {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">160</td>
+                    <td class="num">161</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        x</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">161</td>
+                    <td class="num">162</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">162</td>
+                    <td class="num">163</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">    }</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">163</td>
+                    <td class="num">164</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  )</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">164</td>
+                    <td class="num">165</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  new_refs_str &lt;- map_key_character(new_refs, "ref")</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">165</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">166</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -11583,256 +11583,256 @@ table.table-condensed {
                       <pre class="language-r">  d &lt;- desc::desc(path)</pre>
                     </td>
                   </tr>
-                  <tr class="never">
+                  <tr class="missed">
                     <td class="num">240</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
+                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                    </td>
+                  </tr>
+                  <tr class="never">
+                    <td class="num">241</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">241</td>
+                    <td class="num">242</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  refs &lt;- get_refs_from_desc(d)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">242</td>
+                    <td class="num">243</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">243</td>
+                    <td class="num">244</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  # convert github to standard if possible</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">244</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">245</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    refs,</pre>
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">246</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    function(x) {</pre>
+                      <pre class="language-r">    refs,</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">247</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      version &lt;- version_from_desc(d, x$package)</pre>
+                      <pre class="language-r">    function(x) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">248</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      if (</pre>
+                      <pre class="language-r">      version &lt;- version_from_desc(d, x$package)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">249</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">        inherits(x, "remote_ref_github") &amp;&amp;</pre>
+                      <pre class="language-r">      if (</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">250</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">          check_if_on_cran(x, version$op, version$op_ver) &amp;&amp;</pre>
+                      <pre class="language-r">        inherits(x, "remote_ref_github") &amp;&amp;</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">251</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">          check_if_on_cran(x, version$op, version$op_ver) &amp;&amp;</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">252</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">          x$commitish == ""</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">252</td>
+                    <td class="num">253</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      ) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">253</td>
+                    <td class="num">254</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        pkgdepends::parse_pkg_ref(x$package)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">254</td>
+                    <td class="num">255</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      } else {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">255</td>
+                    <td class="num">256</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        x</pre>
-                    </td>
-                  </tr>
-                  <tr class="never">
-                    <td class="num">256</td>
-                    <td class="coverage"></td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">257</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    }</pre>
+                      <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">258</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  )</pre>
+                      <pre class="language-r">    }</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">259</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r"></pre>
+                      <pre class="language-r">  )</pre>
                     </td>
                   </tr>
                   <tr class="never">
                     <td class="num">260</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  # for github type - find ref for min version and add it to the GH ref</pre>
+                      <pre class="language-r"></pre>
                     </td>
                   </tr>
-                  <tr class="missed">
+                  <tr class="never">
                     <td class="num">261</td>
-                    <td class="coverage">!</td>
+                    <td class="coverage"></td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
+                      <pre class="language-r">  # for github type - find ref for min version and add it to the GH ref</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">262</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    new_refs,</pre>
+                      <pre class="language-r">  new_refs &lt;- lapply(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">263</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    function(x) {</pre>
+                      <pre class="language-r">    new_refs,</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">264</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      if (inherits(x, "remote_ref_github")) {</pre>
+                      <pre class="language-r">    function(x) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">265</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">        version &lt;- version_from_desc(d, x$package)</pre>
+                      <pre class="language-r">      if (inherits(x, "remote_ref_github")) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">266</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
+                      <pre class="language-r">        version &lt;- version_from_desc(d, x$package)</pre>
+                    </td>
+                  </tr>
+                  <tr class="missed">
+                    <td class="num">267</td>
+                    <td class="coverage">!</td>
+                    <td class="col-sm-12">
                       <pre class="language-r">        get_ref_min(x, version$op, version$op_ver)</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">267</td>
+                    <td class="num">268</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      } else {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">268</td>
+                    <td class="num">269</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">        x</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">269</td>
+                    <td class="num">270</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">      }</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">270</td>
+                    <td class="num">271</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">    }</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">271</td>
+                    <td class="num">272</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r">  )</pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">272</td>
+                    <td class="num">273</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
                       <pre class="language-r">  new_refs_str &lt;- map_key_character(new_refs, "ref")</pre>
                     </td>
                   </tr>
                   <tr class="never">
-                    <td class="num">273</td>
+                    <td class="num">274</td>
                     <td class="coverage"></td>
                     <td class="col-sm-12">
                       <pre class="language-r"></pre>
                     </td>
                   </tr>
                   <tr class="missed">
-                    <td class="num">274</td>
-                    <td class="coverage">!</td>
-                    <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
-                    </td>
-                  </tr>
-                  <tr class="missed">
                     <td class="num">275</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  d &lt;- desc_add_extra_deps(d, extra_deps)</pre>
+                      <pre class="language-r">  d &lt;- desc_cond_set_refs(d, new_refs_str)</pre>
                     </td>
                   </tr>
                   <tr class="missed">
