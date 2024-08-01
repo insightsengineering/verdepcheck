@@ -34,11 +34,8 @@ jobs:
     secrets:
       REPO_GITHUB_TOKEN: ${{ secrets.REPO_GITHUB_TOKEN }}
     with:
-      publish-unit-test-report-gh-pages: false
-      junit-xml-comparison: false
       concurrency-group: non-cran
-      disable-unit-test-reports: true
-      skip-r-cmd-install: true
+      unit-test-report-directory: unit-test-report-non-cran
   coverage:
     name: Coverage 📔
     uses: insightsengineering/r.pkg.template/.github/workflows/test-coverage.yaml@main
