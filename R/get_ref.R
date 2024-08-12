@@ -278,29 +278,7 @@ get_desc_from_gh <- function(org, repo, ref = "") {
 #' get_ref_max(pkgdepends::parse_pkg_ref("dplyr"))
 #' get_ref_max(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_max <- function(remote_ref) {
-  ref_candidates <- list()
-
-  input_ref <- remote_ref$ref
-  input_ver <- get_version(remote_ref)
-  ref_candidates <- c(ref_candidates, setNames(list(input_ver), input_ref))
-
-  if (check_if_on_cran(remote_ref)) {
-    cran_ref <- remote_ref$package
-    cran_ver <- get_version(pkgdepends::parse_pkg_ref(cran_ref))
-    ref_candidates <- c(ref_candidates, setNames(list(cran_ver), cran_ref))
-  }
-
-  max_ver <- ref_candidates[[1]]
-  max_ref <- names(ref_candidates[1])
-  for (i in seq_along(ref_candidates)) {
-    i_ver <- ref_candidates[[i]]
-    i_ref <- names(ref_candidates[i])
-    if (!is.na(i_ver) && i_ver > max_ver) {
-      max_ref <- i_ref
-      max_ver <- i_ver
-    }
-  }
-  return(pkgdepends::parse_pkg_ref(max_ref))
+  get_ref_release(remote_ref, add_gh_releases = FALSE)
 }
 
 #' Get reference to the release version of the package.
@@ -315,6 +293,17 @@ get_ref_max <- function(remote_ref) {
 #' get_ref_release(pkgdepends::parse_pkg_ref("dplyr"))
 #' get_ref_release(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_release <- function(remote_ref) {
+  get_ref_release(remote_ref, add_gh_releases = TRUE)
+}
+
+#' Get reference to the release or maximal version of the package.
+#'
+#' @inheritParams get_ref_min
+#' @param add_gh_releases (`logical(1)`) if `TRUE` then also check GitHub releases
+#'
+#' @inherit get_ref_min return
+#' @keywords internal
+get_ref_internal <- function(remote_ref, add_gh_releases) {
   # create list of ref candidates to check
   # return the one of the highest version
   # this is a named list of character with version values and refs names
@@ -330,7 +319,7 @@ get_ref_release <- function(remote_ref) {
     ref_candidates <- c(ref_candidates, setNames(list(cran_ver), cran_ref))
   }
 
-  if (inherits(remote_ref, "remote_ref_github")) {
+  if (add_gh_releases && inherits(remote_ref, "remote_ref_github")) {
     gh_release_ref <- cond_parse_pkg_ref_release(remote_ref)
     if (!is.null(gh_release_ref)) {
       gh_release_ver <- get_version(gh_release_ref)
