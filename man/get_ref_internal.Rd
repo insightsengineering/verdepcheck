@@ -2,19 +2,29 @@
 % Please edit documentation in R/get_ref.R
 \name{get_ref_internal}
 \alias{get_ref_internal}
-\title{Get reference to the release or maximal version of the package.}
+\title{Get reference of the maximal version of the package.}
 \usage{
-get_ref_internal(remote_ref, add_gh_releases)
+get_ref_internal(
+  remote_ref,
+  include_input = TRUE,
+  include_cran = TRUE,
+  include_release = TRUE
+)
 }
 \arguments{
 \item{remote_ref}{(\code{remote_ref}) object created with \code{\link[pkgdepends:parse_pkg_refs]{pkgdepends::parse_pkg_ref()}}}
 
-\item{add_gh_releases}{(\code{logical(1)}) if \code{TRUE} then also check GitHub releases}
+\item{include_input}{(\code{logical(1)}) if \code{TRUE} then include input reference in search}
+
+\item{include_cran}{(\code{logical(1)}) if \code{TRUE} then include CRAN reference in search}
+
+\item{include_release}{(\code{logical(1)}) if \code{TRUE} then also check for released version.
+Supported only for GitHub type of reference.}
 }
 \value{
 (\code{remote_ref}) object with the package reference
 }
 \description{
-Get reference to the release or maximal version of the package.
+Get reference of the maximal version of the package.
 }
 \keyword{internal}
