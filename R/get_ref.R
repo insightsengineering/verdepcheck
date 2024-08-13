@@ -307,11 +307,10 @@ get_ref_release <- function(remote_ref) {
 #' @inherit get_ref_min return
 #' @keywords internal
 get_ref_internal <- function(
-  remote_ref,
-  include_input = TRUE,
-  include_cran = TRUE,
-  include_release = TRUE
-) {
+    remote_ref,
+    include_input = TRUE,
+    include_cran = TRUE,
+    include_release = TRUE) {
   # create list of ref candidates to check
   # return the one of the highest version
   # this is a named list of character with version values and refs names
