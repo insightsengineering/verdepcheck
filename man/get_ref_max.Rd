@@ -15,3 +15,9 @@ get_ref_max(remote_ref)
 \description{
 Get reference to the maximal version of the package.
 }
+\examples{
+\dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
+get_ref_max(pkgdepends::parse_pkg_ref("dplyr"))
+get_ref_max(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+\dontshow{\}) # examplesIf}
+}
