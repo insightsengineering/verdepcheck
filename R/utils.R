@@ -23,8 +23,7 @@ base_pkgs <- function() {
   c("R", rownames(utils::installed.packages(priority = "base")))
 }
 
-#' @importFrom pkgcache ppm_repo_url ppm_snapshots
-#' @importFrom utils head
+#' @importFrom pkgcache repo_resolve
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ppm_snapshot_by_date(NA)
@@ -32,18 +31,9 @@ base_pkgs <- function() {
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
 get_ppm_snapshot_by_date <- function(date) {
   tryCatch(
-    {
-      # https://github.com/r-lib/pkgcache/issues/110
-      # uncomment this: pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
-      snaps <- pkgcache::ppm_snapshots()
-      date_snap <- as.character(head(snaps[as.Date(snaps$date) > as.Date(date), "date"], 1))
-      if (length(date_snap) == 0) {
-        stop("No PPM snapshot found for the given date.")
-      }
-      file.path(pkgcache::ppm_repo_url(), date_snap)
-      gsub("latest", date_snap, pkgcache::repo_resolve("PPM@latest"))
-    },
+    pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1))),
     error = function(err) {
+      warning("Could not resolve the PPM snapshot by date. Using the latest PPM snapshot.")
       pkgcache::repo_resolve("PPM@latest")
     }
   )
