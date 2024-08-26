@@ -23,13 +23,19 @@ base_pkgs <- function() {
   c("R", rownames(utils::installed.packages(priority = "base")))
 }
 
-#' @importFrom pkgcache repo_resolve
+#' @importFrom pkgcache ppm_snapshots repo_resolve
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ppm_snapshot_by_date(NA)
 #' get_ppm_snapshot_by_date("2023-08-01")
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
-get_ppm_snapshot_by_date <- function(date) {
+get_ppm_snapshot_by_date <- function(date = NA) {
+  if (is.na(date)) {
+    return(pkgcache::repo_resolve("PPM@latest"))
+  }
+  if (date >= tail(pkgcache::ppm_snapshots(), 1)$date) {
+    return(pkgcache::repo_resolve("PPM@latest"))
+  }
   tryCatch(
     pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1))),
     error = function(err) {
