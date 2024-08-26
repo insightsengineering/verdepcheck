@@ -293,7 +293,7 @@ get_ref_max <- function(remote_ref) {
 #' get_ref_release(pkgdepends::parse_pkg_ref("dplyr"))
 #' get_ref_release(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_release <- function(remote_ref) {
-  get_ref_internal(remote_ref)
+  get_ref_internal(remote_ref, include_input = FALSE)
 }
 
 #' Get reference of the maximal version of the package.
