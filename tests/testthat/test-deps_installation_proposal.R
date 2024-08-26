@@ -96,7 +96,8 @@ test_that("new_max_deps_installation_proposal correctly handles <org>/<repo>@<ta
   desc_str <- "r-lib/pkgdepends@v0.3.2"
   d_std_path <- local_description(
     list(pkgdepends = "Import"),
-    remotes = c(remote_str), need_verdepcheck = desc_str
+    remotes = c(remote_str),
+    need_verdepcheck = desc_str
   )
   x <- new_max_deps_installation_proposal(d_std_path)
   withr::defer(unlink(x$get_config()$library))
@@ -239,7 +240,7 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles tern an
   test_proposal_common(x, "formatters", "0.5.0", NULL, solve_ip_flag = FALSE)
 })
 
-# Test for encapsulation isssue where another dependency (primary or in the tree)
+# Test for encapsulation issue where another dependency (primary or in the tree)
 #  requires a version that is more recent than the primary version
 #
 # Note that the calls to `test_proposal_common` have different versions from the
@@ -306,7 +307,11 @@ test_that("new_min_isolated_deps_installation_proposal correctly handles Bioc pa
 
   withr::defer(unlink(x$get_config()$library))
 
-  test_proposal_common_bioc(x, "SummarizedExperiment")
+  # https://github.com/r-lib/pkgdepends/issues/365
+  withr::with_options(
+    opts_partial_match_old,
+    test_proposal_common_bioc(x, "SummarizedExperiment")
+  )
 })
 
 test_that("new_release_deps_installation_proposal correctly handles Bioc package", {

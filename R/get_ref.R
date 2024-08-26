@@ -15,10 +15,10 @@ get_ref_min_incl_cran <- function(remote_ref, op = "", op_ver = "") {
 
 #' @rdname get_ref_min_incl_cran
 #' @export
-#' @examples
-#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
+#' @examples
+#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
   get_ref_min(remote_ref, op, op_ver)
 }
@@ -27,7 +27,7 @@ get_ref_min_incl_cran.remote_ref <- function(remote_ref, op = "", op_ver = "") {
 #' @importFrom pkgdepends parse_pkg_ref
 #' @export
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+#' verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (check_if_on_cran(remote_ref, op = op, op_ver = op_ver)) {
     gh_res <- get_ref_min(remote_ref, op, op_ver)
@@ -53,10 +53,10 @@ get_ref_min_incl_cran.remote_ref_github <- function(remote_ref, op = "", op_ver 
 #' @keywords internal
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"))
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "1.1.0")
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "9999.9.99")
-#' verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = "<", op_ver = "0.0.0")
+#' verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"))
+#' verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = ">=", op_ver = "1.1.0")
+#' verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = ">=", op_ver = "9999.9.99")
+#' verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = "<", op_ver = "0.0.0")
 check_if_on_cran <- function(remote_ref, op = "", op_ver = "") {
   cran_listings <- pkgcache::meta_cache_list(remote_ref$package)
   if (op == "" || op_ver == "") {
@@ -140,7 +140,7 @@ get_ref_min.remote_ref_standard <- function(remote_ref, op = "", op_ver = "") {
 #' @importFrom pkgdepends parse_pkg_ref
 #'
 #' @examplesIf gh::gh_token() != ""
-#' get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
+#' get_ref_min(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 get_ref_min.remote_ref_github <- function(remote_ref, op = "", op_ver = "") {
   if (remote_ref$commitish != "") {
     return(remote_ref)
@@ -276,7 +276,9 @@ get_desc_from_gh <- function(org, repo, ref = "") {
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ref_max(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_ref_max(pkgdepends::parse_pkg_ref("cran::dplyr"))
 #' get_ref_max(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+#' get_ref_max(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_ref_max <- function(remote_ref) {
   get_ref_internal(remote_ref, include_release = FALSE)
 }
@@ -291,9 +293,11 @@ get_ref_max <- function(remote_ref) {
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ref_release(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_ref_release(pkgdepends::parse_pkg_ref("cran::dplyr"))
 #' get_ref_release(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+#' get_ref_release(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_ref_release <- function(remote_ref) {
-  get_ref_internal(remote_ref)
+  get_ref_internal(remote_ref, include_input = FALSE)
 }
 
 #' Get reference of the maximal version of the package.
@@ -404,6 +408,7 @@ get_version <- function(remote_ref) {
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_version(pkgdepends::parse_pkg_ref("dplyr"))
 #' get_version(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+#' get_version(pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0"))
 #' get_version(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 get_version.remote_ref <- function(remote_ref) {
   x <- pkgdepends::new_pkg_deps(remote_ref$ref, config = list(dependencies = FALSE))
@@ -462,13 +467,12 @@ get_release_date.remote_ref_github <- function(remote_ref) {
   as.Date(resp$data$repository$object$committedDate)
 }
 
-#' Get release date from GitHub references
-#'
 #' @rdname get_release_date
 #' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
-#' get_release_date(pkgdepends::parse_pkg_ref("dplyr@1.1.0"))
+#' get_release_date(pkgdepends::parse_pkg_ref("cran::dplyr"))
+#' get_release_date(pkgdepends::parse_pkg_ref("cran::dplyr@1.1.0"))
 get_release_date.remote_ref_cran <- function(remote_ref) {
   rel_data <- get_release_data(remote_ref$package)
 
@@ -520,7 +524,7 @@ get_release_date.remote_ref <- function(remote_ref) {
 #' @keywords internal
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' verdepcheck:::get_release_data("dplyr")
-#' verdepcheck:::get_release_data("SummarizedExperiment")
+#' verdepcheck:::get_release_data("MultiAssayExperiment")
 get_release_data <- function(package) {
   cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
   cran_current <- head(
@@ -546,11 +550,15 @@ get_release_data <- function(package) {
         )
       } else if (cran_current$type == "bioc") {
         url <- sprintf(
-          "https://packagemanager.posit.co/__api__/repos/4/packages/%s?bioc_version=%s",
+          "https://packagemanager.posit.co/__api__/repos/bioconductor/packages/%s?bioc_version=%s",
           package,
           pkgcache::bioc_version()
         )
-        release_date <- as.POSIXct(jsonlite::fromJSON(readLines(url, warn = FALSE))$occurred)
+        data <- jsonlite::fromJSON(readLines(url, warn = FALSE))
+        release_date <- as.POSIXct(data$occurred) %||%
+          as.POSIXct(data$package_date) %||%
+          as.POSIXct(data$date_publication) %||%
+          as.POSIXct(NA)
         cran_current <- data.frame(
           type = "bioc",
           package = package,
@@ -566,4 +574,70 @@ get_release_data <- function(package) {
 
   cran_current <- setNames(cran_current, names(cran_archive))
   rbind(cran_archive, cran_current)
+}
+
+
+#' Get available date for the package.
+#'
+#' Oftentimes, the release date of the package does not correspond to the date when the package is
+#' available in the PPM. Usually it takes one day for the PPM to sync with the CRAN.
+#' This function will return the date when the package is available in the PPM.
+#'
+#' @inheritParams get_ref_min
+#' @param start (`Date`) optional, the date when the package was released
+#' @returns Date. This can be safely used as a snapshot date for the PPM.
+#'
+#' @export
+get_avail_date <- function(remote_ref, start = get_release_date(remote_ref)) {
+  if (is.na(start)) {
+    return(as.Date(NA_real_))
+  }
+  UseMethod("get_avail_date", remote_ref)
+}
+
+#' @rdname get_avail_date
+#' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_avail_date(pkgdepends::parse_pkg_ref("cran::dplyr"))
+#' get_avail_date(pkgdepends::parse_pkg_ref("cran::dplyr@1.1.0"))
+get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(remote_ref)) {
+  max_iter <- 5
+  i <- 0
+  date <- start
+  while (i <= max_iter) {
+    ppm_url <- get_ppm_snapshot_by_date(date)
+    date <- unname(as.Date(sub(".*/", "", ppm_url)))
+    data <- available.packages(
+      repos = ppm_url,
+      filters = list(function(db) db[db[, "Package"] == remote_ref$package, ])
+    )
+    if (length(data) > 0) {
+      return(date)
+    }
+    date <- date + 1
+    i <- i + 1
+  }
+  warning("No available date found.")
+  as.Date(NA_real_)
+}
+
+#' @rdname get_avail_date
+#' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
+#' get_avail_date(pkgdepends::parse_pkg_ref("dplyr"))
+#' get_avail_date(pkgdepends::parse_pkg_ref("dplyr@1.1.0"))
+get_avail_date.remote_ref_standard <- function(remote_ref, start = get_release_date(remote_ref)) {
+  get_avail_date.remote_ref_cran(remote_ref, start = start)
+}
+
+#' @rdname get_avail_date
+#' @export
+#'
+#' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != "" && gh::gh_token() != ""
+#' get_avail_date(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
+#' get_avail_date(pkgdepends::parse_pkg_ref("tidyverse/dplyr@v1.1.0"))
+get_avail_date.remote_ref <- function(remote_ref, start = get_release_date(remote_ref)) {
+  start + 1
 }

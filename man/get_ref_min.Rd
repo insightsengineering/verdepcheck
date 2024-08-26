@@ -50,7 +50,7 @@ get_ref_min(pkgdepends::parse_pkg_ref("cran::dplyr"))
 get_ref_min(pkgdepends::parse_pkg_ref("dplyr"))
 \dontshow{\}) # examplesIf}
 \dontshow{if (gh::gh_token() != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-get_ref_min(pkgdepends::parse_pkg_ref("cran/dplyr"))
+get_ref_min(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{

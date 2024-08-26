@@ -26,12 +26,12 @@ get_ref_min_incl_cran(remote_ref, op = "", op_ver = "")
 Get reference to the minimal version of the package including also check in CRAN repository.
 }
 \examples{
-verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("dplyr"))
 \dontshow{\}) # examplesIf}
+verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("cran/dplyr"))
+verdepcheck:::get_ref_min_incl_cran(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
 \dontshow{\}) # examplesIf}
 }
 \seealso{
