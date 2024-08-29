@@ -596,6 +596,9 @@ get_avail_date <- function(remote_ref, start = get_release_date(remote_ref)) {
 }
 
 #' @rdname get_avail_date
+#'
+#' @importFrom pkgcache ppm_snapshots
+#'
 #' @export
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
@@ -606,8 +609,13 @@ get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(
   i <- 0
   date <- start
   while (i <= max_iter) {
+    # there are some gaps in the snapshots so it's important to at first find the closest date
     ppm_url <- get_ppm_snapshot_by_date(date)
-    date <- unname(as.Date(sub(".*/", "", ppm_url)))
+    date <- `if`(
+      grepl("/latest$", ppm_url),
+      tail(pkgcache::ppm_snapshots(), 1)$date,
+      unname(as.Date(sub(".*/", "", ppm_url)))
+    )
     data <- available.packages(
       repos = ppm_url,
       filters = list(function(db) db[db[, "Package"] == remote_ref$package, ])
