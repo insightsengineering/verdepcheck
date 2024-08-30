@@ -616,10 +616,33 @@ get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(
       tail(pkgcache::ppm_snapshots(), 1)$date,
       unname(as.Date(sub(".*/", "", ppm_url)))
     )
-    data <- available.packages(
-      repos = ppm_url,
-      filters = list(function(db) db[db[, "Package"] == remote_ref$package, ])
-    )
+    if (remote_ref$atleast != "") {
+      data <- available.packages(
+        repos = ppm_url,
+        filters = list(
+          function(db) {
+            db[
+              db[, "Package"] == remote_ref$package &
+              do.call(
+                # don't use `remote_ref$atleast` and hardcode `>=` instead
+                # requested version might not be available even in the oldest PPM
+                # example: `jsonlite@0.9.0` and the oldest PPM has `jsonlite@1.5`
+                ">=",
+                list(
+                  package_version(db[, "Version"], strict = FALSE),
+                  package_version(remote_ref$version, strict = FALSE)
+                )
+              ),
+            ]
+          }
+        )
+      )
+    } else {
+      data <- available.packages(
+        repos = ppm_url,
+        filters = list(function(db) db[db[, "Package"] == remote_ref$package, ])
+      )
+    }
     if (length(data) > 0) {
       return(date)
     }
