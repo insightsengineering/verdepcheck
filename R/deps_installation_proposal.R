@@ -197,23 +197,24 @@ new_min_cohort_deps_installation_proposal <- function(path, # nolint
       version <- version_from_desc(d, i_ref$package)
       i_ref_ver <- get_ref_min(i_ref, version$op, version$op_ver)
 
-      get_release_date(i_ref_ver)
+      get_avail_date(i_ref_ver)
     }
   )
 
   # Obtain the maximum release data of all the dependencies
+  deps_release_dates_v <- unlist(lapply(deps_release_dates, as.Date, origin = "1970-01-01"))
+  if (length(deps_release_dates_v) == 1 && is.na(deps_release_dates_v)) {
+    deps_release_dates_v <- Inf
+  }
   max_release_date <- as.Date(
     max(
-      as.Date(-Inf), # Suppress warning when running max() with all NA and `na.rm = TRUE`
-      unlist(
-        lapply(deps_release_dates, as.Date, origin = "1970-01-01")
-      ),
+      deps_release_dates_v,
       na.rm = TRUE
     ),
     origin = "1970-01-01"
   )
 
-  ppm_repo <- get_ppm_snapshot_by_date(max_release_date + 1)
+  ppm_repo <- get_ppm_snapshot_by_date(max_release_date)
 
   config <- append_config(config, list("cran_mirror" = ppm_repo))
 

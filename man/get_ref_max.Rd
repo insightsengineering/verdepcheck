@@ -18,6 +18,8 @@ Get reference to the maximal version of the package.
 \examples{
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 get_ref_max(pkgdepends::parse_pkg_ref("dplyr"))
+get_ref_max(pkgdepends::parse_pkg_ref("cran::dplyr"))
 get_ref_max(pkgdepends::parse_pkg_ref("tidyverse/dplyr"))
+get_ref_max(pkgdepends::parse_pkg_ref("bioc::MultiAssayExperiment"))
 \dontshow{\}) # examplesIf}
 }

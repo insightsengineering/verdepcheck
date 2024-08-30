@@ -36,4 +36,5 @@ reference:
     contents:
       - starts_with("get_ref_")
       - get_release_date
+      - get_avail_date
       - get_version
