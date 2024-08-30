@@ -623,16 +623,16 @@ get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(
           function(db) {
             db[
               db[, "Package"] == remote_ref$package &
-              do.call(
-                # don't use `remote_ref$atleast` and hardcode `>=` instead
-                # requested version might not be available even in the oldest PPM
-                # example: `jsonlite@0.9.0` and the oldest PPM has `jsonlite@1.5`
-                ">=",
-                list(
-                  package_version(db[, "Version"], strict = FALSE),
-                  package_version(remote_ref$version, strict = FALSE)
-                )
-              ),
+                do.call(
+                  # don't use `remote_ref$atleast` and hardcode `>=` instead
+                  # requested version might not be available even in the oldest PPM
+                  # example: `jsonlite@0.9.0` and the oldest PPM has `jsonlite@1.5`
+                  ">=",
+                  list(
+                    package_version(db[, "Version"], strict = FALSE),
+                    package_version(remote_ref$version, strict = FALSE)
+                  )
+                ),
             ]
           }
         )
