@@ -15,7 +15,6 @@ test_that("get_release_date.remote_ref_github will only retrieve 1 date for rlan
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  # Teal v0.10.0 has 2 tags (release candidate and release)
   remote_ref <- pkgdepends::parse_pkg_ref("r-lib/rlang@v1.0.0")
   result <- get_release_date.remote_ref_github(remote_ref)
 
@@ -28,9 +27,13 @@ test_that("get_release_date.remote_ref_github will retrieve missing date (NA) fo
   skip_if_offline()
   skip_if_empty_gh_token()
 
-  # Teal v0.10.0 has 2 tags (release candidate and release)
   remote_ref <- pkgdepends::parse_pkg_ref("r-lib/rlang@v0.0.0")
-  result <- get_release_date.remote_ref_github(remote_ref)
+
+  # https://github.com/r-lib/pkgdepends/issues/365
+  withr::with_options(
+    opts_partial_match_old,
+    result <- get_release_date.remote_ref_github(remote_ref)
+  )
 
   expect_length(result, 1)
   expect_true(is.na(result))

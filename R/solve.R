@@ -17,7 +17,7 @@ solve_ip.deps_installation_proposal <- function(ip) {
 
 #' Try to solve using min_isolated method. If Error - use [resolve_ignoring_release_remote]
 #'
-#' For each direct dependency, resolve that package using PPM snapshot as of release date + 1.
+#' For each direct dependency, resolve that package using PPM snapshot as of release date.
 #' Finally, combine resolutions and run solve.
 #'
 #' @keywords internal

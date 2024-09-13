@@ -11,10 +11,10 @@ Check if package is available on CRAN.
 }
 \examples{
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
-verdepcheck:::check_if_on_cran(list(package = "dplyr"))
-verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "1.1.0")
-verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = ">=", op_ver = "9999.9.99")
-verdepcheck:::check_if_on_cran(list(package = "dplyr"), op = "<", op_ver = "0.0.0")
+verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"))
+verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = ">=", op_ver = "1.1.0")
+verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = ">=", op_ver = "9999.9.99")
+verdepcheck:::check_if_on_cran(pkgdepends::parse_pkg_ref("dplyr"), op = "<", op_ver = "0.0.0")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}

@@ -23,33 +23,32 @@ base_pkgs <- function() {
   c("R", rownames(utils::installed.packages(priority = "base")))
 }
 
-#' @importFrom pkgcache ppm_repo_url ppm_snapshots
-#' @importFrom utils head
+#' @importFrom pkgcache ppm_snapshots repo_resolve
 #'
 #' @examplesIf Sys.getenv("R_USER_CACHE_DIR", "") != ""
 #' get_ppm_snapshot_by_date(NA)
 #' get_ppm_snapshot_by_date("2023-08-01")
 #' get_ppm_snapshot_by_date(Sys.Date() + 10)
-get_ppm_snapshot_by_date <- function(date) {
+get_ppm_snapshot_by_date <- function(date = NA) {
+  if (is.na(date)) {
+    return(pkgcache::repo_resolve("PPM@latest"))
+  }
+  if (date >= tail(pkgcache::ppm_snapshots(), 1)$date) {
+    return(pkgcache::repo_resolve("PPM@latest"))
+  }
+  if (date <= head(pkgcache::ppm_snapshots(), 1)$date) {
+    return(pkgcache::repo_resolve(sprintf("PPM@%s", head(pkgcache::ppm_snapshots(), 1)$date)))
+  }
   tryCatch(
-    {
-      # https://github.com/r-lib/pkgcache/issues/110
-      # uncomment this: pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1)))
-      snaps <- pkgcache::ppm_snapshots()
-      date_snap <- as.character(head(snaps[as.Date(snaps$date) > as.Date(date), "date"], 1))
-      if (length(date_snap) == 0) {
-        stop("No PPM snapshot found for the given date.")
-      }
-      file.path(pkgcache::ppm_repo_url(), date_snap)
-      gsub("latest", date_snap, pkgcache::repo_resolve("PPM@latest"))
-    },
+    pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1))),
     error = function(err) {
+      warning("Could not resolve the PPM snapshot by date. Using the latest PPM snapshot.")
       pkgcache::repo_resolve("PPM@latest")
     }
   )
 }
 
-#' Resolve the dependencies of a package based on its release date + 1.
+#' Resolve the dependencies of a package based on its release date.
 #'
 #' @importFrom pkgdepends new_pkg_deps parse_pkg_ref
 #' @keywords internal
@@ -59,8 +58,9 @@ resolve_ppm_snapshot <- function(pkg_ref_str, operator, pkg_version) {
   i_ref_minver <- get_ref_min_incl_cran(i_ref, operator, pkg_version)
 
   i_release_date <- get_release_date(i_ref_minver)
+  i_avail_date <- get_avail_date(i_ref_minver, start = i_release_date)
 
-  ppm_repo <- get_ppm_snapshot_by_date(i_release_date)
+  ppm_repo <- get_ppm_snapshot_by_date(i_avail_date)
 
   i_pkg_deps <- pkgdepends::new_pkg_deps(
     ifelse(

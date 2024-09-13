@@ -53,7 +53,7 @@ test_proposal_common <- function(x,
 
   expect_equal(x$get_solution()$status, "OK")
 
-  x_solution <- x$get_resolution()
+  x_solution <- x$get_solution()$data
 
   x_solution_pkg <- subset(
     x_solution,

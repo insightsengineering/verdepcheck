@@ -7,7 +7,7 @@
 \method{solve_ip}{min_isolated_deps_installation_proposal}(ip)
 }
 \description{
-For each direct dependency, resolve that package using PPM snapshot as of release date + 1.
+For each direct dependency, resolve that package using PPM snapshot as of release date.
 Finally, combine resolutions and run solve.
 }
 \keyword{internal}

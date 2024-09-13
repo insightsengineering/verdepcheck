@@ -12,7 +12,7 @@ Get data for CRAN/Bioconductor package releases
 \examples{
 \dontshow{if (Sys.getenv("R_USER_CACHE_DIR", "") != "") (if (getRversion() >= "3.4") withAutoprint else force)(\{ # examplesIf}
 verdepcheck:::get_release_data("dplyr")
-verdepcheck:::get_release_data("SummarizedExperiment")
+verdepcheck:::get_release_data("MultiAssayExperiment")
 \dontshow{\}) # examplesIf}
 }
 \keyword{internal}
