@@ -17,7 +17,7 @@ Depends:
 Imports:
     cli (>= 3.6.0),
     desc (>= 1.2),
-    gh,
+    gh (>= 1.1.0),
     jsonlite,
     pkgcache (>= 2.2.2.9000),
     pkgdepends (>= 0.5.0),

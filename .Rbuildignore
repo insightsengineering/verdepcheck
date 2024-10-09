@@ -21,3 +21,4 @@ images
 ^.revdeprefs\.yaml$
 ^revdep$
 ^\.covrignore$
+^inst/training_202307$
