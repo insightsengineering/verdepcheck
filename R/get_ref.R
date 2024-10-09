@@ -527,7 +527,7 @@ get_release_date.remote_ref <- function(remote_ref) {
 #' verdepcheck:::get_release_data("MultiAssayExperiment")
 get_release_data <- function(package) {
   cran_archive <- pkgcache::cran_archive_list(packages = package)[, c("package", "version", "mtime")]
-  cran_current <- head(
+  cran_current <- utils::head(
     pkgcache::meta_cache_list(packages = package)[, c("type", "package", "version", "published")],
     1
   )
@@ -613,11 +613,11 @@ get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(
     ppm_url <- get_ppm_snapshot_by_date(date)
     date <- `if`(
       grepl("/latest$", ppm_url),
-      tail(pkgcache::ppm_snapshots(), 1)$date,
+      utils::tail(pkgcache::ppm_snapshots(), 1)$date,
       unname(as.Date(sub(".*/", "", ppm_url)))
     )
     if (remote_ref$atleast != "") {
-      data <- available.packages(
+      data <- utils::available.packages(
         repos = ppm_url,
         filters = list(
           function(db) {
@@ -638,7 +638,7 @@ get_avail_date.remote_ref_cran <- function(remote_ref, start = get_release_date(
         )
       )
     } else {
-      data <- available.packages(
+      data <- utils::available.packages(
         repos = ppm_url,
         filters = list(function(db) db[db[, "Package"] == remote_ref$package, ])
       )

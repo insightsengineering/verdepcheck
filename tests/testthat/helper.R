@@ -69,7 +69,7 @@ test_proposal_common <- function(x,
   #  CRAN
   if (is.null(pkg_gh_str) && is.null(pkg_ver_target)) {
     pkg_ver_target <- package_version(
-      available.packages(
+      utils::available.packages(
         repos = pkgcache::default_cran_mirror(),
         filters = list(
           add = TRUE, function(x) x[x[, "Package"] == pkg_name, ]
