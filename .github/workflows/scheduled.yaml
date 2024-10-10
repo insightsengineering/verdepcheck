@@ -64,4 +64,4 @@ jobs:
         inputs.chosen-workflow == 'rhub'
       )
     name: R-hub 🌐
-    uses: insightsengineering/r.pkg.template/.github/workflows/rhub.yaml@rhub_skip_quarto
+    uses: insightsengineering/r.pkg.template/.github/workflows/rhub.yaml@main
