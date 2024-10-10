@@ -33,11 +33,11 @@ get_ppm_snapshot_by_date <- function(date = NA) {
   if (is.na(date)) {
     return(pkgcache::repo_resolve("PPM@latest"))
   }
-  if (date >= tail(pkgcache::ppm_snapshots(), 1)$date) {
+  if (date >= utils::tail(pkgcache::ppm_snapshots(), 1)$date) {
     return(pkgcache::repo_resolve("PPM@latest"))
   }
-  if (date <= head(pkgcache::ppm_snapshots(), 1)$date) {
-    return(pkgcache::repo_resolve(sprintf("PPM@%s", head(pkgcache::ppm_snapshots(), 1)$date)))
+  if (date <= utils::head(pkgcache::ppm_snapshots(), 1)$date) {
+    return(pkgcache::repo_resolve(sprintf("PPM@%s", utils::head(pkgcache::ppm_snapshots(), 1)$date)))
   }
   tryCatch(
     pkgcache::repo_resolve(sprintf("PPM@%s", as.character(as.Date(date) + 1))),
