@@ -107,8 +107,8 @@ table.table-condensed {
       </ul>
       <div class="tab-content" data-tabsetid="covr">
         <div class="tab-pane active" title="Files" data-value="Files" id="tab-covr-1">
-          <div class="datatables html-widget html-fill-item" id="htmlwidget-7c7451fea88225fbdfae" style="width:100%;height:500px;"></div>
-          <script type="application/json" data-for="htmlwidget-7c7451fea88225fbdfae">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/deps_installation_proposal.R<\/a>","<a href=\"#\">R/solve.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/utils.R<\/a>","<a href=\"#\">R/desc_utils.R<\/a>"],[282,171,225,674,173,290],[117,72,56,255,57,89],[0,0,0,1,14,50],[117,72,56,254,43,39],["0","0","0","0","2","6"],["0.00%","0.00%","0.00%","0.39%","24.56%","56.18%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
+          <div class="datatables html-widget html-fill-item" id="htmlwidget-a4362e0f3a0b218260d6" style="width:100%;height:500px;"></div>
+          <script type="application/json" data-for="htmlwidget-a4362e0f3a0b218260d6">{"x":{"filter":"none","vertical":false,"fillContainer":false,"data":[["<a href=\"#\">R/deps_installation_proposal.R<\/a>","<a href=\"#\">R/solve.R<\/a>","<a href=\"#\">R/check.R<\/a>","<a href=\"#\">R/get_ref.R<\/a>","<a href=\"#\">R/utils.R<\/a>","<a href=\"#\">R/desc_utils.R<\/a>"],[282,171,225,674,173,290],[117,72,56,255,57,89],[0,0,0,1,14,50],[117,72,56,254,43,39],["0","0","0","0","2","6"],["0.00%","0.00%","0.00%","0.39%","24.56%","56.18%"]],"container":"<table class=\"row-border\">\n  <thead>\n    <tr>\n      <th>File<\/th>\n      <th>Lines<\/th>\n      <th>Relevant<\/th>\n      <th>Covered<\/th>\n      <th>Missed<\/th>\n      <th>Hits / Line<\/th>\n      <th>Coverage<\/th>\n    <\/tr>\n  <\/thead>\n<\/table>","options":{"searching":false,"dom":"t","paging":false,"columnDefs":[{"targets":6,"createdCell":"function(td, cellData, rowData, row, col) {\n  var percent = cellData.replace(\"%\", \"\");\n  if (percent > 90) {\n    var grad = \"linear-gradient(90deg, #edfde7 \" + cellData + \", white \" + cellData + \")\";\n  } else if (percent > 75) {\n    var grad = \"linear-gradient(90deg, #f9ffe5 \" + cellData + \", white \" + cellData + \")\";\n  } else {\n    var grad = \"linear-gradient(90deg, #fcece9 \" + cellData + \", white \" + cellData + \")\";\n  }\n  $(td).css(\"background\", grad);\n}\n"},{"className":"dt-right","targets":[1,2,3,4]},{"name":"File","targets":0},{"name":"Lines","targets":1},{"name":"Relevant","targets":2},{"name":"Covered","targets":3},{"name":"Missed","targets":4},{"name":"Hits / Line","targets":5},{"name":"Coverage","targets":6}],"order":[],"autoWidth":false,"orderClasses":false},"callback":"function(table) {\ntable.on('click.dt', 'a', function() {\n  files = $('div#files div');\n  files.not('div.hidden').addClass('hidden');\n  id = $(this).text();\n  files.filter('div[id=\\'' + id + '\\']').removeClass('hidden');\n  $('ul.nav a[data-value=Source]').text(id).tab('show');\n});\n}"},"evals":["options.columnDefs.0.createdCell","callback"],"jsHooks":[]}</script>
         </div>
         <div class="tab-pane" title="Source" data-value="Source" id="tab-covr-2">
           <div id="files">
@@ -6606,7 +6606,7 @@ table.table-condensed {
                     <td class="num">530</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  cran_current &lt;- head(</pre>
+                      <pre class="language-r">  cran_current &lt;- utils::head(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -7208,7 +7208,7 @@ table.table-condensed {
                     <td class="num">616</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      tail(pkgcache::ppm_snapshots(), 1)$date,</pre>
+                      <pre class="language-r">      utils::tail(pkgcache::ppm_snapshots(), 1)$date,</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -7236,7 +7236,7 @@ table.table-condensed {
                     <td class="num">620</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      data &lt;- available.packages(</pre>
+                      <pre class="language-r">      data &lt;- utils::available.packages(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -7383,7 +7383,7 @@ table.table-condensed {
                     <td class="num">641</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">      data &lt;- available.packages(</pre>
+                      <pre class="language-r">      data &lt;- utils::available.packages(</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -9908,7 +9908,7 @@ table.table-condensed {
                     <td class="num">36</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  if (date &gt;= tail(pkgcache::ppm_snapshots(), 1)$date) {</pre>
+                      <pre class="language-r">  if (date &gt;= utils::tail(pkgcache::ppm_snapshots(), 1)$date) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
@@ -9929,14 +9929,14 @@ table.table-condensed {
                     <td class="num">39</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">  if (date &lt;= head(pkgcache::ppm_snapshots(), 1)$date) {</pre>
+                      <pre class="language-r">  if (date &lt;= utils::head(pkgcache::ppm_snapshots(), 1)$date) {</pre>
                     </td>
                   </tr>
                   <tr class="missed">
                     <td class="num">40</td>
                     <td class="coverage">!</td>
                     <td class="col-sm-12">
-                      <pre class="language-r">    return(pkgcache::repo_resolve(sprintf("PPM@%s", head(pkgcache::ppm_snapshots(), 1)$date)))</pre>
+                      <pre class="language-r">    return(pkgcache::repo_resolve(sprintf("PPM@%s", utils::head(pkgcache::ppm_snapshots(), 1)$date)))</pre>
                     </td>
                   </tr>
                   <tr class="never">
