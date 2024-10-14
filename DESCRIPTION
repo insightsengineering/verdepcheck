@@ -17,9 +17,9 @@ Depends:
 Imports:
     cli (>= 3.6.0),
     desc (>= 1.2),
-    gh,
+    gh (>= 1.1.0),
     jsonlite,
-    pkgcache (>= 2.2.2.9000),
+    pkgcache (>= 2.2.3),
     pkgdepends (>= 0.5.0),
     rcmdcheck,
     remotes (>= 2.2.0),
@@ -31,9 +31,7 @@ Suggests:
     knitr (>= 1.42),
     pingr,
     rmarkdown (>= 2.23),
-    testthat (>= 3.0.4)
-Remotes:
-    r-lib/pkgcache
+    testthat (>= 3.1.9)
 Config/Needs/verdepcheck:
     r-lib/cli,
     r-lib/desc,
@@ -48,7 +46,8 @@ Config/Needs/verdepcheck:
     r-lib/pingr,
     r-lib/testthat
 VignetteBuilder:
-    knitr
+    knitr,
+    rmarkdown
 Encoding: UTF-8
 Language: en-US
 LazyData: true
