@@ -68,7 +68,7 @@ test_that("get_release_date with any class other than remote_ref.{github,cran,st
 test_that("get_release_data returns date for Bioconductor", {
   skip_if_offline()
 
-  expect_false(any(is.na(get_release_data("SummarizedExperiment")$mtime)))
+  expect_false(any(is.na(get_release_data("MultiAssayExperiment")$mtime)))
 })
 
 test_that("get_ref_release returns a CRAN remote_reference if package exists", {
