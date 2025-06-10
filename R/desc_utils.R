@@ -119,7 +119,7 @@ desc_cond_set_refs <- function(d, refs) {
   } else {
     d$del(.desc_field)
   }
-  return(invisible(d))
+  invisible(d)
 }
 
 #' Adds extra dependencies to the `desc` object.
@@ -150,7 +150,7 @@ desc_add_extra_deps <- function(d, x) {
       d$set_dep(x_i_deparsed$package, "Imports", x_i_deparsed$ver_str)
     }
   }
-  return(invisible(d))
+  invisible(d)
 }
 
 #' Deparse a dependency string
