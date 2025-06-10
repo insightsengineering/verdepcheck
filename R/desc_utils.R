@@ -205,12 +205,16 @@ deparse_ver_str <- function(x) {
 #' @importFrom pkgdepends new_pkg_installation_proposal
 #' @keywords internal
 desc_to_ip <- function(d, config) {
-  temp_desc <- tempfile()
-  d$write(temp_desc)
-  cli::cli_alert_info(paste0("Creating temporary DESCRIPTION file: ", cli::col_blue(temp_desc)))
+  temp_dir <- tempfile()
+  dir.create(temp_dir)
 
+  d$write(file.path(temp_dir, "DESCRIPTION"))
+
+  cli::cli_alert_info(paste0("Creating temporary package directory: ", cli::col_blue(temp_dir)))
+
+  # Use the directory path with deps::
   pkgdepends::new_pkg_installation_proposal(
-    refs = paste0("deps::", temp_desc),
+    refs = paste0("deps::", temp_dir),
     config = config
   )
 }
